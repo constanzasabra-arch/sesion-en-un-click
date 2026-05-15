@@ -424,10 +424,10 @@
   .form-container{position:absolute;top:0;left:var(--sb);right:0;bottom:0;background:var(--bg);overflow-y:auto;z-index:50;animation:slideIn .35s var(--ease)}
   .form-wrapper{max-width:880px;margin:0 auto;padding:40px 28px}
   .form-header{margin-bottom:32px;text-align:center}
-  .form-header h1{font-size:2.2rem;font-weight:600;color:var(--tx);margin-bottom:8px}
+  .form-header h1{font-size:2rem;font-weight:700;background:linear-gradient(135deg,var(--t),var(--l));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
   .form-header p{font-size:.95rem;color:var(--tm)}
-  .form-section{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--bd);border-radius:var(--r2);padding:24px;margin-bottom:20px;box-shadow:var(--sh)}
-  .section-title{font-size:.95rem;font-weight:600;color:var(--t);text-transform:uppercase;letter-spacing:.08em;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--bd)}
+  .form-section{background:#ffffff;border:1.5px solid rgba(107,197,210,0.14);border-radius:28px;padding:30px 28px 24px;margin-bottom:20px;box-shadow:0 4px 28px rgba(107,197,210,0.10),0 1px 6px rgba(107,197,210,0.05)}
+  .section-title{display:inline-flex;align-items:center;gap:8px;font-size:.75rem;font-weight:700;color:var(--t);text-transform:uppercase;letter-spacing:.10em;background:linear-gradient(135deg,rgba(107,197,210,0.13),rgba(192,170,220,0.10));border:1.5px solid rgba(107,197,210,0.22);padding:7px 18px;border-radius:50px;margin-bottom:24px}
   .section-subtitle{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:14px;margin-top:20px}
   .section-subtitle:first-child{margin-top:0}
   
@@ -439,19 +439,19 @@
     margin-bottom:16px;
     backdrop-filter:blur(10px);
   }
-  .form-group{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
+  .form-group{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
   .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .form-label{font-size:.85rem;font-weight:500;color:var(--tx)}
-  .form-label.required::after{content:" *";color:var(--t)}
-  .form-input,.form-select,.form-textarea{padding:12px 14px;border:1px solid var(--bd);border-radius:var(--r1);font-family:var(--f);font-size:.85rem;color:var(--tx);background:rgba(255,255,255,.95);transition:all .16s var(--ease)}
-  .form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--t);background:var(--w);box-shadow:0 0 0 3px rgba(107,197,210,.12)}
+  .form-label{font-size:.76rem;font-weight:600;color:#8a89a3;letter-spacing:.02em}
+  .form-label.required::after{content:" *";color:var(--t);font-weight:700}
+  .form-input,.form-select,.form-textarea{padding:13px 18px;border:1.5px solid rgba(200,215,230,0.7);border-radius:16px;font-family:var(--f);font-size:.86rem;color:var(--tx);background:#F8FAFD;transition:all .20s var(--ease);width:100%}
+  .form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--t);background:#ffffff;box-shadow:0 0 0 4px rgba(107,197,210,.15),0 2px 10px rgba(107,197,210,0.10)}
   .form-textarea{resize:vertical;min-height:90px;line-height:1.5}
   .form-textarea.large{min-height:140px}
-  .form-hint{font-size:.73rem;color:var(--tm);font-weight:400;margin-top:4px}
+  .form-hint{font-size:.72rem;color:#aaa9c4;font-weight:400;margin-top:5px;padding-left:2px}
   .form-radio-group{display:flex;gap:10px;flex-wrap:wrap}
-  .form-radio-btn{padding:9px 14px;border:1px solid var(--bd);background:rgba(255,255,255,.95);border-radius:var(--r1);cursor:pointer;font-size:.82rem;font-weight:400;color:var(--tm);font-family:var(--f);transition:all .16s var(--ease)}
+  .form-radio-btn{padding:9px 16px;border:1.5px solid rgba(200,215,230,0.6);background:#F8FAFD;border-radius:50px;cursor:pointer;font-size:.80rem;font-weight:500;color:#8a89a3;font-family:var(--f);transition:all .18s var(--ease)}
   .form-radio-btn:hover{background:rgba(255,255,255,.98);border-color:var(--t);color:var(--t)}
-  .form-radio-btn.selected{background:linear-gradient(135deg,rgba(107,197,210,.16),rgba(192,170,220,.12));border-color:var(--t);color:var(--tx);font-weight:500;box-shadow:0 2px 8px rgba(107,197,210,.10)}
+  .form-radio-btn.selected{background:linear-gradient(135deg,rgba(107,197,210,.16),rgba(192,170,220,.12));border-color:var(--t);color:var(--t);font-weight:600;box-shadow:0 2px 10px rgba(107,197,210,.14)}
   .accordion-section{padding:0!important}
   .accordion-header{padding:20px 24px;cursor:pointer;display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(107,197,210,0.15),rgba(107,197,210,0.10));border:1.5px solid rgba(107,197,210,0.30);border-radius:var(--r2);transition:all .2s var(--ease);user-select:none;box-shadow:0 2px 8px rgba(107,197,210,0.08)}
   .accordion-header:hover{background:linear-gradient(135deg,rgba(107,197,210,0.22),rgba(107,197,210,0.16));border-color:rgba(107,197,210,0.45);box-shadow:0 4px 14px rgba(107,197,210,0.14)}
@@ -1008,7 +1008,7 @@
               </div>
               <div class="form-group">
                 <label class="form-label">Edad cronológica</label>
-                <input type="text" class="form-input" id="edad_cronologica" readonly placeholder="Se calcula automático" style="background:rgba(107,197,210,0.08);color:#6BC5D2;font-weight:600">
+                <input type="text" class="form-input" id="edad_cronologica" readonly placeholder="Se calcula automático" style="background:linear-gradient(135deg,rgba(107,197,210,0.08),rgba(192,170,220,0.06));color:#6BC5D2;font-weight:600;border-color:rgba(107,197,210,0.25);cursor:default">
               </div>
             </div>
             <div class="form-row-2">
