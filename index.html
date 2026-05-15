@@ -788,14 +788,14 @@
 
     <nav class="sb-nav">
       <div class="nav-sec">Principal</div>
-      <a class="ni on" href="#">
+      <a class="ni on" href="#" onclick="navTo('inicio')">
         <span class="ni-ico"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M240,208H224V136l2.34,2.34A8,8,0,0,0,237.66,127L139.31,28.68a16,16,0,0,0-22.62,0L18.34,127a8,8,0,0,0,11.32,11.31L32,136v72H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM48,120l80-80,80,80v88H160V152a8,8,0,0,0-8-8H104a8,8,0,0,0-8,8v56H48Zm96,88H112V160h32Z"/></svg></span>
         <span class="ni-txt">Inicio</span>
       </a>
-      <a class="ni" href="#">
+      <a class="ni" href="#" onclick="navTo('historial')">
         <span class="ni-ico"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Z"/></svg></span>
         <span class="ni-txt">Mis Pacientes</span>
-        <span class="ni-pill np-c">12</span>
+        <span class="ni-pill np-c" id="pillContadorPacientes">0</span>
       </a>
       <a class="ni" href="#">
         <span class="ni-ico"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-38.34-85.66a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L116,164.69l42.34-42.35A8,8,0,0,1,169.66,122.34Z"/></svg></span>
@@ -828,6 +828,10 @@
           <svg viewBox="0 0 256 256" fill="currentColor"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM40,56H216V88H40Zm0,144V104H216v96ZM184,136a8,8,0,0,1-8,8H80a8,8,0,0,1,0-16h96A8,8,0,0,1,184,136Zm0,32a8,8,0,0,1-8,8H80a8,8,0,0,1,0-16h96A8,8,0,0,1,184,168Z"/></svg>
         </span>
         <span class="ni-txt">Ideas planificación</span>
+      </a>
+      <a class="ni" href="#" onclick="mostrarVista('plantillas')">
+        <span class="ni-ico"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Zm-32-80a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,136Zm0,32a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,168Z"/></svg></span>
+        <span class="ni-txt">Mis Plantillas</span>
       </a>
 
       <div class="nav-sec">Próximamente</div>
@@ -982,6 +986,10 @@
                 <span style="font-size:0.71rem;color:#6f6f84;line-height:1.35;flex:1">Informe Javier</span>
                 <button style="width:18px;height:18px;border:none;background:rgba(255,107,107,0.0);color:#FF6B6B;cursor:pointer;font-size:0.80rem;padding:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:all 0.16s" class="delete-btn" onclick="deletePendiente(this)">✕</button>
               </div>
+            </div>
+            <div style="display:flex;gap:6px;margin-top:8px">
+              <input type="text" id="nuevoPendienteInput" placeholder="Nuevo pendiente…" onkeydown="if(event.key==='Enter')addPendiente()" style="flex:1;padding:7px 12px;border-radius:20px;border:1.5px solid rgba(192,170,220,0.30);background:rgba(248,248,252,0.8);font-size:.70rem;font-family:var(--f);color:#38385A;outline:none"/>
+              <button onclick="addPendiente()" style="padding:7px 13px;border-radius:20px;border:none;background:rgba(192,170,220,0.20);color:#C0AADC;font-size:.70rem;font-weight:600;cursor:pointer;font-family:var(--f)">+ Add</button>
             </div>
           </div>
 
@@ -1764,95 +1772,41 @@
 
 <!-- PANEL: BIBLIOTECA -->
 <div class="form-container" id="vistabiblioteca" style="display:none">
-  <div class="form-wrapper" style="max-width:860px">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px">
+  <div class="form-wrapper" style="max-width:900px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
       <div>
-        <h1 style="font-size:1.8rem;font-weight:700;background:linear-gradient(135deg,#6BC5D2,#C0AADC);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Biblioteca Clínica</h1>
-        <p style="color:#8a89a3;font-size:.88rem;margin-top:4px">Recursos de fonoaudiología basados en evidencia</p>
+        <h1 style="font-size:1.6rem;font-weight:700;background:linear-gradient(135deg,#6BC5D2,#C0AADC);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Biblioteca Clínica</h1>
+        <p style="color:#8a89a3;font-size:.82rem;margin-top:4px">Conocimiento clínico de referencia</p>
       </div>
       <button onclick="cerrarVista('biblioteca')" style="padding:10px 20px;border-radius:50px;border:1.5px solid rgba(107,197,210,0.3);background:white;color:#6BC5D2;font-weight:600;cursor:pointer;font-family:inherit">← Volver</button>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-      <!-- Hitos del desarrollo -->
-      <div style="background:white;border-radius:24px;padding:24px;border:1.5px solid rgba(107,197,210,0.14);box-shadow:0 4px 20px rgba(107,197,210,0.08)">
-        <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#6BC5D2;margin-bottom:16px;display:flex;align-items:center;gap:8px"><span style="background:rgba(107,197,210,0.12);padding:5px 12px;border-radius:50px">🧠 Hitos del Desarrollo</span></div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
-            <div style="font-size:.82rem;font-weight:600;color:#38385A">Hitos comunicativos 0–3 años</div>
-            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Susanibar et al. — Cronología de adquisición</div>
-          </div>
-          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
-            <div style="font-size:.82rem;font-weight:600;color:#38385A">Red flags del lenguaje</div>
-            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Bishop — Señales de alerta por edad</div>
-          </div>
-          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
-            <div style="font-size:.82rem;font-weight:600;color:#38385A">TEL: criterios diagnósticos DSM-5</div>
-            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Trastorno Específico del Lenguaje</div>
-          </div>
-        </div>
-      </div>
-      <!-- Habla y Fonología -->
-      <div style="background:white;border-radius:24px;padding:24px;border:1.5px solid rgba(192,170,220,0.2);box-shadow:0 4px 20px rgba(192,170,220,0.08)">
-        <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#C0AADC;margin-bottom:16px;display:flex;align-items:center;gap:8px"><span style="background:rgba(192,170,220,0.12);padding:5px 12px;border-radius:50px">🗣️ Habla y Fonología</span></div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
-            <div style="font-size:.82rem;font-weight:600;color:#38385A">Adquisición fonológica del español</div>
-            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Secuencia de adquisición por edad</div>
-          </div>
-          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
-            <div style="font-size:.82rem;font-weight:600;color:#38385A">Procesos fonológicos normales vs alterados</div>
-            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">PCC y criterios de severidad</div>
-          </div>
-          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
-            <div style="font-size:.82rem;font-weight:600;color:#38385A">Dislalia vs Trastorno Fonológico</div>
-            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Criterios diagnósticos diferenciados</div>
-          </div>
-        </div>
-      </div>
-      <!-- MOF y Deglución -->
-      <div style="background:white;border-radius:24px;padding:24px;border:1.5px solid rgba(168,220,200,0.3);box-shadow:0 4px 20px rgba(96,212,160,0.06)">
-        <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#3DAA78;margin-bottom:16px;display:flex;align-items:center;gap:8px"><span style="background:rgba(96,212,160,0.10);padding:5px 12px;border-radius:50px">🫁 MOF y Deglución</span></div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
-            <div style="font-size:.82rem;font-weight:600;color:#38385A">Fases de la deglución</div>
-            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Oral, faríngea, esofágica — anatomía funcional</div>
-          </div>
-          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
-            <div style="font-size:.82rem;font-weight:600;color:#38385A">Hábitos de succión no nutritiva</div>
-            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Chupete, mamadera, dedo — implicancias</div>
-          </div>
-          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
-            <div style="font-size:.82rem;font-weight:600;color:#38385A">Deglución atípica: evaluación y tratamiento</div>
-            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Criterios, ejercicios miofuncionales</div>
-          </div>
-        </div>
-      </div>
-      <!-- Evaluaciones -->
-      <div style="background:white;border-radius:24px;padding:24px;border:1.5px solid rgba(248,216,184,0.4);box-shadow:0 4px 20px rgba(248,180,100,0.06)">
-        <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#D4956A;margin-bottom:16px;display:flex;align-items:center;gap:8px"><span style="background:rgba(248,216,184,0.3);padding:5px 12px;border-radius:50px">📋 Evaluaciones</span></div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
-            <div style="font-size:.82rem;font-weight:600;color:#38385A">TEPROSIF-R</div>
-            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Test de Procesos de Simplificación Fonológica</div>
-          </div>
-          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
-            <div style="font-size:.82rem;font-weight:600;color:#38385A">TECAL</div>
-            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Test de Comprensión Auditiva del Lenguaje</div>
-          </div>
-          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
-            <div style="font-size:.82rem;font-weight:600;color:#38385A">REEL / REEL-3</div>
-            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Escalas de desarrollo del lenguaje temprano</div>
-          </div>
-        </div>
-      </div>
+    <input type="text" id="biblioSearch" oninput="filtrarBiblioteca(this.value)" placeholder="Buscar en la biblioteca…" style="width:100%;padding:11px 18px;border-radius:50px;border:1.5px solid rgba(107,197,210,0.22);background:#fff;font-size:.84rem;font-family:var(--f);color:#38385A;outline:none;margin-bottom:20px"/>
+    <div id="biblioLista" style="display:flex;flex-direction:column;gap:10px">
+      <div style="text-align:center;padding:40px;color:#8a89a3">Cargando…</div>
     </div>
-    <!-- Nota para subir PDFs -->
-    <div style="margin-top:24px;padding:18px 22px;background:linear-gradient(135deg,rgba(107,197,210,0.08),rgba(192,170,220,0.06));border-radius:18px;border:1.5px dashed rgba(107,197,210,0.3);display:flex;align-items:center;gap:14px">
-      <span style="font-size:1.5rem">📚</span>
+  </div>
+</div>
+
+<!-- PANEL: PLANTILLAS -->
+<div class="form-container" id="vistaplantillas" style="display:none">
+  <div class="form-wrapper" style="max-width:780px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
       <div>
-        <div style="font-size:.82rem;font-weight:600;color:#6BC5D2">¿Tienes PDFs de tu práctica clínica?</div>
-        <div style="font-size:.75rem;color:#8a89a3;margin-top:2px">Próximamente podrás subir tus propios recursos y Werni los aprenderá para ayudarte mejor en las anamnesis y planificaciones.</div>
+        <h1 style="font-size:1.6rem;font-weight:700;background:linear-gradient(135deg,#6BC5D2,#C0AADC);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Plantillas de Planificación</h1>
+        <p style="color:#8a89a3;font-size:.82rem;margin-top:4px">Tus modelos de sesión reutilizables</p>
       </div>
+      <button onclick="cerrarVista('plantillas')" style="padding:10px 20px;border-radius:50px;border:1.5px solid rgba(107,197,210,0.3);background:white;color:#6BC5D2;font-weight:600;cursor:pointer;font-family:inherit">← Volver</button>
+    </div>
+    <!-- Nueva plantilla -->
+    <div style="background:rgba(255,255,255,0.90);border-radius:20px;padding:22px;border:1.5px solid rgba(107,197,210,0.14);margin-bottom:20px">
+      <div style="font-size:.76rem;font-weight:700;color:#6BC5D2;margin-bottom:12px;text-transform:uppercase;letter-spacing:.08em">Nueva plantilla</div>
+      <input type="text" id="plantillaNombre" placeholder="Nombre de la plantilla (ej: Sesión fonología /s/)" style="width:100%;padding:10px 14px;border-radius:12px;border:1.5px solid rgba(107,197,210,0.22);background:#F9FAFE;font-size:.83rem;font-family:var(--f);color:#38385A;outline:none;margin-bottom:10px"/>
+      <textarea id="plantillaContenido" placeholder="Contenido de la plantilla: objetivos, actividades, materiales…" rows="4" style="width:100%;padding:10px 14px;border-radius:12px;border:1.5px solid rgba(107,197,210,0.22);background:#F9FAFE;font-size:.83rem;font-family:var(--f);color:#38385A;outline:none;resize:vertical"></textarea>
+      <button onclick="guardarPlantilla()" style="margin-top:10px;padding:10px 22px;border-radius:50px;border:none;background:linear-gradient(135deg,var(--t),var(--l));color:#fff;font-size:.80rem;font-weight:600;cursor:pointer;font-family:var(--f)">Guardar plantilla</button>
+    </div>
+    <!-- Lista de plantillas -->
+    <div id="plantillasLista" style="display:flex;flex-direction:column;gap:10px">
+      <div style="text-align:center;padding:30px;color:#8a89a3;font-size:.84rem">Aún no tienes plantillas guardadas.</div>
     </div>
   </div>
 </div>
@@ -2202,9 +2156,120 @@
     renderPacientes(filtrado);
   }
 
+  // ── Navegación unificada sidebar + tabs ───────────────────────────
+  function navTo(dest) {
+    // Activate correct tab
+    const tabMap = {inicio:0, historial:2, sesion:1, pendientes:3};
+    const tabs = document.querySelectorAll('.tab');
+    const idx = tabMap[dest] ?? 0;
+    tabs.forEach((t,i) => t.classList.toggle('on', i === idx));
+    // Show correct pane
+    PANES.forEach(p => {
+      const el = document.getElementById('pane-' + p);
+      if (el) el.style.display = p === dest ? 'flex' : 'none';
+    });
+    // Update sidebar active state
+    document.querySelectorAll('.sb-nav .ni').forEach(n => n.classList.remove('on'));
+    if (dest === 'inicio') document.querySelector('.sb-nav .ni:first-child')?.classList.add('on');
+    if (dest === 'historial') { cargarPacientes(); }
+    const w = document.getElementById('werniFloat');
+    if (w) w.style.display = (dest === 'inicio' || dest === 'sesion') ? 'block' : 'none';
+  }
+
+  // ── Add pendiente ───────────────────────────────────────────────────
+  function addPendiente() {
+    const input = document.getElementById('nuevoPendienteInput');
+    if (!input || !input.value.trim()) return;
+    const txt = input.value.trim();
+    const item = document.createElement('div');
+    item.className = 'pending-item';
+    item.style.cssText = 'display:flex;align-items:center;gap:9px;padding:8px;border-radius:8px;transition:all 0.16s;cursor:pointer';
+    item.innerHTML = `<input type="checkbox" style="width:17px;height:17px;cursor:pointer;accent-color:#C0AADC" onchange="togglePendiente(this)"><span style="font-size:0.71rem;color:#6f6f84;line-height:1.35;flex:1">${txt}</span><button style="width:18px;height:18px;border:none;background:rgba(255,107,107,0.0);color:#FF6B6B;cursor:pointer;font-size:0.80rem;padding:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:all 0.16s" class="delete-btn" onclick="deletePendiente(this)">✕</button>`;
+    document.getElementById('pendientesLista').appendChild(item);
+    input.value = '';
+  }
+
+  // ── Biblioteca desde Supabase ──────────────────────────────────────
+  let _biblioCache = [];
+  async function cargarBiblioteca() {
+    const lista = document.getElementById('biblioLista');
+    if (!lista) return;
+    if (_biblioCache.length > 0) { renderBiblioteca(_biblioCache); return; }
+    const { data } = await supabase.from('werni_conocimiento').select('id,categoria,titulo,fuente,contenido').order('categoria');
+    _biblioCache = data || [];
+    renderBiblioteca(_biblioCache);
+  }
+
+  const CATCOLORS = {hitos_desarrollo:'#6BC5D2',habla_fonologia:'#C0AADC',mof_deglucion:'#3DAA78',tea_autismo:'#F0A060',condiciones_especiales:'#D4956A',planificacion:'#8ECFB4'};
+  const CATNAMES = {hitos_desarrollo:'Hitos del Desarrollo',habla_fonologia:'Habla y Fonología',mof_deglucion:'MOF y Deglución',tea_autismo:'TEA / Autismo',condiciones_especiales:'Condiciones Especiales',planificacion:'Planificación'};
+
+  function renderBiblioteca(data) {
+    const lista = document.getElementById('biblioLista');
+    if (!lista) return;
+    if (!data || data.length === 0) { lista.innerHTML = '<div style="text-align:center;padding:40px;color:#8a89a3">Sin resultados.</div>'; return; }
+    lista.innerHTML = data.map(k => {
+      const color = CATCOLORS[k.categoria] || '#6BC5D2';
+      const catName = CATNAMES[k.categoria] || k.categoria;
+      return `<div style="background:#fff;border-radius:16px;border:1.5px solid rgba(200,215,230,0.5);overflow:hidden">
+        <div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'" style="padding:14px 18px;cursor:pointer;display:flex;align-items:center;gap:12px">
+          <span style="font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;background:${color}18;color:${color};padding:3px 10px;border-radius:20px;flex-shrink:0">${catName}</span>
+          <span style="font-size:.84rem;font-weight:600;color:#38385A;flex:1">${k.titulo}</span>
+          <span style="font-size:.70rem;color:#8a89a3;flex-shrink:0">${k.fuente || ''}</span>
+          <span style="color:#8a89a3;font-size:.80rem;flex-shrink:0">›</span>
+        </div>
+        <div style="display:none;padding:0 18px 16px;font-size:.78rem;color:#6f6f84;line-height:1.65;white-space:pre-wrap;border-top:1px solid rgba(200,215,230,0.4)">${k.contenido}</div>
+      </div>`;
+    }).join('');
+  }
+
+  function filtrarBiblioteca(q) {
+    const r = q.trim().toLowerCase();
+    renderBiblioteca(r === '' ? _biblioCache : _biblioCache.filter(k => k.titulo.toLowerCase().includes(r) || k.contenido.toLowerCase().includes(r) || (CATNAMES[k.categoria]||'').toLowerCase().includes(r)));
+  }
+
+  // ── Plantillas (localStorage) ──────────────────────────────────────
+  function cargarPlantillas() {
+    const stored = JSON.parse(localStorage.getItem('plantillas') || '[]');
+    renderPlantillas(stored);
+  }
+
+  function guardarPlantilla() {
+    const nombre = document.getElementById('plantillaNombre')?.value.trim();
+    const contenido = document.getElementById('plantillaContenido')?.value.trim();
+    if (!nombre) { alert('Ponle un nombre a la plantilla.'); return; }
+    const stored = JSON.parse(localStorage.getItem('plantillas') || '[]');
+    stored.unshift({ id: Date.now(), nombre, contenido, fecha: new Date().toLocaleDateString('es-CL') });
+    localStorage.setItem('plantillas', JSON.stringify(stored));
+    document.getElementById('plantillaNombre').value = '';
+    document.getElementById('plantillaContenido').value = '';
+    renderPlantillas(stored);
+  }
+
+  function renderPlantillas(plantillas) {
+    const lista = document.getElementById('plantillasLista');
+    if (!lista) return;
+    if (!plantillas || plantillas.length === 0) { lista.innerHTML = '<div style="text-align:center;padding:30px;color:#8a89a3;font-size:.84rem">Aún no tienes plantillas guardadas.</div>'; return; }
+    lista.innerHTML = plantillas.map(p => `
+      <div style="background:#fff;border-radius:16px;padding:16px 20px;border:1.5px solid rgba(200,215,230,0.5)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div style="font-size:.86rem;font-weight:700;color:#38385A">${p.nombre}</div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span style="font-size:.68rem;color:#8a89a3">${p.fecha}</span>
+            <button onclick="eliminarPlantilla(${p.id})" style="border:none;background:none;color:#FF9090;cursor:pointer;font-size:.80rem;padding:0">✕</button>
+          </div>
+        </div>
+        ${p.contenido ? `<div style="font-size:.76rem;color:#6f6f84;line-height:1.55;white-space:pre-wrap">${p.contenido}</div>` : ''}
+      </div>`).join('');
+  }
+
+  function eliminarPlantilla(id) {
+    const stored = JSON.parse(localStorage.getItem('plantillas') || '[]').filter(p => p.id !== id);
+    localStorage.setItem('plantillas', JSON.stringify(stored));
+    renderPlantillas(stored);
+  }
+
   function mostrarVista(nombre) {
-    // Ocultar todas las vistas
-    ['biblioteca','cumpleanos','ideas'].forEach(v => {
+    ['biblioteca','cumpleanos','ideas','plantillas'].forEach(v => {
       const el = document.getElementById('vista' + v);
       if (el) el.style.display = 'none';
     });
@@ -2214,6 +2279,8 @@
       vista.style.display = 'block';
       if (nombre === 'cumpleanos') cargarCumpleanos();
       if (nombre === 'ideas') renderIdeas();
+      if (nombre === 'biblioteca') cargarBiblioteca();
+      if (nombre === 'plantillas') cargarPlantillas();
     }
     // Marcar sidebar activo
     document.querySelectorAll('.ni').forEach(x => x.classList.remove('on'));
@@ -2367,15 +2434,13 @@ Motivo de consulta: ${motivo || 'No indicado'}`;
     };
     
     try {
-      // OBTENER USUARIO LOGUEADO
-      const { data: { user }, error: userError } = await supabase.auth.getUser();
-      if (userError || !user) {
+      if (!currentUser) {
         alert('❌ Debes estar logueada para agregar pacientes');
         return;
       }
-      
+
       // AGREGAR fono_id AL PACIENTE
-      paciente.fono_id = user.id;
+      paciente.fono_id = currentUser.id;
       
       // INSERTAR EN SUPABASE
       const { data, error } = await supabase
@@ -2463,11 +2528,20 @@ Motivo de consulta: ${motivo || 'No indicado'}`;
   }
 
   // ── AUTH STATE ────────────────────────────────────────────────────
+  let currentUser = null;
+
   supabase.auth.onAuthStateChange((event, session) => {
-    if (session && session.user) {
+    currentUser = session?.user || null;
+    if (currentUser) {
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('app').style.display = 'flex';
-      updateSidebarUser(session.user);
+      updateSidebarUser(currentUser);
+      // Actualizar contador pacientes
+      supabase.from('pacientes').select('id', { count: 'exact', head: true })
+        .then(({ count }) => {
+          const pill = document.getElementById('pillContadorPacientes');
+          if (pill && count != null) pill.textContent = count;
+        });
     } else {
       document.getElementById('loginScreen').style.display = 'flex';
       document.getElementById('app').style.display = 'none';
