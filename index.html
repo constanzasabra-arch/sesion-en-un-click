@@ -468,6 +468,21 @@
   .btn-werni-form:hover{background:linear-gradient(135deg,rgba(107,197,210,.24),rgba(192,170,220,.20));transform:translateY(-2px);box-shadow:0 4px 16px rgba(107,197,210,.18)}
   .btn-agregar-form{background:linear-gradient(135deg,var(--t),var(--l));color:var(--w);flex:1;max-width:400px}
   .btn-agregar-form:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(107,197,210,.25)}
+  .ideas-filtro{padding:8px 18px;border-radius:50px;border:1.5px solid rgba(200,215,230,0.6);background:#F8FAFD;color:#8a89a3;font-family:inherit;font-size:.78rem;font-weight:500;cursor:pointer;transition:all .18s ease}
+  .ideas-filtro.on,.ideas-filtro:hover{background:linear-gradient(135deg,rgba(107,197,210,0.14),rgba(192,170,220,0.10));border-color:rgba(107,197,210,0.35);color:#6BC5D2;font-weight:600}
+  .idea-card{background:white;border-radius:20px;padding:20px;border:1.5px solid rgba(200,215,230,0.5);box-shadow:0 2px 12px rgba(107,197,210,0.06);transition:all .2s ease;cursor:default}
+  .idea-card:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(107,197,210,0.12)}
+  .idea-tag{display:inline-block;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;padding:3px 10px;border-radius:20px;margin-bottom:10px}
+  .idea-tag.fonologia{background:rgba(107,197,210,0.12);color:#6BC5D2}
+  .idea-tag.lenguaje{background:rgba(192,170,220,0.15);color:#9B7EC8}
+  .idea-tag.mof{background:rgba(96,212,160,0.12);color:#3DAA78}
+  .idea-tag.pragmatica{background:rgba(248,216,184,0.3);color:#D4956A}
+  .cumple-card{background:white;border-radius:20px;padding:18px 20px;border:1.5px solid rgba(200,215,230,0.5);display:flex;align-items:center;gap:16px;box-shadow:0 2px 10px rgba(107,197,210,0.06)}
+  .cumple-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#A8DDE6,#D8C8F0);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+  .cumple-dias-badge{margin-left:auto;padding:6px 14px;border-radius:50px;font-size:.72rem;font-weight:700}
+  .cumple-hoy{background:rgba(248,180,100,0.15);color:#D4956A}
+  .cumple-pronto{background:rgba(248,208,220,0.4);color:#D898A8}
+  .cumple-mes{background:rgba(107,197,210,0.12);color:#6BC5D2}
   @media(max-width:768px){.form-row-2{grid-template-columns:1fr}}
 
   /* ══ PORTAL DE FAMILIAS ══ */
@@ -696,13 +711,13 @@
         <span class="ni-pill np-n">Ver</span>
       </a>
       <div class="nav-sec">Recursos</div>
-      <a class="ni" href="#">
+      <a class="ni" href="#" onclick="mostrarVista('biblioteca')">
         <span class="ni-ico"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM80,208H48V48H80Zm128,0H96V48H208Z"/></svg></span>
         <span class="ni-txt">Biblioteca</span>
       </a>
 
       <!-- Cumpleaños -->
-      <a class="ni" href="#" style="position:relative">
+      <a class="ni" href="#" style="position:relative" onclick="mostrarVista('cumpleanos')">
         <span class="ni-ico">
           <svg viewBox="0 0 256 256" fill="currentColor"><path d="M240,208H224V152a32,32,0,0,0-32-32H136V88h8a8,8,0,0,0,5.66-13.66l-40-40a8,8,0,0,0-11.32,0l-40,40A8,8,0,0,0,64,88h8v32H64A32,32,0,0,0,32,152v56H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16Zm-56-72a16,16,0,0,1,16,16v16H168V152a16,16,0,0,1,16-16ZM120,56.69,143.31,80H96.69ZM88,168H48V152a16,16,0,0,1,16-16H88ZM48,184H88v24H48Zm56,24V104h32V208Zm48,0V184h56v24Z"/></svg>
         </span>
@@ -712,7 +727,7 @@
       </a>
 
       <!-- Sugerencias planificación -->
-      <a class="ni" href="#">
+      <a class="ni" href="#" onclick="mostrarVista('ideas')">
         <span class="ni-ico">
           <svg viewBox="0 0 256 256" fill="currentColor"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM40,56H216V88H40Zm0,144V104H216v96ZM184,136a8,8,0,0,1-8,8H80a8,8,0,0,1,0-16h96A8,8,0,0,1,184,136Zm0,32a8,8,0,0,1-8,8H80a8,8,0,0,1,0-16h96A8,8,0,0,1,184,168Z"/></svg>
         </span>
@@ -1615,6 +1630,139 @@
 
   <!-- FAB -->
   <button class="fab" onclick="document.getElementById('formNuevoPaciente').style.display='block'">✚ &nbsp;Nuevo paciente</button>
+
+<!-- PANEL: BIBLIOTECA -->
+<div class="form-container" id="vistabiblioteca" style="display:none">
+  <div class="form-wrapper" style="max-width:860px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px">
+      <div>
+        <h1 style="font-size:1.8rem;font-weight:700;background:linear-gradient(135deg,#6BC5D2,#C0AADC);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Biblioteca Clínica</h1>
+        <p style="color:#8a89a3;font-size:.88rem;margin-top:4px">Recursos de fonoaudiología basados en evidencia</p>
+      </div>
+      <button onclick="cerrarVista('biblioteca')" style="padding:10px 20px;border-radius:50px;border:1.5px solid rgba(107,197,210,0.3);background:white;color:#6BC5D2;font-weight:600;cursor:pointer;font-family:inherit">← Volver</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <!-- Hitos del desarrollo -->
+      <div style="background:white;border-radius:24px;padding:24px;border:1.5px solid rgba(107,197,210,0.14);box-shadow:0 4px 20px rgba(107,197,210,0.08)">
+        <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#6BC5D2;margin-bottom:16px;display:flex;align-items:center;gap:8px"><span style="background:rgba(107,197,210,0.12);padding:5px 12px;border-radius:50px">🧠 Hitos del Desarrollo</span></div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">Hitos comunicativos 0–3 años</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Susanibar et al. — Cronología de adquisición</div>
+          </div>
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">Red flags del lenguaje</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Bishop — Señales de alerta por edad</div>
+          </div>
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">TEL: criterios diagnósticos DSM-5</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Trastorno Específico del Lenguaje</div>
+          </div>
+        </div>
+      </div>
+      <!-- Habla y Fonología -->
+      <div style="background:white;border-radius:24px;padding:24px;border:1.5px solid rgba(192,170,220,0.2);box-shadow:0 4px 20px rgba(192,170,220,0.08)">
+        <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#C0AADC;margin-bottom:16px;display:flex;align-items:center;gap:8px"><span style="background:rgba(192,170,220,0.12);padding:5px 12px;border-radius:50px">🗣️ Habla y Fonología</span></div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">Adquisición fonológica del español</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Secuencia de adquisición por edad</div>
+          </div>
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">Procesos fonológicos normales vs alterados</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">PCC y criterios de severidad</div>
+          </div>
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">Dislalia vs Trastorno Fonológico</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Criterios diagnósticos diferenciados</div>
+          </div>
+        </div>
+      </div>
+      <!-- MOF y Deglución -->
+      <div style="background:white;border-radius:24px;padding:24px;border:1.5px solid rgba(168,220,200,0.3);box-shadow:0 4px 20px rgba(96,212,160,0.06)">
+        <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#3DAA78;margin-bottom:16px;display:flex;align-items:center;gap:8px"><span style="background:rgba(96,212,160,0.10);padding:5px 12px;border-radius:50px">🫁 MOF y Deglución</span></div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">Fases de la deglución</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Oral, faríngea, esofágica — anatomía funcional</div>
+          </div>
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">Hábitos de succión no nutritiva</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Chupete, mamadera, dedo — implicancias</div>
+          </div>
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">Deglución atípica: evaluación y tratamiento</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Criterios, ejercicios miofuncionales</div>
+          </div>
+        </div>
+      </div>
+      <!-- Evaluaciones -->
+      <div style="background:white;border-radius:24px;padding:24px;border:1.5px solid rgba(248,216,184,0.4);box-shadow:0 4px 20px rgba(248,180,100,0.06)">
+        <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#D4956A;margin-bottom:16px;display:flex;align-items:center;gap:8px"><span style="background:rgba(248,216,184,0.3);padding:5px 12px;border-radius:50px">📋 Evaluaciones</span></div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">TEPROSIF-R</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Test de Procesos de Simplificación Fonológica</div>
+          </div>
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">TECAL</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Test de Comprensión Auditiva del Lenguaje</div>
+          </div>
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">REEL / REEL-3</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Escalas de desarrollo del lenguaje temprano</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Nota para subir PDFs -->
+    <div style="margin-top:24px;padding:18px 22px;background:linear-gradient(135deg,rgba(107,197,210,0.08),rgba(192,170,220,0.06));border-radius:18px;border:1.5px dashed rgba(107,197,210,0.3);display:flex;align-items:center;gap:14px">
+      <span style="font-size:1.5rem">📚</span>
+      <div>
+        <div style="font-size:.82rem;font-weight:600;color:#6BC5D2">¿Tienes PDFs de tu práctica clínica?</div>
+        <div style="font-size:.75rem;color:#8a89a3;margin-top:2px">Próximamente podrás subir tus propios recursos y Werni los aprenderá para ayudarte mejor en las anamnesis y planificaciones.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL: CUMPLEAÑOS -->
+<div class="form-container" id="vistacumpleanos" style="display:none">
+  <div class="form-wrapper" style="max-width:680px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px">
+      <div>
+        <h1 style="font-size:1.8rem;font-weight:700;background:linear-gradient(135deg,#F8B4C8,#C0AADC);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Cumpleaños 🎂</h1>
+        <p style="color:#8a89a3;font-size:.88rem;margin-top:4px">Próximos cumpleaños de tus pacientes</p>
+      </div>
+      <button onclick="cerrarVista('cumpleanos')" style="padding:10px 20px;border-radius:50px;border:1.5px solid rgba(107,197,210,0.3);background:white;color:#6BC5D2;font-weight:600;cursor:pointer;font-family:inherit">← Volver</button>
+    </div>
+    <div id="cumpleanosList" style="display:flex;flex-direction:column;gap:12px">
+      <div style="text-align:center;padding:40px;color:#8a89a3;font-size:.85rem">Cargando cumpleaños...</div>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL: IDEAS PLANIFICACIÓN -->
+<div class="form-container" id="vistaideas" style="display:none">
+  <div class="form-wrapper" style="max-width:860px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px">
+      <div>
+        <h1 style="font-size:1.8rem;font-weight:700;background:linear-gradient(135deg,#6BC5D2,#A8DCC8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Ideas de Planificación ✨</h1>
+        <p style="color:#8a89a3;font-size:.88rem;margin-top:4px">Actividades y estrategias por área clínica</p>
+      </div>
+      <button onclick="cerrarVista('ideas')" style="padding:10px 20px;border-radius:50px;border:1.5px solid rgba(107,197,210,0.3);background:white;color:#6BC5D2;font-weight:600;cursor:pointer;font-family:inherit">← Volver</button>
+    </div>
+    <!-- Filtros por área -->
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px" id="ideasFiltros">
+      <button class="ideas-filtro on" onclick="filtrarIdeas('todos',this)">Todas</button>
+      <button class="ideas-filtro" onclick="filtrarIdeas('fonologia',this)">Fonología</button>
+      <button class="ideas-filtro" onclick="filtrarIdeas('lenguaje',this)">Lenguaje</button>
+      <button class="ideas-filtro" onclick="filtrarIdeas('mof',this)">MOF</button>
+      <button class="ideas-filtro" onclick="filtrarIdeas('pragmatica',this)">Pragmática</button>
+    </div>
+    <div id="ideasGrid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px"></div>
+  </div>
+</div>
 
   <!-- WERNI FLOTANTE -->
   <div class="werni-float" id="werniFloat">
