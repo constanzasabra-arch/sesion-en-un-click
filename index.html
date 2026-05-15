@@ -424,10 +424,10 @@
   .form-container{position:absolute;top:0;left:var(--sb);right:0;bottom:0;background:var(--bg);overflow-y:auto;z-index:50;animation:slideIn .35s var(--ease)}
   .form-wrapper{max-width:880px;margin:0 auto;padding:40px 28px}
   .form-header{margin-bottom:32px;text-align:center}
-  .form-header h1{font-size:2.2rem;font-weight:600;color:var(--tx);margin-bottom:8px}
+  .form-header h1{font-size:2rem;font-weight:700;background:linear-gradient(135deg,var(--t),var(--l));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
   .form-header p{font-size:.95rem;color:var(--tm)}
-  .form-section{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--bd);border-radius:var(--r2);padding:24px;margin-bottom:20px;box-shadow:var(--sh)}
-  .section-title{font-size:.95rem;font-weight:600;color:var(--t);text-transform:uppercase;letter-spacing:.08em;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--bd)}
+  .form-section{background:#ffffff;border:1.5px solid rgba(107,197,210,0.14);border-radius:28px;padding:30px 28px 24px;margin-bottom:20px;box-shadow:0 4px 28px rgba(107,197,210,0.10),0 1px 6px rgba(107,197,210,0.05)}
+  .section-title{display:inline-flex;align-items:center;gap:8px;font-size:.75rem;font-weight:700;color:var(--t);text-transform:uppercase;letter-spacing:.10em;background:linear-gradient(135deg,rgba(107,197,210,0.13),rgba(192,170,220,0.10));border:1.5px solid rgba(107,197,210,0.22);padding:7px 18px;border-radius:50px;margin-bottom:24px}
   .section-subtitle{font-size:.88rem;font-weight:600;color:var(--tx);margin-bottom:14px;margin-top:20px}
   .section-subtitle:first-child{margin-top:0}
   
@@ -439,19 +439,19 @@
     margin-bottom:16px;
     backdrop-filter:blur(10px);
   }
-  .form-group{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
+  .form-group{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
   .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .form-label{font-size:.85rem;font-weight:500;color:var(--tx)}
-  .form-label.required::after{content:" *";color:var(--t)}
-  .form-input,.form-select,.form-textarea{padding:12px 14px;border:1px solid var(--bd);border-radius:var(--r1);font-family:var(--f);font-size:.85rem;color:var(--tx);background:rgba(255,255,255,.95);transition:all .16s var(--ease)}
-  .form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--t);background:var(--w);box-shadow:0 0 0 3px rgba(107,197,210,.12)}
+  .form-label{font-size:.76rem;font-weight:600;color:#8a89a3;letter-spacing:.02em}
+  .form-label.required::after{content:" *";color:var(--t);font-weight:700}
+  .form-input,.form-select,.form-textarea{padding:13px 18px;border:1.5px solid rgba(200,215,230,0.7);border-radius:16px;font-family:var(--f);font-size:.86rem;color:var(--tx);background:#F8FAFD;transition:all .20s var(--ease);width:100%}
+  .form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--t);background:#ffffff;box-shadow:0 0 0 4px rgba(107,197,210,.15),0 2px 10px rgba(107,197,210,0.10)}
   .form-textarea{resize:vertical;min-height:90px;line-height:1.5}
   .form-textarea.large{min-height:140px}
-  .form-hint{font-size:.73rem;color:var(--tm);font-weight:400;margin-top:4px}
+  .form-hint{font-size:.72rem;color:#aaa9c4;font-weight:400;margin-top:5px;padding-left:2px}
   .form-radio-group{display:flex;gap:10px;flex-wrap:wrap}
-  .form-radio-btn{padding:9px 14px;border:1px solid var(--bd);background:rgba(255,255,255,.95);border-radius:var(--r1);cursor:pointer;font-size:.82rem;font-weight:400;color:var(--tm);font-family:var(--f);transition:all .16s var(--ease)}
+  .form-radio-btn{padding:9px 16px;border:1.5px solid rgba(200,215,230,0.6);background:#F8FAFD;border-radius:50px;cursor:pointer;font-size:.80rem;font-weight:500;color:#8a89a3;font-family:var(--f);transition:all .18s var(--ease)}
   .form-radio-btn:hover{background:rgba(255,255,255,.98);border-color:var(--t);color:var(--t)}
-  .form-radio-btn.selected{background:linear-gradient(135deg,rgba(107,197,210,.16),rgba(192,170,220,.12));border-color:var(--t);color:var(--tx);font-weight:500;box-shadow:0 2px 8px rgba(107,197,210,.10)}
+  .form-radio-btn.selected{background:linear-gradient(135deg,rgba(107,197,210,.16),rgba(192,170,220,.12));border-color:var(--t);color:var(--t);font-weight:600;box-shadow:0 2px 10px rgba(107,197,210,.14)}
   .accordion-section{padding:0!important}
   .accordion-header{padding:20px 24px;cursor:pointer;display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(107,197,210,0.15),rgba(107,197,210,0.10));border:1.5px solid rgba(107,197,210,0.30);border-radius:var(--r2);transition:all .2s var(--ease);user-select:none;box-shadow:0 2px 8px rgba(107,197,210,0.08)}
   .accordion-header:hover{background:linear-gradient(135deg,rgba(107,197,210,0.22),rgba(107,197,210,0.16));border-color:rgba(107,197,210,0.45);box-shadow:0 4px 14px rgba(107,197,210,0.14)}
@@ -468,6 +468,21 @@
   .btn-werni-form:hover{background:linear-gradient(135deg,rgba(107,197,210,.24),rgba(192,170,220,.20));transform:translateY(-2px);box-shadow:0 4px 16px rgba(107,197,210,.18)}
   .btn-agregar-form{background:linear-gradient(135deg,var(--t),var(--l));color:var(--w);flex:1;max-width:400px}
   .btn-agregar-form:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(107,197,210,.25)}
+  .ideas-filtro{padding:8px 18px;border-radius:50px;border:1.5px solid rgba(200,215,230,0.6);background:#F8FAFD;color:#8a89a3;font-family:inherit;font-size:.78rem;font-weight:500;cursor:pointer;transition:all .18s ease}
+  .ideas-filtro.on,.ideas-filtro:hover{background:linear-gradient(135deg,rgba(107,197,210,0.14),rgba(192,170,220,0.10));border-color:rgba(107,197,210,0.35);color:#6BC5D2;font-weight:600}
+  .idea-card{background:white;border-radius:20px;padding:20px;border:1.5px solid rgba(200,215,230,0.5);box-shadow:0 2px 12px rgba(107,197,210,0.06);transition:all .2s ease;cursor:default}
+  .idea-card:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(107,197,210,0.12)}
+  .idea-tag{display:inline-block;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;padding:3px 10px;border-radius:20px;margin-bottom:10px}
+  .idea-tag.fonologia{background:rgba(107,197,210,0.12);color:#6BC5D2}
+  .idea-tag.lenguaje{background:rgba(192,170,220,0.15);color:#9B7EC8}
+  .idea-tag.mof{background:rgba(96,212,160,0.12);color:#3DAA78}
+  .idea-tag.pragmatica{background:rgba(248,216,184,0.3);color:#D4956A}
+  .cumple-card{background:white;border-radius:20px;padding:18px 20px;border:1.5px solid rgba(200,215,230,0.5);display:flex;align-items:center;gap:16px;box-shadow:0 2px 10px rgba(107,197,210,0.06)}
+  .cumple-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#A8DDE6,#D8C8F0);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+  .cumple-dias-badge{margin-left:auto;padding:6px 14px;border-radius:50px;font-size:.72rem;font-weight:700}
+  .cumple-hoy{background:rgba(248,180,100,0.15);color:#D4956A}
+  .cumple-pronto{background:rgba(248,208,220,0.4);color:#D898A8}
+  .cumple-mes{background:rgba(107,197,210,0.12);color:#6BC5D2}
   @media(max-width:768px){.form-row-2{grid-template-columns:1fr}}
 
   /* ══ PORTAL DE FAMILIAS ══ */
@@ -696,13 +711,13 @@
         <span class="ni-pill np-n">Ver</span>
       </a>
       <div class="nav-sec">Recursos</div>
-      <a class="ni" href="#">
+      <a class="ni" href="#" onclick="mostrarVista('biblioteca')">
         <span class="ni-ico"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM80,208H48V48H80Zm128,0H96V48H208Z"/></svg></span>
         <span class="ni-txt">Biblioteca</span>
       </a>
 
       <!-- Cumpleaños -->
-      <a class="ni" href="#" style="position:relative">
+      <a class="ni" href="#" style="position:relative" onclick="mostrarVista('cumpleanos')">
         <span class="ni-ico">
           <svg viewBox="0 0 256 256" fill="currentColor"><path d="M240,208H224V152a32,32,0,0,0-32-32H136V88h8a8,8,0,0,0,5.66-13.66l-40-40a8,8,0,0,0-11.32,0l-40,40A8,8,0,0,0,64,88h8v32H64A32,32,0,0,0,32,152v56H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16Zm-56-72a16,16,0,0,1,16,16v16H168V152a16,16,0,0,1,16-16ZM120,56.69,143.31,80H96.69ZM88,168H48V152a16,16,0,0,1,16-16H88ZM48,184H88v24H48Zm56,24V104h32V208Zm48,0V184h56v24Z"/></svg>
         </span>
@@ -712,7 +727,7 @@
       </a>
 
       <!-- Sugerencias planificación -->
-      <a class="ni" href="#">
+      <a class="ni" href="#" onclick="mostrarVista('ideas')">
         <span class="ni-ico">
           <svg viewBox="0 0 256 256" fill="currentColor"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM40,56H216V88H40Zm0,144V104H216v96ZM184,136a8,8,0,0,1-8,8H80a8,8,0,0,1,0-16h96A8,8,0,0,1,184,136Zm0,32a8,8,0,0,1-8,8H80a8,8,0,0,1,0-16h96A8,8,0,0,1,184,168Z"/></svg>
         </span>
@@ -1008,7 +1023,7 @@
               </div>
               <div class="form-group">
                 <label class="form-label">Edad cronológica</label>
-                <input type="text" class="form-input" id="edad_cronologica" readonly placeholder="Se calcula automático" style="background:rgba(107,197,210,0.08);color:#6BC5D2;font-weight:600">
+                <input type="text" class="form-input" id="edad_cronologica" readonly placeholder="Se calcula automático" style="background:linear-gradient(135deg,rgba(107,197,210,0.08),rgba(192,170,220,0.06));color:#6BC5D2;font-weight:600;border-color:rgba(107,197,210,0.25);cursor:default">
               </div>
             </div>
             <div class="form-row-2">
@@ -1616,8 +1631,141 @@
   <!-- FAB -->
   <button class="fab" onclick="document.getElementById('formNuevoPaciente').style.display='block'">✚ &nbsp;Nuevo paciente</button>
 
+<!-- PANEL: BIBLIOTECA -->
+<div class="form-container" id="vistabiblioteca" style="display:none">
+  <div class="form-wrapper" style="max-width:860px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px">
+      <div>
+        <h1 style="font-size:1.8rem;font-weight:700;background:linear-gradient(135deg,#6BC5D2,#C0AADC);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Biblioteca Clínica</h1>
+        <p style="color:#8a89a3;font-size:.88rem;margin-top:4px">Recursos de fonoaudiología basados en evidencia</p>
+      </div>
+      <button onclick="cerrarVista('biblioteca')" style="padding:10px 20px;border-radius:50px;border:1.5px solid rgba(107,197,210,0.3);background:white;color:#6BC5D2;font-weight:600;cursor:pointer;font-family:inherit">← Volver</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <!-- Hitos del desarrollo -->
+      <div style="background:white;border-radius:24px;padding:24px;border:1.5px solid rgba(107,197,210,0.14);box-shadow:0 4px 20px rgba(107,197,210,0.08)">
+        <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#6BC5D2;margin-bottom:16px;display:flex;align-items:center;gap:8px"><span style="background:rgba(107,197,210,0.12);padding:5px 12px;border-radius:50px">🧠 Hitos del Desarrollo</span></div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">Hitos comunicativos 0–3 años</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Susanibar et al. — Cronología de adquisición</div>
+          </div>
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">Red flags del lenguaje</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Bishop — Señales de alerta por edad</div>
+          </div>
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">TEL: criterios diagnósticos DSM-5</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Trastorno Específico del Lenguaje</div>
+          </div>
+        </div>
+      </div>
+      <!-- Habla y Fonología -->
+      <div style="background:white;border-radius:24px;padding:24px;border:1.5px solid rgba(192,170,220,0.2);box-shadow:0 4px 20px rgba(192,170,220,0.08)">
+        <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#C0AADC;margin-bottom:16px;display:flex;align-items:center;gap:8px"><span style="background:rgba(192,170,220,0.12);padding:5px 12px;border-radius:50px">🗣️ Habla y Fonología</span></div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">Adquisición fonológica del español</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Secuencia de adquisición por edad</div>
+          </div>
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">Procesos fonológicos normales vs alterados</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">PCC y criterios de severidad</div>
+          </div>
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">Dislalia vs Trastorno Fonológico</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Criterios diagnósticos diferenciados</div>
+          </div>
+        </div>
+      </div>
+      <!-- MOF y Deglución -->
+      <div style="background:white;border-radius:24px;padding:24px;border:1.5px solid rgba(168,220,200,0.3);box-shadow:0 4px 20px rgba(96,212,160,0.06)">
+        <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#3DAA78;margin-bottom:16px;display:flex;align-items:center;gap:8px"><span style="background:rgba(96,212,160,0.10);padding:5px 12px;border-radius:50px">🫁 MOF y Deglución</span></div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">Fases de la deglución</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Oral, faríngea, esofágica — anatomía funcional</div>
+          </div>
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">Hábitos de succión no nutritiva</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Chupete, mamadera, dedo — implicancias</div>
+          </div>
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">Deglución atípica: evaluación y tratamiento</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Criterios, ejercicios miofuncionales</div>
+          </div>
+        </div>
+      </div>
+      <!-- Evaluaciones -->
+      <div style="background:white;border-radius:24px;padding:24px;border:1.5px solid rgba(248,216,184,0.4);box-shadow:0 4px 20px rgba(248,180,100,0.06)">
+        <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#D4956A;margin-bottom:16px;display:flex;align-items:center;gap:8px"><span style="background:rgba(248,216,184,0.3);padding:5px 12px;border-radius:50px">📋 Evaluaciones</span></div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">TEPROSIF-R</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Test de Procesos de Simplificación Fonológica</div>
+          </div>
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">TECAL</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Test de Comprensión Auditiva del Lenguaje</div>
+          </div>
+          <div style="padding:12px 14px;background:#F8FAFD;border-radius:14px;border:1.5px solid rgba(200,215,230,0.5)">
+            <div style="font-size:.82rem;font-weight:600;color:#38385A">REEL / REEL-3</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:3px">Escalas de desarrollo del lenguaje temprano</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Nota para subir PDFs -->
+    <div style="margin-top:24px;padding:18px 22px;background:linear-gradient(135deg,rgba(107,197,210,0.08),rgba(192,170,220,0.06));border-radius:18px;border:1.5px dashed rgba(107,197,210,0.3);display:flex;align-items:center;gap:14px">
+      <span style="font-size:1.5rem">📚</span>
+      <div>
+        <div style="font-size:.82rem;font-weight:600;color:#6BC5D2">¿Tienes PDFs de tu práctica clínica?</div>
+        <div style="font-size:.75rem;color:#8a89a3;margin-top:2px">Próximamente podrás subir tus propios recursos y Werni los aprenderá para ayudarte mejor en las anamnesis y planificaciones.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL: CUMPLEAÑOS -->
+<div class="form-container" id="vistacumpleanos" style="display:none">
+  <div class="form-wrapper" style="max-width:680px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px">
+      <div>
+        <h1 style="font-size:1.8rem;font-weight:700;background:linear-gradient(135deg,#F8B4C8,#C0AADC);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Cumpleaños 🎂</h1>
+        <p style="color:#8a89a3;font-size:.88rem;margin-top:4px">Próximos cumpleaños de tus pacientes</p>
+      </div>
+      <button onclick="cerrarVista('cumpleanos')" style="padding:10px 20px;border-radius:50px;border:1.5px solid rgba(107,197,210,0.3);background:white;color:#6BC5D2;font-weight:600;cursor:pointer;font-family:inherit">← Volver</button>
+    </div>
+    <div id="cumpleanosList" style="display:flex;flex-direction:column;gap:12px">
+      <div style="text-align:center;padding:40px;color:#8a89a3;font-size:.85rem">Cargando cumpleaños...</div>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL: IDEAS PLANIFICACIÓN -->
+<div class="form-container" id="vistaideas" style="display:none">
+  <div class="form-wrapper" style="max-width:860px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px">
+      <div>
+        <h1 style="font-size:1.8rem;font-weight:700;background:linear-gradient(135deg,#6BC5D2,#A8DCC8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Ideas de Planificación ✨</h1>
+        <p style="color:#8a89a3;font-size:.88rem;margin-top:4px">Actividades y estrategias por área clínica</p>
+      </div>
+      <button onclick="cerrarVista('ideas')" style="padding:10px 20px;border-radius:50px;border:1.5px solid rgba(107,197,210,0.3);background:white;color:#6BC5D2;font-weight:600;cursor:pointer;font-family:inherit">← Volver</button>
+    </div>
+    <!-- Filtros por área -->
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px" id="ideasFiltros">
+      <button class="ideas-filtro on" onclick="filtrarIdeas('todos',this)">Todas</button>
+      <button class="ideas-filtro" onclick="filtrarIdeas('fonologia',this)">Fonología</button>
+      <button class="ideas-filtro" onclick="filtrarIdeas('lenguaje',this)">Lenguaje</button>
+      <button class="ideas-filtro" onclick="filtrarIdeas('mof',this)">MOF</button>
+      <button class="ideas-filtro" onclick="filtrarIdeas('pragmatica',this)">Pragmática</button>
+    </div>
+    <div id="ideasGrid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px"></div>
+  </div>
+</div>
+
   <!-- WERNI FLOTANTE -->
-  <div class="werni-flo<div class="werni-float" id="werniFloat">
+  <div class="werni-float" id="werniFloat">
 
   <!-- POP-UP — chips fijos, sin chat libre -->
   <div class="werni-pop" id="werniPop">
@@ -1773,6 +1921,109 @@
     });
   });
 
+  // ── Vistas del sidebar ──
+  const IDEAS_DATA = [
+    {area:'fonologia', titulo:'Mímesis articulatoria', desc:'Imitar sonidos del ambiente y animales para estimular /r/, /l/, /s/.', emoji:'🐍'},
+    {area:'fonologia', titulo:'Pares mínimos', desc:'Trabajar conciencia fonológica con palabras que difieren en un fonema (pala/bala).', emoji:'🃏'},
+    {area:'fonologia', titulo:'Canciones con target', desc:'Canciones que repiten el fonema objetivo en posición inicial y final.', emoji:'🎵'},
+    {area:'fonologia', titulo:'Discriminación auditiva', desc:'El niño identifica si dos palabras son iguales o diferentes.', emoji:'👂'},
+    {area:'lenguaje', titulo:'Narración de cuentos', desc:'Usar cuento con imágenes para estimular vocabulario y morfosintaxis.', emoji:'📖'},
+    {area:'lenguaje', titulo:'Juego simbólico guiado', desc:'Juego de roles para ampliar vocabulario temático y frases.', emoji:'🎭'},
+    {area:'lenguaje', titulo:'Categorías semánticas', desc:'Clasificar objetos por categoría: animales, frutas, ropa.', emoji:'🗂️'},
+    {area:'lenguaje', titulo:'Preguntas Wh-', desc:'Estimular comprensión y uso de ¿qué?, ¿quién?, ¿dónde?, ¿cuándo?', emoji:'❓'},
+    {area:'mof', titulo:'Soplo dirigido', desc:'Soplar velas, plumas o burbujas para fortalecer musculatura labial.', emoji:'💨'},
+    {area:'mof', titulo:'Ejercicios de lengua', desc:'Elevación, lateralización y vibración lingual ante espejo.', emoji:'👅'},
+    {area:'mof', titulo:'Masticación funcional', desc:'Introducir texturas progresivas para estimular el ciclo masticatorio.', emoji:'🍎'},
+    {area:'pragmatica', titulo:'Turno conversacional', desc:'Juego de pelota mientras se espera turno para hablar.', emoji:'⚽'},
+    {area:'pragmatica', titulo:'Contacto visual', desc:'Actividades que refuerzan atención conjunta y mirada.', emoji:'👀'},
+    {area:'pragmatica', titulo:'Intención comunicativa', desc:'Estimular petición, rechazo, comentario y saludo.', emoji:'🤝'},
+  ];
+
+  let filtroActual = 'todos';
+
+  function filtrarIdeas(area, btn) {
+    filtroActual = area;
+    document.querySelectorAll('.ideas-filtro').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    renderIdeas();
+  }
+
+  function renderIdeas() {
+    const grid = document.getElementById('ideasGrid');
+    if (!grid) return;
+    const items = filtroActual === 'todos' ? IDEAS_DATA : IDEAS_DATA.filter(i => i.area === filtroActual);
+    grid.innerHTML = items.map(i => `
+      <div class="idea-card">
+        <span class="idea-tag ${i.area}">${i.area.charAt(0).toUpperCase()+i.area.slice(1)}</span>
+        <div style="font-size:1.4rem;margin-bottom:8px">${i.emoji}</div>
+        <div style="font-size:.84rem;font-weight:700;color:#38385A;margin-bottom:6px">${i.titulo}</div>
+        <div style="font-size:.75rem;color:#8a89a3;line-height:1.55">${i.desc}</div>
+      </div>
+    `).join('');
+  }
+
+  async function cargarCumpleanos() {
+    const lista = document.getElementById('cumpleanosList');
+    if (!lista) return;
+    try {
+      const { data, error } = await supabase.from('pacientes').select('nombre, fecha_nacimiento').not('fecha_nacimiento','is',null);
+      if (error || !data || data.length === 0) {
+        lista.innerHTML = '<div style="text-align:center;padding:40px;color:#8a89a3;font-size:.85rem">No hay pacientes con fecha de nacimiento registrada.</div>';
+        return;
+      }
+      const hoy = new Date();
+      const conDias = data.map(p => {
+        const fn = new Date(p.fecha_nacimiento + 'T12:00:00');
+        const proxCumple = new Date(hoy.getFullYear(), fn.getMonth(), fn.getDate());
+        if (proxCumple < hoy) proxCumple.setFullYear(hoy.getFullYear() + 1);
+        const dias = Math.round((proxCumple - hoy) / 86400000);
+        return { ...p, dias, fecha_nacimiento: fn };
+      }).sort((a,b) => a.dias - b.dias).slice(0, 15);
+
+      lista.innerHTML = conDias.map(p => {
+        const ini = p.nombre.charAt(0).toUpperCase();
+        let badgeClass = 'cumple-mes', badgeText = `${p.dias}d`;
+        if (p.dias === 0) { badgeClass = 'cumple-hoy'; badgeText = '🎉 Hoy'; }
+        else if (p.dias <= 7) { badgeClass = 'cumple-pronto'; badgeText = `${p.dias}d`; }
+        const edad = hoy.getFullYear() - p.fecha_nacimiento.getFullYear();
+        return `<div class="cumple-card">
+          <div class="cumple-avatar">${ini}</div>
+          <div>
+            <div style="font-size:.86rem;font-weight:700;color:#38385A">${p.nombre}</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:2px">Cumple ${edad} años · ${p.fecha_nacimiento.toLocaleDateString('es-CL',{day:'numeric',month:'long'})}</div>
+          </div>
+          <span class="cumple-dias-badge ${badgeClass}">${badgeText}</span>
+        </div>`;
+      }).join('');
+    } catch(e) {
+      lista.innerHTML = '<div style="text-align:center;padding:40px;color:#8a89a3;font-size:.85rem">Error al cargar. Verifica tu conexión.</div>';
+    }
+  }
+
+  function mostrarVista(nombre) {
+    // Ocultar todas las vistas
+    ['biblioteca','cumpleanos','ideas'].forEach(v => {
+      const el = document.getElementById('vista' + v);
+      if (el) el.style.display = 'none';
+    });
+    // Mostrar la vista solicitada
+    const vista = document.getElementById('vista' + nombre);
+    if (vista) {
+      vista.style.display = 'block';
+      if (nombre === 'cumpleanos') cargarCumpleanos();
+      if (nombre === 'ideas') renderIdeas();
+    }
+    // Marcar sidebar activo
+    document.querySelectorAll('.ni').forEach(x => x.classList.remove('on'));
+  }
+
+  function cerrarVista(nombre) {
+    const el = document.getElementById('vista' + nombre);
+    if (el) el.style.display = 'none';
+    // Restaurar primer item del sidebar como activo
+    document.querySelector('.ni')?.classList.add('on');
+  }
+
   // Nav items
   document.querySelectorAll('.ni:not(.ghost)').forEach(n=>{
     n.addEventListener('click',e=>{
@@ -1838,10 +2089,53 @@
     btn.classList.add('selected');
   }
 
-  function analizarAnamnesisConWerni() {
-    const motivo = document.getElementById('motivo_consulta')?.value || '';
-    const nombre = document.getElementById('nombre')?.value || '';
-    alert('✨ Anamnesis recopilada. Werni analizará cuando se integre Claude Haiku.');
+  const WERNI_URL = 'https://yexxzzoeleeyafawakfj.supabase.co/functions/v1/werni';
+
+  async function llamarWerni(mensaje, tipo, paciente) {
+    const resp = await fetch(WERNI_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mensaje, tipo, paciente })
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error || 'Error desconocido');
+    return data.respuesta;
+  }
+
+  async function analizarAnamnesisConWerni() {
+    const btn = document.querySelector('[onclick="analizarAnamnesisConWerni()"]');
+    const nombre = document.getElementById('nombre')?.value?.trim() || '';
+    const motivo = document.getElementById('motivo_consulta')?.value?.trim() || '';
+    const diagnostico = document.getElementById('diagnostico')?.value?.trim() || '';
+    const edad = document.getElementById('edad_cronologica')?.value?.trim() || '';
+
+    if (!motivo && !nombre) {
+      alert('⚠️ Completa al menos el Nombre y el Motivo de consulta para que Werni pueda orientarte.');
+      return;
+    }
+
+    const divRespuesta = document.getElementById('werniRespuesta');
+    if (!divRespuesta) return;
+
+    if (btn) { btn.textContent = '⏳ Werni analizando…'; btn.disabled = true; }
+    divRespuesta.style.display = 'block';
+    divRespuesta.textContent = '🔍 Revisando la anamnesis con base en evidencia clínica…';
+
+    const mensaje = `Revisa esta anamnesis y oriéntame éticamente sobre qué señales de alerta observas y qué evaluaciones sugerirías (sin diagnosticar).
+
+Paciente: ${nombre || 'No indicado'}
+Edad cronológica: ${edad || 'No indicada'}
+Diagnóstico previo: ${diagnostico || 'Sin antecedentes'}
+Motivo de consulta: ${motivo || 'No indicado'}`;
+
+    try {
+      const respuesta = await llamarWerni(mensaje, 'anamnesis', { nombre, edad, diagnostico });
+      divRespuesta.textContent = respuesta;
+    } catch (e) {
+      divRespuesta.textContent = '❌ Error al conectar con Werni. Verifica que el Edge Function esté desplegado en Supabase.';
+    } finally {
+      if (btn) { btn.textContent = '✨ Werni, revisar'; btn.disabled = false; }
+    }
   }
 
   async function guardarNuevoPaciente(e) {
@@ -1913,8 +2207,8 @@
 <!-- SUPABASE CLIENT -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  const SUPABASE_URL = 'https://uoethqvuqbbxvckgpowd.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVvZXRocXZ1cWJieHZja2dwb3dkIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODMyNzcyODYsImV4cCI6MTk5OTA1MzI4Nn0.EW_B-iq10FYwF_lRUYVAFkHNmYHzqW5KvTVc5-ShhbY';
+  const SUPABASE_URL = 'https://yexxzzoeleeyafawakfj.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlleHh6em9lbGVleWFmYXdha2ZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MTQ4NTEsImV4cCI6MjA5MjI5MDg1MX0.J8zkTJErSeitGnDhowg68nZKsdfu00QjA62N8W_7KP4';
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   console.log('✅ Supabase inicializado');
 </script>
