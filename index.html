@@ -1921,6 +1921,109 @@
     });
   });
 
+  // ── Vistas del sidebar ──
+  const IDEAS_DATA = [
+    {area:'fonologia', titulo:'Mímesis articulatoria', desc:'Imitar sonidos del ambiente y animales para estimular /r/, /l/, /s/.', emoji:'🐍'},
+    {area:'fonologia', titulo:'Pares mínimos', desc:'Trabajar conciencia fonológica con palabras que difieren en un fonema (pala/bala).', emoji:'🃏'},
+    {area:'fonologia', titulo:'Canciones con target', desc:'Canciones que repiten el fonema objetivo en posición inicial y final.', emoji:'🎵'},
+    {area:'fonologia', titulo:'Discriminación auditiva', desc:'El niño identifica si dos palabras son iguales o diferentes.', emoji:'👂'},
+    {area:'lenguaje', titulo:'Narración de cuentos', desc:'Usar cuento con imágenes para estimular vocabulario y morfosintaxis.', emoji:'📖'},
+    {area:'lenguaje', titulo:'Juego simbólico guiado', desc:'Juego de roles para ampliar vocabulario temático y frases.', emoji:'🎭'},
+    {area:'lenguaje', titulo:'Categorías semánticas', desc:'Clasificar objetos por categoría: animales, frutas, ropa.', emoji:'🗂️'},
+    {area:'lenguaje', titulo:'Preguntas Wh-', desc:'Estimular comprensión y uso de ¿qué?, ¿quién?, ¿dónde?, ¿cuándo?', emoji:'❓'},
+    {area:'mof', titulo:'Soplo dirigido', desc:'Soplar velas, plumas o burbujas para fortalecer musculatura labial.', emoji:'💨'},
+    {area:'mof', titulo:'Ejercicios de lengua', desc:'Elevación, lateralización y vibración lingual ante espejo.', emoji:'👅'},
+    {area:'mof', titulo:'Masticación funcional', desc:'Introducir texturas progresivas para estimular el ciclo masticatorio.', emoji:'🍎'},
+    {area:'pragmatica', titulo:'Turno conversacional', desc:'Juego de pelota mientras se espera turno para hablar.', emoji:'⚽'},
+    {area:'pragmatica', titulo:'Contacto visual', desc:'Actividades que refuerzan atención conjunta y mirada.', emoji:'👀'},
+    {area:'pragmatica', titulo:'Intención comunicativa', desc:'Estimular petición, rechazo, comentario y saludo.', emoji:'🤝'},
+  ];
+
+  let filtroActual = 'todos';
+
+  function filtrarIdeas(area, btn) {
+    filtroActual = area;
+    document.querySelectorAll('.ideas-filtro').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    renderIdeas();
+  }
+
+  function renderIdeas() {
+    const grid = document.getElementById('ideasGrid');
+    if (!grid) return;
+    const items = filtroActual === 'todos' ? IDEAS_DATA : IDEAS_DATA.filter(i => i.area === filtroActual);
+    grid.innerHTML = items.map(i => `
+      <div class="idea-card">
+        <span class="idea-tag ${i.area}">${i.area.charAt(0).toUpperCase()+i.area.slice(1)}</span>
+        <div style="font-size:1.4rem;margin-bottom:8px">${i.emoji}</div>
+        <div style="font-size:.84rem;font-weight:700;color:#38385A;margin-bottom:6px">${i.titulo}</div>
+        <div style="font-size:.75rem;color:#8a89a3;line-height:1.55">${i.desc}</div>
+      </div>
+    `).join('');
+  }
+
+  async function cargarCumpleanos() {
+    const lista = document.getElementById('cumpleanosList');
+    if (!lista) return;
+    try {
+      const { data, error } = await supabase.from('pacientes').select('nombre, fecha_nacimiento').not('fecha_nacimiento','is',null);
+      if (error || !data || data.length === 0) {
+        lista.innerHTML = '<div style="text-align:center;padding:40px;color:#8a89a3;font-size:.85rem">No hay pacientes con fecha de nacimiento registrada.</div>';
+        return;
+      }
+      const hoy = new Date();
+      const conDias = data.map(p => {
+        const fn = new Date(p.fecha_nacimiento + 'T12:00:00');
+        const proxCumple = new Date(hoy.getFullYear(), fn.getMonth(), fn.getDate());
+        if (proxCumple < hoy) proxCumple.setFullYear(hoy.getFullYear() + 1);
+        const dias = Math.round((proxCumple - hoy) / 86400000);
+        return { ...p, dias, fecha_nacimiento: fn };
+      }).sort((a,b) => a.dias - b.dias).slice(0, 15);
+
+      lista.innerHTML = conDias.map(p => {
+        const ini = p.nombre.charAt(0).toUpperCase();
+        let badgeClass = 'cumple-mes', badgeText = `${p.dias}d`;
+        if (p.dias === 0) { badgeClass = 'cumple-hoy'; badgeText = '🎉 Hoy'; }
+        else if (p.dias <= 7) { badgeClass = 'cumple-pronto'; badgeText = `${p.dias}d`; }
+        const edad = hoy.getFullYear() - p.fecha_nacimiento.getFullYear();
+        return `<div class="cumple-card">
+          <div class="cumple-avatar">${ini}</div>
+          <div>
+            <div style="font-size:.86rem;font-weight:700;color:#38385A">${p.nombre}</div>
+            <div style="font-size:.73rem;color:#8a89a3;margin-top:2px">Cumple ${edad} años · ${p.fecha_nacimiento.toLocaleDateString('es-CL',{day:'numeric',month:'long'})}</div>
+          </div>
+          <span class="cumple-dias-badge ${badgeClass}">${badgeText}</span>
+        </div>`;
+      }).join('');
+    } catch(e) {
+      lista.innerHTML = '<div style="text-align:center;padding:40px;color:#8a89a3;font-size:.85rem">Error al cargar. Verifica tu conexión.</div>';
+    }
+  }
+
+  function mostrarVista(nombre) {
+    // Ocultar todas las vistas
+    ['biblioteca','cumpleanos','ideas'].forEach(v => {
+      const el = document.getElementById('vista' + v);
+      if (el) el.style.display = 'none';
+    });
+    // Mostrar la vista solicitada
+    const vista = document.getElementById('vista' + nombre);
+    if (vista) {
+      vista.style.display = 'block';
+      if (nombre === 'cumpleanos') cargarCumpleanos();
+      if (nombre === 'ideas') renderIdeas();
+    }
+    // Marcar sidebar activo
+    document.querySelectorAll('.ni').forEach(x => x.classList.remove('on'));
+  }
+
+  function cerrarVista(nombre) {
+    const el = document.getElementById('vista' + nombre);
+    if (el) el.style.display = 'none';
+    // Restaurar primer item del sidebar como activo
+    document.querySelector('.ni')?.classList.add('on');
+  }
+
   // Nav items
   document.querySelectorAll('.ni:not(.ghost)').forEach(n=>{
     n.addEventListener('click',e=>{
