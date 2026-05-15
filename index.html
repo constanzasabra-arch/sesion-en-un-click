@@ -2059,14 +2059,19 @@
 
   // ── Cambio entre vistas
   function showPortal(){
-    document.getElementById('app').style.display='none';
     const p = document.getElementById('portal');
+    if (!p) {
+      showToast('Portal de Familias próximamente', 'info', 2500);
+      return;
+    }
+    document.getElementById('app').style.display='none';
     p.style.display='flex';
     p.style.animation='none';
     setTimeout(()=>{ p.style.animation='up .35s ease both'; },10);
   }
   function showApp(){
-    document.getElementById('portal').style.display='none';
+    const p = document.getElementById('portal');
+    if (p) p.style.display='none';
     document.getElementById('app').style.display='flex';
   }
 
