@@ -31,8 +31,61 @@
   }
 
   /* ══════════ VISTA PRINCIPAL ══════════ */
-  #app{position:relative;z-index:1;display:flex;min-height:100vh}
+  #app{position:relative;z-index:1;display:none;min-height:100vh}
   #portal{position:relative;z-index:1;display:none;min-height:100vh}
+
+  /* ══════════ LOGIN SCREEN ══════════ */
+  #loginScreen{
+    position:relative;z-index:1;display:flex;min-height:100vh;
+    align-items:center;justify-content:center;
+  }
+  .login-card{
+    background:rgba(255,255,255,0.92);backdrop-filter:blur(28px);
+    border:1px solid rgba(255,255,255,0.80);border-radius:28px;
+    padding:44px 40px 36px;width:100%;max-width:400px;
+    box-shadow:0 12px 48px rgba(107,197,210,0.14),0 3px 12px rgba(107,197,210,0.07);
+  }
+  .login-logo{text-align:center;margin-bottom:28px}
+  .login-logo-ico{
+    width:60px;height:60px;border-radius:18px;
+    background:linear-gradient(135deg,var(--tl),var(--ll));
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:26px;margin-bottom:12px;
+    box-shadow:0 4px 16px rgba(107,197,210,0.28);
+  }
+  .login-title{font-size:1.25rem;font-weight:700;color:var(--tx);margin-bottom:4px}
+  .login-sub{font-size:0.78rem;color:#8a89a3}
+  .login-tabs{display:flex;gap:4px;background:rgba(240,240,250,0.6);border-radius:12px;padding:4px;margin-bottom:24px}
+  .login-tab{
+    flex:1;padding:8px;text-align:center;border-radius:9px;cursor:pointer;
+    font-size:0.78rem;font-weight:500;color:#8a89a3;transition:all .16s;
+  }
+  .login-tab.on{background:#fff;color:var(--t);font-weight:600;box-shadow:0 1px 6px rgba(107,197,210,0.14)}
+  .login-field{margin-bottom:14px}
+  .login-label{font-size:0.72rem;font-weight:600;color:#8a89a3;margin-bottom:5px;display:block;letter-spacing:.02em}
+  .login-input{
+    width:100%;padding:11px 14px;border-radius:12px;
+    border:1.5px solid rgba(107,197,210,0.22);
+    background:rgba(250,252,254,0.8);
+    font-size:0.85rem;color:var(--tx);font-family:var(--f);
+    transition:border-color .16s;outline:none;
+  }
+  .login-input:focus{border-color:var(--t);}
+  .login-btn{
+    width:100%;padding:13px;border-radius:14px;border:none;cursor:pointer;
+    background:linear-gradient(135deg,var(--t),var(--l));
+    color:#fff;font-size:0.88rem;font-weight:600;font-family:var(--f);
+    box-shadow:0 4px 16px rgba(107,197,210,0.28);
+    transition:opacity .16s,transform .1s;margin-top:4px;
+  }
+  .login-btn:hover{opacity:.92;transform:translateY(-1px)}
+  .login-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+  .login-err{
+    background:rgba(248,80,80,0.08);border:1px solid rgba(248,80,80,0.20);
+    border-radius:10px;padding:10px 13px;font-size:0.77rem;color:#C04040;
+    margin-top:12px;display:none;
+  }
+  .login-err.show{display:block}
 
   /* ══════════ SIDEBAR ══════════ */
   .sb{
@@ -666,6 +719,49 @@
 <div class="bg"></div>
 
 <!-- ════════════════════════════════════════
+     LOGIN SCREEN
+════════════════════════════════════════ -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-ico">🎙️</div>
+      <div class="login-title">Sesión en un Click</div>
+      <div class="login-sub">FonoAprende · Tu asistente clínico</div>
+    </div>
+    <div class="login-tabs">
+      <div class="login-tab on" id="tabLogin" onclick="switchLoginTab('login')">Iniciar sesión</div>
+      <div class="login-tab" id="tabRegister" onclick="switchLoginTab('register')">Registrarse</div>
+    </div>
+    <!-- Login form -->
+    <div id="loginForm">
+      <div class="login-field">
+        <label class="login-label">Correo electrónico</label>
+        <input class="login-input" type="email" id="loginEmail" placeholder="tu@email.com" autocomplete="email"/>
+      </div>
+      <div class="login-field">
+        <label class="login-label">Contraseña</label>
+        <input class="login-input" type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password"/>
+      </div>
+      <button class="login-btn" id="loginBtn" onclick="doLogin()">Entrar</button>
+      <div class="login-err" id="loginErr"></div>
+    </div>
+    <!-- Register form -->
+    <div id="registerForm" style="display:none">
+      <div class="login-field">
+        <label class="login-label">Correo electrónico</label>
+        <input class="login-input" type="email" id="regEmail" placeholder="tu@email.com" autocomplete="email"/>
+      </div>
+      <div class="login-field">
+        <label class="login-label">Contraseña (mínimo 6 caracteres)</label>
+        <input class="login-input" type="password" id="regPassword" placeholder="••••••••" autocomplete="new-password"/>
+      </div>
+      <button class="login-btn" id="regBtn" onclick="doRegister()">Crear cuenta</button>
+      <div class="login-err" id="regErr"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
      VISTA PRINCIPAL
 ════════════════════════════════════════ -->
 <div id="app">
@@ -681,8 +777,8 @@
     <div class="sb-user">
       <div class="sb-av">👩‍⚕️</div>
       <div>
-        <div class="sb-uname">Constanza Sabra</div>
-        <div class="sb-urole">Fonoaudióloga · Pucón</div>
+        <div class="sb-uname" id="sidebarUserName">Cargando...</div>
+        <div class="sb-urole" id="sidebarUserEmail">Fonoaudióloga</div>
         <div class="sync">
           <span class="sync-dot"></span>
           <span class="sync-txt">Sincronizado ✓</span>
@@ -749,6 +845,10 @@
       <a class="ni" href="#">
         <span class="ni-ico"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/></svg></span>
         <span class="ni-txt">Configuración</span>
+      </a>
+      <a class="ni" href="#" onclick="doLogout()" style="color:#C04040;margin-top:4px">
+        <span class="ni-ico" style="opacity:.7"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M120,216a8,8,0,0,1-8,8H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h64a8,8,0,0,1,0,16H48V208h64A8,8,0,0,1,120,216Zm109.66-93.66-40-40a8,8,0,0,0-11.32,11.32L204.69,120H112a8,8,0,0,0,0,16h92.69l-26.35,26.34a8,8,0,0,0,11.32,11.32l40-40A8,8,0,0,0,229.66,122.34Z"/></svg></span>
+        <span class="ni-txt">Cerrar sesión</span>
       </a>
     </nav>
   </aside>
@@ -2211,6 +2311,72 @@ Motivo de consulta: ${motivo || 'No indicado'}`;
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlleHh6em9lbGVleWFmYXdha2ZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MTQ4NTEsImV4cCI6MjA5MjI5MDg1MX0.J8zkTJErSeitGnDhowg68nZKsdfu00QjA62N8W_7KP4';
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   console.log('✅ Supabase inicializado');
+
+  // ── AUTH HELPERS ──────────────────────────────────────────────────
+
+  function switchLoginTab(tab) {
+    document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+    document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
+    document.getElementById('tabLogin').classList.toggle('on', tab === 'login');
+    document.getElementById('tabRegister').classList.toggle('on', tab === 'register');
+  }
+
+  async function doLogin() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const err = document.getElementById('loginErr');
+    const btn = document.getElementById('loginBtn');
+    err.classList.remove('show');
+    if (!email || !password) { err.textContent = 'Ingresa tu correo y contraseña.'; err.classList.add('show'); return; }
+    btn.disabled = true; btn.textContent = 'Entrando…';
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    btn.disabled = false; btn.textContent = 'Entrar';
+    if (error) { err.textContent = error.message === 'Invalid login credentials' ? '❌ Correo o contraseña incorrectos.' : '❌ ' + error.message; err.classList.add('show'); }
+  }
+
+  async function doRegister() {
+    const email = document.getElementById('regEmail').value.trim();
+    const password = document.getElementById('regPassword').value;
+    const err = document.getElementById('regErr');
+    const btn = document.getElementById('regBtn');
+    err.classList.remove('show');
+    if (!email || !password) { err.textContent = 'Ingresa tu correo y contraseña.'; err.classList.add('show'); return; }
+    if (password.length < 6) { err.textContent = '❌ La contraseña debe tener al menos 6 caracteres.'; err.classList.add('show'); return; }
+    btn.disabled = true; btn.textContent = 'Creando cuenta…';
+    const { error } = await supabase.auth.signUp({ email, password });
+    btn.disabled = false; btn.textContent = 'Crear cuenta';
+    if (error) { err.textContent = '❌ ' + error.message; err.classList.add('show'); }
+    else { err.style.background='rgba(60,180,120,0.10)'; err.style.borderColor='rgba(60,180,120,0.25)'; err.style.color='#2A8A5A'; err.textContent = '✅ Cuenta creada. Revisa tu correo para confirmar, luego inicia sesión.'; err.classList.add('show'); }
+  }
+
+  async function doLogout() {
+    await supabase.auth.signOut();
+  }
+
+  function updateSidebarUser(user) {
+    const nameEl = document.getElementById('sidebarUserName');
+    const emailEl = document.getElementById('sidebarUserEmail');
+    if (nameEl && user) nameEl.textContent = user.email.split('@')[0];
+    if (emailEl && user) emailEl.textContent = user.email;
+  }
+
+  // ── AUTH STATE ────────────────────────────────────────────────────
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (session && session.user) {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('app').style.display = 'flex';
+      updateSidebarUser(session.user);
+    } else {
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('app').style.display = 'none';
+      document.getElementById('portal').style.display = 'none';
+    }
+  });
+
+  // Allow Enter key in login form
+  document.getElementById('loginPassword').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  document.getElementById('loginEmail').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  document.getElementById('regPassword').addEventListener('keydown', e => { if (e.key === 'Enter') doRegister(); });
 </script>
 
 </body>
