@@ -369,7 +369,7 @@
   /* ══ WERNI FLOTANTE ══ */
   .werni-float{
     position:fixed;bottom:100px;right:32px;
-    z-index:300;display:none;display:flex;flex-direction:column;align-items:flex-end;gap:10px;
+    z-index:300;display:flex;flex-direction:column;align-items:flex-end;gap:10px;
   }
   .werni-img{
     width:72px;height:72px;
@@ -659,6 +659,87 @@
   ::-webkit-scrollbar{width:4px}
   ::-webkit-scrollbar-track{background:transparent}
   ::-webkit-scrollbar-thumb{background:rgba(107,197,210,.18);border-radius:20px}
+
+  /* ══ TOAST NOTIFICATION ══ */
+  #toast-container{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+  .toast{
+    background:#fff;border-radius:14px;padding:13px 20px;font-size:.82rem;font-weight:500;color:#38385A;
+    box-shadow:0 8px 32px rgba(107,197,210,0.22),0 2px 8px rgba(0,0,0,0.06);
+    border:1px solid rgba(255,255,255,0.92);display:flex;align-items:center;gap:10px;
+    animation:toastIn .28s var(--ease) both;min-width:260px;max-width:420px;pointer-events:all;
+  }
+  .toast.removing{animation:toastOut .22s var(--ease) both}
+  .toast-icon{font-size:1.1rem;flex-shrink:0}
+  .toast.ok{border-left:4px solid #60D4A0}
+  .toast.err{border-left:4px solid #FF6B6B}
+  .toast.warn{border-left:4px solid #FFB347}
+  @keyframes toastIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes toastOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(10px)}}
+
+  /* ══ PANEL SESIÓN ══ */
+  .panel-sesion{display:none;flex-direction:column;gap:20px;padding:28px 32px;max-width:860px}
+  .panel-historial{display:none;flex-direction:column;gap:16px;padding:28px 32px;max-width:860px}
+  .panel-pendientes-full{display:none;flex-direction:column;gap:16px;padding:28px 32px;max-width:680px}
+
+  .ses-card{background:rgba(255,255,255,0.92);border-radius:20px;padding:22px 24px;border:1px solid rgba(255,255,255,0.92);box-shadow:0 2px 14px rgba(107,197,210,0.07)}
+  .ses-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#8a89a3;margin-bottom:8px}
+  .ses-input{width:100%;padding:10px 14px;border-radius:10px;border:1.5px solid rgba(107,197,210,0.22);background:rgba(248,250,253,0.80);font-family:var(--f);font-size:.85rem;color:#38385A;outline:none;transition:border-color .14s}
+  .ses-input:focus{border-color:var(--t)}
+  .ses-select{width:100%;padding:10px 14px;border-radius:10px;border:1.5px solid rgba(107,197,210,0.22);background:rgba(248,250,253,0.80);font-family:var(--f);font-size:.85rem;color:#38385A;outline:none;cursor:pointer}
+  .ses-textarea{width:100%;padding:10px 14px;border-radius:10px;border:1.5px solid rgba(107,197,210,0.22);background:rgba(248,250,253,0.80);font-family:var(--f);font-size:.85rem;color:#38385A;outline:none;resize:vertical;min-height:70px;transition:border-color .14s}
+  .ses-textarea:focus{border-color:var(--t)}
+  .ses-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .ses-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+
+  /* Semáforo de logros */
+  .obj-item{background:rgba(248,250,253,0.90);border-radius:14px;padding:14px 16px;border:1.5px solid rgba(200,215,230,0.40);margin-bottom:10px;display:flex;flex-direction:column;gap:10px}
+  .obj-texto{font-size:.85rem;color:#38385A;font-weight:500;flex:1}
+  .obj-estados{display:flex;gap:6px;flex-wrap:wrap}
+  .obj-estado{
+    padding:5px 11px;border-radius:20px;font-size:.65rem;font-weight:700;cursor:pointer;
+    border:1.5px solid transparent;transition:all .14s var(--ease);letter-spacing:.02em;
+  }
+  .obj-estado.no_trabajado{background:#F0F0F7;color:#8a89a3;border-color:rgba(200,200,220,.40)}
+  .obj-estado.con_apoyo{background:#FFF8EC;color:#E6920A;border-color:rgba(230,146,10,.30)}
+  .obj-estado.parcial{background:#EEF4FF;color:#5578E8;border-color:rgba(85,120,232,.30)}
+  .obj-estado.logrado{background:#E8F8F0;color:#3DAA78;border-color:rgba(61,170,120,.30)}
+  .obj-estado.active.no_trabajado{background:#E0E0EF;color:#5a5a7a;border-color:rgba(140,140,180,.50)}
+  .obj-estado.active.con_apoyo{background:#FFF0D0;color:#C07800;border-color:rgba(230,146,10,.60);box-shadow:0 2px 8px rgba(230,146,10,.18)}
+  .obj-estado.active.parcial{background:#D8E8FF;color:#2B5CC8;border-color:rgba(85,120,232,.60);box-shadow:0 2px 8px rgba(85,120,232,.18)}
+  .obj-estado.active.logrado{background:#C8F0DC;color:#1E8855;border-color:rgba(61,170,120,.60);box-shadow:0 2px 8px rgba(61,170,120,.20)}
+  .obj-eliminar{background:none;border:none;color:#ccc;cursor:pointer;font-size:.9rem;padding:2px 6px;border-radius:6px;transition:color .12s}
+  .obj-eliminar:hover{color:#FF6B6B}
+  .btn-add-obj{padding:9px 18px;border-radius:10px;border:1.5px dashed rgba(107,197,210,.45);background:rgba(224,244,248,.30);color:var(--t);font-family:var(--f);font-size:.78rem;font-weight:600;cursor:pointer;width:100%;transition:all .14s}
+  .btn-add-obj:hover{background:rgba(224,244,248,.65);border-color:var(--t)}
+  .btn-guardar-sesion{padding:13px 32px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--t),var(--l));color:#fff;font-family:var(--f);font-size:.88rem;font-weight:700;cursor:pointer;box-shadow:0 4px 18px rgba(107,197,210,.28);transition:all .16s}
+  .btn-guardar-sesion:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(107,197,210,.38)}
+  .btn-guardar-sesion:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+  /* Historial */
+  .hist-item{background:rgba(255,255,255,.92);border-radius:16px;padding:18px 20px;border:1px solid rgba(200,215,230,.40);display:flex;flex-direction:column;gap:8px}
+  .hist-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .hist-fecha{font-size:.72rem;font-weight:700;color:#6BC5D2}
+  .hist-pac{font-size:.84rem;font-weight:600;color:#38385A}
+  .hist-logros-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+  .hist-pill{padding:3px 10px;border-radius:20px;font-size:.62rem;font-weight:700}
+  .hist-pill.logrado{background:#E8F8F0;color:#3DAA78}
+  .hist-pill.parcial{background:#EEF4FF;color:#5578E8}
+  .hist-pill.con_apoyo{background:#FFF8EC;color:#E6920A}
+  .hist-pill.no_trabajado{background:#F0F0F7;color:#8a89a3}
+
+  /* Pendientes full */
+  .pend-add-row{display:flex;gap:10px}
+  .pend-add-input{flex:1;padding:10px 14px;border-radius:10px;border:1.5px solid rgba(107,197,210,.22);background:rgba(248,250,253,.80);font-family:var(--f);font-size:.85rem;color:#38385A;outline:none}
+  .pend-add-input:focus{border-color:var(--t)}
+  .pend-add-btn{padding:10px 18px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--t),var(--l));color:#fff;font-family:var(--f);font-size:.80rem;font-weight:700;cursor:pointer}
+  .pend-item-full{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;background:rgba(248,250,253,.80);border:1px solid rgba(200,215,230,.30);transition:all .14s}
+  .pend-item-full.done span{text-decoration:line-through;color:#aaa}
+  .pend-item-full.done{background:rgba(224,248,236,.50)}
+
+  /* Werni respuesta con bullets */
+  .werni-resp-html{white-space:pre-wrap;line-height:1.65}
+  .werni-resp-html ul{margin-left:18px;margin-top:4px;margin-bottom:4px}
+  .werni-resp-html li{margin-bottom:3px}
   </style>
 </head>
 <body>
@@ -777,25 +858,25 @@
 
     <!-- TABS con emoji -->
     <div class="tabs">
-      <button class="tab on" onclick="setTab(this)">
-        <span class="tab-em">👤</span> Agregar Paciente
+      <button class="tab on">
+        <span class="tab-em">🏠</span> Inicio
       </button>
-      <button class="tab" onclick="setTab(this)">
+      <button class="tab">
         <span class="tab-em">📝</span> Sesión
       </button>
-      <button class="tab" onclick="setTab(this)">
+      <button class="tab">
         <span class="tab-em">📁</span> Historial
       </button>
-      <button class="tab" onclick="setTab(this)">
+      <button class="tab">
         <span class="tab-em">✅</span> Pendientes
       </button>
     </div>
 
     <!-- PAGE -->
-    <div class="page">
+    <div class="page" id="page-main">
 
       <!-- COL IZQUIERDA -->
-      <div class="col-left">
+      <div class="col-left" id="panel-inicio">
 
         <!-- Stats -->
         <!-- BANNER HERO -->
@@ -828,19 +909,19 @@
           
 
           <!-- Saludo -->
-          <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#6BC5D2;margin-bottom:8px">Buenos días 🌿</div>
-          <div style="font-size:1.90rem;font-weight:600;color:#7A7A9C;line-height:1.1;margin-bottom:16px">Constanza</div>
+          <div id="saludo-texto" style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#6BC5D2;margin-bottom:8px">Buenos días 🌿</div>
+          <div style="font-size:1.90rem;font-weight:600;color:#7A7A9C;line-height:1.1;margin-bottom:16px" id="nombre-hero">Constanza</div>
 
           <!-- Pills info -->
           <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <div style="background:rgba(255,255,255,0.75);border-radius:20px;padding:7px 16px;font-size:0.72rem;font-weight:500;color:#6f6f84;border:1px solid rgba(255,255,255,0.90);display:flex;align-items:center;gap:6px">
-              📅 Domingo, 26 de abril
+            <div id="fecha-hero" style="background:rgba(255,255,255,0.75);border-radius:20px;padding:7px 16px;font-size:0.72rem;font-weight:500;color:#6f6f84;border:1px solid rgba(255,255,255,0.90);display:flex;align-items:center;gap:6px">
+              📅 Cargando…
             </div>
-            <div style="background:rgba(255,255,255,0.75);border-radius:20px;padding:7px 16px;font-size:0.72rem;font-weight:500;color:#6f6f84;border:1px solid rgba(255,255,255,0.90);display:flex;align-items:center;gap:6px">
-              👥 12 pacientes
+            <div id="conteo-pacientes" style="background:rgba(255,255,255,0.75);border-radius:20px;padding:7px 16px;font-size:0.72rem;font-weight:500;color:#6f6f84;border:1px solid rgba(255,255,255,0.90);display:flex;align-items:center;gap:6px">
+              👥 Mis pacientes
             </div>
-            <div style="background:rgba(107,197,210,0.18);border-radius:20px;padding:7px 16px;font-size:0.72rem;font-weight:600;color:#6BC5D2;border:1px solid rgba(107,197,210,0.25);display:flex;align-items:center;gap:6px">
-              🕐 Próxima: Sofía · 11:30
+            <div id="proximo-pill" style="background:rgba(107,197,210,0.18);border-radius:20px;padding:7px 16px;font-size:0.72rem;font-weight:600;color:#6BC5D2;border:1px solid rgba(107,197,210,0.25);display:none;align-items:center;gap:6px">
+              🕐 —
             </div>
           </div>
         </div>
@@ -853,15 +934,8 @@
               <span style="width:7px;height:7px;border-radius:50%;background:#6BC5D2;display:inline-block"></span>
               Hoy
             </div>
-            <div style="display:flex;flex-direction:column;gap:8px">
-              <div style="padding:10px;background:rgba(107,197,210,0.08);border-radius:12px;border-left:3px solid #6BC5D2">
-                <div style="font-size:0.75rem;font-weight:600;color:#38385A">Matías R.</div>
-                <div style="font-size:0.62rem;color:#6f6f84;margin-top:2px">10:00 AM</div>
-              </div>
-              <div style="padding:10px;background:rgba(192,170,220,0.08);border-radius:12px;border-left:3px solid #C0AADC">
-                <div style="font-size:0.75rem;font-weight:600;color:#38385A">Sofía M.</div>
-                <div style="font-size:0.62rem;color:#6f6f84;margin-top:2px">11:30 AM</div>
-              </div>
+            <div style="display:flex;flex-direction:column;gap:8px" id="card-hoy-lista">
+              <div style="font-size:.75rem;color:#8a89a3;text-align:center;padding:12px">Cargando…</div>
             </div>
           </div>
 
@@ -986,9 +1060,113 @@
       </div>
 
       <!-- COL DERECHA -->
-      
 
-    </div><!-- /page -->
+    </div><!-- /panel-inicio /page -->
+
+    <!-- ══ PANEL SESIÓN ══ -->
+    <div class="panel-sesion" id="panel-sesion">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+        <div>
+          <h2 style="font-size:1.4rem;font-weight:700;color:#38385A">📝 Registrar Sesión</h2>
+          <p style="font-size:.80rem;color:#8a89a3;margin-top:3px">Registra objetivos, logros y observaciones de la sesión de hoy</p>
+        </div>
+      </div>
+
+      <!-- Datos básicos sesión -->
+      <div class="ses-card">
+        <div style="font-size:.78rem;font-weight:700;color:#6BC5D2;text-transform:uppercase;letter-spacing:.10em;margin-bottom:16px">📋 Datos de la Sesión</div>
+        <div class="ses-row" style="margin-bottom:14px">
+          <div>
+            <div class="ses-label">Paciente</div>
+            <select class="ses-select" id="ses-paciente" onchange="cargarNumeroSesion()">
+              <option value="">Seleccionar paciente…</option>
+            </select>
+          </div>
+          <div>
+            <div class="ses-label">Fecha</div>
+            <input type="date" class="ses-input" id="ses-fecha">
+          </div>
+        </div>
+        <div class="ses-row">
+          <div>
+            <div class="ses-label">Hora</div>
+            <input type="time" class="ses-input" id="ses-hora">
+          </div>
+          <div>
+            <div class="ses-label">Número de sesión</div>
+            <input type="number" class="ses-input" id="ses-numero" placeholder="Ej: 8" min="1">
+          </div>
+        </div>
+      </div>
+
+      <!-- Objetivos y Planificación -->
+      <div class="ses-card">
+        <div style="font-size:.78rem;font-weight:700;color:#6BC5D2;text-transform:uppercase;letter-spacing:.10em;margin-bottom:6px">🎯 Planificación y Logros</div>
+        <p style="font-size:.73rem;color:#8a89a3;margin-bottom:16px">Registra cada objetivo con su estado de logro al final de la sesión</p>
+
+        <!-- Semáforo leyenda -->
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+          <span style="padding:4px 11px;border-radius:20px;font-size:.62rem;font-weight:700;background:#F0F0F7;color:#8a89a3;border:1.5px solid rgba(200,200,220,.40)">⬜ No trabajado</span>
+          <span style="padding:4px 11px;border-radius:20px;font-size:.62rem;font-weight:700;background:#FFF0D0;color:#C07800;border:1.5px solid rgba(230,146,10,.40)">🟡 Logro con apoyo</span>
+          <span style="padding:4px 11px;border-radius:20px;font-size:.62rem;font-weight:700;background:#D8E8FF;color:#2B5CC8;border:1.5px solid rgba(85,120,232,.40)">🔵 Logro parcial</span>
+          <span style="padding:4px 11px;border-radius:20px;font-size:.62rem;font-weight:700;background:#C8F0DC;color:#1E8855;border:1.5px solid rgba(61,170,120,.40)">🟢 Logrado</span>
+        </div>
+
+        <div id="objetivos-lista"></div>
+        <button class="btn-add-obj" onclick="agregarObjetivo()">+ Agregar objetivo</button>
+      </div>
+
+      <!-- Notas clínicas -->
+      <div class="ses-card">
+        <div style="font-size:.78rem;font-weight:700;color:#6BC5D2;text-transform:uppercase;letter-spacing:.10em;margin-bottom:16px">📓 Notas Clínicas</div>
+        <div style="margin-bottom:14px">
+          <div class="ses-label">Observaciones generales</div>
+          <textarea class="ses-textarea" id="ses-observaciones" placeholder="¿Cómo estuvo el niño hoy? Conducta, atención, estado emocional…"></textarea>
+        </div>
+        <div style="margin-bottom:14px">
+          <div class="ses-label">Barreras / dificultades</div>
+          <textarea class="ses-textarea" id="ses-barreras" placeholder="¿Qué dificultó la sesión? ¿Qué ajustes hiciste?"></textarea>
+        </div>
+        <div>
+          <div class="ses-label">Tareas para casa</div>
+          <textarea class="ses-textarea" id="ses-tareas" placeholder="Instrucciones para la familia esta semana…"></textarea>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;align-items:center">
+        <button class="btn-guardar-sesion" onclick="guardarSesion()">💾 Guardar Sesión</button>
+        <span style="font-size:.75rem;color:#8a89a3" id="ses-guardando"></span>
+      </div>
+    </div>
+
+    <!-- ══ PANEL HISTORIAL ══ -->
+    <div class="panel-historial" id="panel-historial">
+      <div>
+        <h2 style="font-size:1.4rem;font-weight:700;color:#38385A">📁 Historial de Sesiones</h2>
+        <p style="font-size:.80rem;color:#8a89a3;margin-top:3px">Todas las sesiones registradas</p>
+      </div>
+      <div style="display:flex;gap:10px;margin-bottom:4px">
+        <select class="ses-select" id="hist-filtro-pac" onchange="cargarHistorial()" style="max-width:280px">
+          <option value="">Todos los pacientes</option>
+        </select>
+      </div>
+      <div id="historial-lista" style="display:flex;flex-direction:column;gap:12px">
+        <div style="text-align:center;padding:40px;color:#8a89a3;font-size:.85rem">Cargando historial…</div>
+      </div>
+    </div>
+
+    <!-- ══ PANEL PENDIENTES ══ -->
+    <div class="panel-pendientes-full" id="panel-pendientes-full">
+      <div>
+        <h2 style="font-size:1.4rem;font-weight:700;color:#38385A">✅ Pendientes</h2>
+        <p style="font-size:.80rem;color:#8a89a3;margin-top:3px">Tus tareas y recordatorios</p>
+      </div>
+      <div class="pend-add-row">
+        <input class="pend-add-input" id="pend-nueva-tarea" placeholder="Agregar nuevo pendiente…" onkeydown="if(event.key==='Enter')agregarPendiente()">
+        <button class="pend-add-btn" onclick="agregarPendiente()">+ Agregar</button>
+      </div>
+      <div id="pendientes-full-lista" style="display:flex;flex-direction:column;gap:8px"></div>
+    </div>
 
     <!-- FORMULARIO NUEVO PACIENTE CON ANAMNESIS -->
     <div class="form-container" id="formNuevoPaciente" style="display:none">
@@ -1033,7 +1211,7 @@
               </div>
               <div class="form-group">
                 <label class="form-label">Edad del desarrollo (si aplica)</label>
-                <input type="text" class="form-input" placeholder="Ej: 18 meses de edad desarrollo">
+                <input type="text" class="form-input" id="edad_desarrollo" placeholder="Ej: 18 meses de edad desarrollo">
               </div>
             </div>
           </div>
@@ -1908,18 +2086,7 @@
     btn.style.pointerEvents = 'none';
   }
 
-  // Tabs
-  document.querySelectorAll('.tab').forEach(t=>{
-    t.addEventListener('click',()=>{
-      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
-      t.classList.add('on');
-      // Werni visible solo en Sesión y Agregar Paciente
-      const txt = t.textContent.toLowerCase();
-      const show = txt.includes('sesi') || txt.includes('agregar');
-      const w = document.getElementById('werniFloat');
-      if(w) w.style.display = show ? 'block' : 'none';
-    });
-  });
+  // (tabs gestionados en el bloque de Supabase script)
 
   // ── Vistas del sidebar ──
   const IDEAS_DATA = [
@@ -2091,6 +2258,31 @@
 
   const WERNI_URL = 'https://yexxzzoeleeyafawakfj.supabase.co/functions/v1/werni';
 
+  function formatearRespuestaWerni(texto) {
+    if (!texto) return '';
+    // Escapar HTML básico para seguridad
+    let s = texto
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    // Negrita: **texto**
+    s = s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+    // Bullets: líneas que empiezan con • o - o *
+    const lines = s.split('\n');
+    let html = '';
+    let inList = false;
+    for (const line of lines) {
+      const bullet = line.match(/^[\s]*[•\-\*]\s+(.+)/);
+      if (bullet) {
+        if (!inList) { html += '<ul>'; inList = true; }
+        html += `<li>${bullet[1]}</li>`;
+      } else {
+        if (inList) { html += '</ul>'; inList = false; }
+        if (line.trim()) html += `<p style="margin:4px 0">${line}</p>`;
+      }
+    }
+    if (inList) html += '</ul>';
+    return html;
+  }
+
   async function llamarWerni(mensaje, tipo, paciente) {
     const resp = await fetch(WERNI_URL, {
       method: 'POST',
@@ -2110,7 +2302,7 @@
     const edad = document.getElementById('edad_cronologica')?.value?.trim() || '';
 
     if (!motivo && !nombre) {
-      alert('⚠️ Completa al menos el Nombre y el Motivo de consulta para que Werni pueda orientarte.');
+      showToast('Completa al menos el Nombre y el Motivo de consulta para que Werni pueda orientarte', 'warn');
       return;
     }
 
@@ -2130,7 +2322,8 @@ Motivo de consulta: ${motivo || 'No indicado'}`;
 
     try {
       const respuesta = await llamarWerni(mensaje, 'anamnesis', { nombre, edad, diagnostico });
-      divRespuesta.textContent = respuesta;
+      divRespuesta.className = 'werni-resp-html';
+      divRespuesta.innerHTML = formatearRespuestaWerni(respuesta);
     } catch (e) {
       divRespuesta.textContent = '❌ Error al conectar con Werni. Verifica que el Edge Function esté desplegado en Supabase.';
     } finally {
@@ -2140,66 +2333,78 @@ Motivo de consulta: ${motivo || 'No indicado'}`;
 
   async function guardarNuevoPaciente(e) {
     e.preventDefault();
-    
-    // VALIDAR REQUERIDOS
+
     const nombre = document.getElementById('nombre')?.value?.trim();
     const fecha_nacimiento = document.getElementById('fecha_nacimiento')?.value;
     const telefono = document.getElementById('telefono')?.value?.trim();
     const email = document.getElementById('email')?.value?.trim();
-    
-    if (!nombre || !fecha_nacimiento || !telefono || !email) {
-      alert('⚠️ Completa campos requeridos:\n• Nombre\n• Fecha nacimiento\n• Teléfono papás\n• Email papás');
-      return;
-    }
-    
-    // RECOPILAR TODOS LOS DATOS (opcionales también)
-    const paciente = {
-      nombre,
-      fecha_nacimiento,
-      telefono,
-      email,
-      diagnostico: document.getElementById('diagnostico')?.value?.trim() || null,
-      edad_desarrollo: document.querySelector('input[placeholder*="Edad del desarrollo"]')?.value?.trim() || null,
-      motivo_consulta: document.getElementById('motivo_consulta')?.value?.trim() || null,
-      // ... más campos opcionales se agregan según sea necesario
+
+    if (!nombre) { showToast('Completa el nombre del paciente', 'warn'); return; }
+    if (!fecha_nacimiento) { showToast('Completa la fecha de nacimiento', 'warn'); return; }
+    if (!telefono) { showToast('Completa el teléfono', 'warn'); return; }
+    if (!email) { showToast('Completa el email', 'warn'); return; }
+
+    // Recopilar botones radio seleccionados
+    const getRadio = (grupo) => {
+      const selected = grupo?.querySelector('.form-radio-btn.selected');
+      return selected?.textContent?.trim() || null;
     };
-    
+    const radioGroups = document.querySelectorAll('.form-radio-group');
+
+    const paciente = {
+      nombre, fecha_nacimiento, telefono, email,
+      diagnostico: document.getElementById('diagnostico')?.value?.trim() || null,
+      edad_desarrollo: document.getElementById('edad_desarrollo')?.value?.trim() || null,
+      motivo_consulta: document.getElementById('motivo_consulta')?.value?.trim() || null,
+      parto: getRadio(radioGroups[0]),
+      semanas_gest: document.querySelector('input[placeholder*="Semanas de gestación"]')?.value?.trim() || null,
+      peso_nac: document.querySelector('input[placeholder*="Peso al nacer"]')?.value?.trim() || null,
+      apgar: document.querySelector('input[placeholder*="APGAR"]')?.value?.trim() || null,
+      hospitalizacion: getRadio(radioGroups[1]),
+      balbuceo: document.querySelector('input[placeholder*="balbuceo"]')?.value?.trim() || null,
+      primeras_palabras: document.querySelector('input[placeholder*="primera palabra"]')?.value?.trim() || null,
+      mof_evaluacion: getRadio(radioGroups[radioGroups.length-1]) === 'Sí, incluir evaluación',
+      mof_hallazgos: document.querySelector('textarea[placeholder*="Hallazgos MOF"]')?.value?.trim() || null,
+    };
+
+    const submitBtn = e.target.querySelector('[type="submit"]');
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Guardando…'; }
+
     try {
-      // OBTENER USUARIO LOGUEADO
       const { data: { user }, error: userError } = await supabase.auth.getUser();
-      if (userError || !user) {
-        alert('❌ Debes estar logueada para agregar pacientes');
-        return;
-      }
-      
-      // AGREGAR fono_id AL PACIENTE
+      if (userError || !user) { showToast('Debes estar logueada para agregar pacientes', 'err'); return; }
+
       paciente.fono_id = user.id;
-      
-      // INSERTAR EN SUPABASE
-      const { data, error } = await supabase
-        .from('pacientes')
-        .insert([paciente])
-        .select();
-      
+
+      const { data, error } = await supabase.from('pacientes').insert([paciente]).select();
+
       if (error) {
         console.error('Error Supabase:', error);
-        alert('❌ Error al guardar: ' + error.message);
+        showToast('Error al guardar: ' + error.message, 'err');
         return;
       }
-      
-      alert('✅ Paciente ' + nombre + ' guardado correctamente!\nID: ' + data[0].id);
-      
-      // LIMPIAR FORMULARIO
+
+      showToast('Paciente ' + nombre + ' guardado correctamente ✨', 'ok');
+
+      // Actualizar conteo en hero
+      const conteoEl = document.getElementById('conteo-pacientes');
+      if (conteoEl) {
+        const numStr = conteoEl.textContent.match(/\d+/);
+        if (numStr) conteoEl.textContent = '👥 ' + (parseInt(numStr[0]) + 1) + ' pacientes';
+      }
+
       document.getElementById('formNuevoPaciente').reset();
       document.getElementById('formNuevoPaciente').style.display = 'none';
-      
-      // VOLVER A TAB AGREGAR
-      document.querySelector('.tab.on')?.classList.remove('on');
-      document.querySelectorAll('.tab')[0]?.classList.add('on');
-      
+
+      // Recargar selects de pacientes
+      await cargarPacientesSelect('ses-paciente');
+      await cargarPacientesSelect('hist-filtro-pac');
+
     } catch (err) {
       console.error('Error:', err);
-      alert('❌ Error inesperado: ' + err.message);
+      showToast('Error inesperado: ' + err.message, 'err');
+    } finally {
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '+ Agregar Paciente'; }
     }
   }
 </script>
@@ -2211,6 +2416,449 @@ Motivo de consulta: ${motivo || 'No indicado'}`;
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlleHh6em9lbGVleWFmYXdha2ZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MTQ4NTEsImV4cCI6MjA5MjI5MDg1MX0.J8zkTJErSeitGnDhowg68nZKsdfu00QjA62N8W_7KP4';
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   console.log('✅ Supabase inicializado');
+
+  // ══════════════════════════════════════════
+  // TOAST NOTIFICATIONS (reemplaza alert())
+  // ══════════════════════════════════════════
+  function showToast(msg, tipo = 'ok', duracion = 3500) {
+    let container = document.getElementById('toast-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'toast-container';
+      document.body.appendChild(container);
+    }
+    const t = document.createElement('div');
+    const icons = { ok: '✅', err: '❌', warn: '⚠️', info: 'ℹ️' };
+    t.className = `toast ${tipo}`;
+    t.innerHTML = `<span class="toast-icon">${icons[tipo] || 'ℹ️'}</span><span>${msg}</span>`;
+    container.appendChild(t);
+    setTimeout(() => {
+      t.classList.add('removing');
+      t.addEventListener('animationend', () => t.remove());
+    }, duracion);
+  }
+
+  // ══════════════════════════════════════════
+  // AGENDA HOY - DINÁMICA DESDE SUPABASE
+  // ══════════════════════════════════════════
+  async function cargarAgendaHoy() {
+    const hoyStr = new Date().toISOString().split('T')[0];
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      const { data, error } = await supabase
+        .from('sesiones')
+        .select('id, hora, numero_sesion, paciente_id, pacientes(nombre, diagnostico)')
+        .eq('user_id', user.id)
+        .eq('fecha', hoyStr)
+        .order('hora', { ascending: true });
+      if (error || !data) return;
+
+      // Card pequeña "Hoy" en dashboard
+      const cardHoy = document.getElementById('card-hoy-lista');
+      if (cardHoy) {
+        if (data.length === 0) {
+          cardHoy.innerHTML = '<div style="font-size:.75rem;color:#8a89a3;text-align:center;padding:12px">Sin sesiones hoy</div>';
+        } else {
+          cardHoy.innerHTML = data.map(s => {
+            const nombre = s.pacientes?.nombre || 'Paciente';
+            const hora = s.hora || '—';
+            const colores = ['#6BC5D2','#C0AADC','#A8DCC8','#F8D8B8'];
+            const col = colores[data.indexOf(s) % colores.length];
+            return `<div style="padding:10px;background:rgba(107,197,210,0.08);border-radius:12px;border-left:3px solid ${col}">
+              <div style="font-size:.75rem;font-weight:600;color:#38385A">${nombre}</div>
+              <div style="font-size:.62rem;color:#6f6f84;margin-top:2px">${hora}</div>
+            </div>`;
+          }).join('');
+        }
+      }
+
+      // Agenda grande al fondo del dashboard
+      const agendaCard = document.querySelector('.agenda-card');
+      if (agendaCard && data.length > 0) {
+        agendaCard.innerHTML = data.map(s => {
+          const nombre = s.pacientes?.nombre || 'Paciente';
+          const horaStr = s.hora || '--:--';
+          const [hh, mm] = horaStr.split(':');
+          const ampm = parseInt(hh) >= 12 ? 'pm' : 'am';
+          const h12 = parseInt(hh) > 12 ? String(parseInt(hh)-12) : hh;
+          const num = s.numero_sesion ? `Sesión ${s.numero_sesion}` : 'Sesión';
+          const diag = s.pacientes?.diagnostico || '';
+          return `<div class="sess">
+            <div class="sess-t"><div class="sess-h">${h12}:${mm||'00'}</div><div class="sess-ap">${ampm}</div></div>
+            <div class="sess-bar sb-t"></div>
+            <div class="sess-info"><div class="sess-n">${nombre}</div><div class="sess-d">${num}${diag ? ' · '+diag : ''}</div></div>
+            <span class="ss ss-ok">Registrada</span>
+          </div>`;
+        }).join('');
+      } else if (agendaCard && data.length === 0) {
+        agendaCard.innerHTML = `<div style="text-align:center;padding:32px;color:#8a89a3;font-size:.85rem">Sin sesiones registradas para hoy.<br><span style="font-size:.75rem">Usa la pestaña <strong>Sesión</strong> para registrar.</span></div>`;
+      }
+
+      // Pill "Próxima" en el hero
+      const proxPill = document.getElementById('proximo-pill');
+      if (proxPill && data.length > 0) {
+        const prox = data[0];
+        const nombre = prox.pacientes?.nombre?.split(' ')[0] || 'Paciente';
+        proxPill.textContent = `🕐 Próxima: ${nombre} · ${prox.hora || '?'}`;
+        proxPill.style.display = 'flex';
+      }
+    } catch(e) { console.error('cargarAgendaHoy:', e); }
+  }
+
+  // ══════════════════════════════════════════
+  // PANEL SESIÓN - LÓGICA
+  // ══════════════════════════════════════════
+  let objetivosData = [];
+
+  async function cargarPacientesSelect(selectId) {
+    const sel = document.getElementById(selectId);
+    if (!sel) return;
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      const { data, error } = await supabase.from('pacientes').select('id, nombre').eq('fono_id', user.id).order('nombre');
+      if (error || !data) return;
+      const firstOpt = sel.options[0];
+      sel.innerHTML = '';
+      sel.appendChild(firstOpt);
+      data.forEach(p => {
+        const o = document.createElement('option');
+        o.value = p.id;
+        o.textContent = p.nombre;
+        sel.appendChild(o);
+      });
+    } catch(e) { console.error('cargarPacientesSelect:', e); }
+  }
+
+  async function cargarNumeroSesion() {
+    const pacId = document.getElementById('ses-paciente')?.value;
+    if (!pacId) return;
+    const { data } = await supabase.from('sesiones').select('numero_sesion').eq('paciente_id', pacId).order('numero_sesion', {ascending:false}).limit(1);
+    if (data && data.length > 0 && data[0].numero_sesion) {
+      document.getElementById('ses-numero').value = data[0].numero_sesion + 1;
+    } else {
+      document.getElementById('ses-numero').value = 1;
+    }
+  }
+
+  function agregarObjetivo(texto = '', estado = 'no_trabajado') {
+    const id = Date.now();
+    objetivosData.push({ id, texto, estado });
+    renderObjetivos();
+  }
+
+  function setEstadoObjetivo(id, estado) {
+    const obj = objetivosData.find(o => o.id === id);
+    if (obj) { obj.estado = estado; renderObjetivos(); }
+  }
+
+  function eliminarObjetivo(id) {
+    objetivosData = objetivosData.filter(o => o.id !== id);
+    renderObjetivos();
+  }
+
+  function renderObjetivos() {
+    const lista = document.getElementById('objetivos-lista');
+    if (!lista) return;
+    if (objetivosData.length === 0) {
+      lista.innerHTML = '<div style="text-align:center;padding:20px;color:#8a89a3;font-size:.80rem">Sin objetivos aún. Agrega uno abajo.</div>';
+      return;
+    }
+    const estados = [
+      { key: 'no_trabajado', label: 'No trabajado' },
+      { key: 'con_apoyo',    label: 'Con apoyo' },
+      { key: 'parcial',      label: 'Parcial' },
+      { key: 'logrado',      label: 'Logrado' },
+    ];
+    lista.innerHTML = objetivosData.map(obj => `
+      <div class="obj-item">
+        <div style="display:flex;align-items:flex-start;gap:8px">
+          <input
+            type="text"
+            value="${obj.texto.replace(/"/g, '&quot;')}"
+            placeholder="Ej: Producción /s/ en sílaba inicial con 80% de precisión"
+            class="ses-input"
+            style="flex:1"
+            onchange="objetivosData.find(o=>o.id===${obj.id}).texto=this.value"
+          >
+          <button class="obj-eliminar" onclick="eliminarObjetivo(${obj.id})" title="Eliminar">✕</button>
+        </div>
+        <div class="obj-estados">
+          ${estados.map(e => `
+            <button
+              class="obj-estado ${e.key}${obj.estado===e.key?' active':''}"
+              onclick="setEstadoObjetivo(${obj.id},'${e.key}')"
+            >${e.label}</button>
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  async function guardarSesion() {
+    const pacId = document.getElementById('ses-paciente')?.value;
+    const fecha = document.getElementById('ses-fecha')?.value;
+    if (!pacId || !fecha) {
+      showToast('Selecciona un paciente y una fecha', 'warn');
+      return;
+    }
+    const btn = document.querySelector('.btn-guardar-sesion');
+    const info = document.getElementById('ses-guardando');
+    if (btn) btn.disabled = true;
+    if (info) info.textContent = 'Guardando…';
+
+    // Sincronizar textos de objetivos desde inputs DOM
+    document.querySelectorAll('#objetivos-lista .ses-input').forEach((inp, i) => {
+      if (objetivosData[i]) objetivosData[i].texto = inp.value.trim();
+    });
+
+    const sesion = {
+      paciente_id: pacId,
+      fecha,
+      hora: document.getElementById('ses-hora')?.value || null,
+      numero_sesion: parseInt(document.getElementById('ses-numero')?.value) || null,
+      observaciones: document.getElementById('ses-observaciones')?.value?.trim() || null,
+      barreras: document.getElementById('ses-barreras')?.value?.trim() || null,
+      tareas: document.getElementById('ses-tareas')?.value?.trim() || null,
+      planificacion_objetivos: objetivosData,
+    };
+
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { showToast('Debes estar logueada', 'err'); return; }
+      sesion.user_id = user.id;
+      const { error } = await supabase.from('sesiones').insert([sesion]);
+      if (error) { showToast('Error al guardar: ' + error.message, 'err'); return; }
+      showToast('Sesión guardada correctamente ✨', 'ok');
+      // Limpiar
+      objetivosData = [];
+      renderObjetivos();
+      ['ses-observaciones','ses-barreras','ses-tareas'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      cargarAgendaHoy();
+    } catch(e) {
+      showToast('Error inesperado: ' + e.message, 'err');
+    } finally {
+      if (btn) btn.disabled = false;
+      if (info) info.textContent = '';
+    }
+  }
+
+  // ══════════════════════════════════════════
+  // HISTORIAL
+  // ══════════════════════════════════════════
+  async function cargarHistorial() {
+    const lista = document.getElementById('historial-lista');
+    if (!lista) return;
+    lista.innerHTML = '<div style="text-align:center;padding:28px;color:#8a89a3;font-size:.85rem">Cargando…</div>';
+    const filtro = document.getElementById('hist-filtro-pac')?.value;
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      let q = supabase.from('sesiones')
+        .select('id, fecha, hora, numero_sesion, planificacion_objetivos, observaciones, pacientes(nombre, diagnostico)')
+        .eq('user_id', user.id)
+        .order('fecha', { ascending: false })
+        .limit(40);
+      if (filtro) q = q.eq('paciente_id', filtro);
+      const { data, error } = await q;
+      if (error) { lista.innerHTML = '<div style="color:#FF6B6B;padding:20px">Error al cargar historial.</div>'; return; }
+      if (!data || data.length === 0) {
+        lista.innerHTML = '<div style="text-align:center;padding:40px;color:#8a89a3;font-size:.85rem">Sin sesiones registradas aún.<br><span style="font-size:.75rem">Empieza desde la pestaña Sesión.</span></div>';
+        return;
+      }
+      lista.innerHTML = data.map(s => {
+        const nombre = s.pacientes?.nombre || 'Paciente';
+        const fecha = new Date(s.fecha + 'T12:00:00').toLocaleDateString('es-CL', {weekday:'short', day:'numeric', month:'long'});
+        const objs = s.planificacion_objetivos || [];
+        const pillsHtml = objs.map(o => `<span class="hist-pill ${o.estado}">${o.texto?.substring(0,40) || '—'}</span>`).join('');
+        return `<div class="hist-item">
+          <div class="hist-head">
+            <span class="hist-fecha">${fecha}${s.hora ? ' · '+s.hora : ''}</span>
+            <span class="hist-pac">${nombre}</span>
+            ${s.numero_sesion ? `<span style="font-size:.68rem;color:#8a89a3">Sesión #${s.numero_sesion}</span>` : ''}
+          </div>
+          ${objs.length > 0 ? `<div class="hist-logros-pills">${pillsHtml}</div>` : ''}
+          ${s.observaciones ? `<div style="font-size:.75rem;color:#6f6f84;line-height:1.5;margin-top:4px">${s.observaciones}</div>` : ''}
+        </div>`;
+      }).join('');
+    } catch(e) { lista.innerHTML = '<div style="color:#FF6B6B;padding:20px">Error inesperado.</div>'; }
+  }
+
+  // ══════════════════════════════════════════
+  // PENDIENTES FULL
+  // ══════════════════════════════════════════
+  let pendientesFullData = JSON.parse(localStorage.getItem('pendientes') || '[]');
+
+  function renderPendientesFull() {
+    const lista = document.getElementById('pendientes-full-lista');
+    if (!lista) return;
+    if (pendientesFullData.length === 0) {
+      lista.innerHTML = '<div style="text-align:center;padding:32px;color:#8a89a3;font-size:.85rem">Sin pendientes. ¡Todo al día! 🎉</div>';
+      return;
+    }
+    lista.innerHTML = pendientesFullData.map((p, i) => `
+      <div class="pend-item-full${p.done?' done':''}" id="pend-full-${i}">
+        <input type="checkbox" style="width:17px;height:17px;cursor:pointer;accent-color:#C0AADC;flex-shrink:0" ${p.done?'checked':''} onchange="togglePendienteFull(${i})">
+        <span style="font-size:.80rem;color:#38385A;flex:1;line-height:1.4">${p.texto}</span>
+        <button onclick="eliminarPendienteFull(${i})" style="border:none;background:none;color:#ccc;cursor:pointer;font-size:.85rem;padding:2px 6px;border-radius:6px;transition:color .12s" onmouseover="this.style.color='#FF6B6B'" onmouseout="this.style.color='#ccc'">✕</button>
+      </div>
+    `).join('');
+  }
+
+  function agregarPendiente() {
+    const inp = document.getElementById('pend-nueva-tarea');
+    const texto = inp?.value?.trim();
+    if (!texto) return;
+    pendientesFullData.push({ texto, done: false });
+    localStorage.setItem('pendientes', JSON.stringify(pendientesFullData));
+    inp.value = '';
+    renderPendientesFull();
+    sincPendientesDashboard();
+  }
+
+  function togglePendienteFull(i) {
+    pendientesFullData[i].done = !pendientesFullData[i].done;
+    localStorage.setItem('pendientes', JSON.stringify(pendientesFullData));
+    renderPendientesFull();
+    sincPendientesDashboard();
+  }
+
+  function eliminarPendienteFull(i) {
+    pendientesFullData.splice(i, 1);
+    localStorage.setItem('pendientes', JSON.stringify(pendientesFullData));
+    renderPendientesFull();
+    sincPendientesDashboard();
+  }
+
+  function sincPendientesDashboard() {
+    const lista = document.getElementById('pendientesLista');
+    if (!lista) return;
+    const pendActivos = pendientesFullData.filter(p => !p.done).slice(0, 3);
+    if (pendActivos.length === 0) {
+      lista.innerHTML = '<div style="font-size:.75rem;color:#8a89a3;text-align:center;padding:12px">Todo al día 🎉</div>';
+      return;
+    }
+    lista.innerHTML = pendActivos.map((p, i) => `
+      <div class="pending-item" style="display:flex;align-items:center;gap:9px;padding:8px;border-radius:8px;transition:all 0.16s;cursor:pointer">
+        <input type="checkbox" style="width:17px;height:17px;cursor:pointer;accent-color:#C0AADC" ${p.done?'checked':''} onchange="togglePendienteFull(${pendientesFullData.indexOf(p)})">
+        <span style="font-size:0.71rem;color:#6f6f84;line-height:1.35;flex:1">${p.texto}</span>
+      </div>
+    `).join('');
+  }
+
+  // ══════════════════════════════════════════
+  // TABS FUNCIONALES
+  // ══════════════════════════════════════════
+  function setTabPanel(tabName) {
+    // page-main contiene el dashboard (panel-inicio = col-left)
+    const pagina = document.getElementById('page-main');
+    const panelSesion = document.getElementById('panel-sesion');
+    const panelHistorial = document.getElementById('panel-historial');
+    const panelPendientes = document.getElementById('panel-pendientes-full');
+
+    if (tabName === 'inicio') {
+      if (pagina) pagina.style.display = 'flex';
+      if (panelSesion) panelSesion.style.display = 'none';
+      if (panelHistorial) panelHistorial.style.display = 'none';
+      if (panelPendientes) panelPendientes.style.display = 'none';
+    } else if (tabName === 'sesion') {
+      if (pagina) pagina.style.display = 'none';
+      if (panelSesion) panelSesion.style.display = 'flex';
+      if (panelHistorial) panelHistorial.style.display = 'none';
+      if (panelPendientes) panelPendientes.style.display = 'none';
+    } else if (tabName === 'historial') {
+      if (pagina) pagina.style.display = 'none';
+      if (panelSesion) panelSesion.style.display = 'none';
+      if (panelHistorial) panelHistorial.style.display = 'flex';
+      if (panelPendientes) panelPendientes.style.display = 'none';
+      cargarHistorial();
+    } else if (tabName === 'pendientes') {
+      if (pagina) pagina.style.display = 'none';
+      if (panelSesion) panelSesion.style.display = 'none';
+      if (panelHistorial) panelHistorial.style.display = 'none';
+      if (panelPendientes) panelPendientes.style.display = 'flex';
+      renderPendientesFull();
+    }
+  }
+
+  // Inicializar tabs
+  document.querySelectorAll('.tab').forEach((t, idx) => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+      t.classList.add('on');
+      const tabNames = ['inicio', 'sesion', 'historial', 'pendientes'];
+      const name = tabNames[idx] || 'inicio';
+      setTabPanel(name);
+      // Werni solo en sesión e inicio
+      const w = document.getElementById('werniFloat');
+      if (w) w.style.display = (name === 'sesion' || name === 'inicio') ? 'flex' : 'none';
+    });
+  });
+
+  // ══════════════════════════════════════════
+  // INIT: cargar datos al iniciar
+  // ══════════════════════════════════════════
+  document.addEventListener('DOMContentLoaded', async () => {
+    // Fecha por defecto sesión = hoy
+    const hoy = new Date().toISOString().split('T')[0];
+    const sesFecha = document.getElementById('ses-fecha');
+    if (sesFecha) sesFecha.value = hoy;
+    const sesHora = document.getElementById('ses-hora');
+    if (sesHora) sesHora.value = new Date().toTimeString().slice(0,5);
+
+    // Saludo dinámico
+    const hora = new Date().getHours();
+    const saludo = hora < 12 ? 'Buenos días 🌿' : hora < 20 ? 'Buenas tardes ✨' : 'Buenas noches 🌙';
+    const saludoEl = document.getElementById('saludo-texto');
+    if (saludoEl) saludoEl.textContent = saludo;
+
+    // Fecha dinámica en hero
+    const fechaHeroEl = document.getElementById('fecha-hero');
+    if (fechaHeroEl) {
+      const fechaStr = new Date().toLocaleDateString('es-CL', {weekday:'long', day:'numeric', month:'long'});
+      fechaHeroEl.textContent = '📅 ' + fechaStr.charAt(0).toUpperCase() + fechaStr.slice(1);
+    }
+
+    // Inicializar: mostrar dashboard, ocultar otros paneles
+    const pagina = document.getElementById('page-main');
+    if (pagina) pagina.style.display = 'flex';
+    ['panel-sesion','panel-historial','panel-pendientes-full'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+
+    // Sincronizar pendientes al inicio
+    sincPendientesDashboard();
+
+    // Cargar agenda hoy (solo si hay sesión iniciada)
+    cargarAgendaHoy();
+
+    // Cargar pacientes en selects y conteo hero
+    await cargarPacientesSelect('ses-paciente');
+    await cargarPacientesSelect('hist-filtro-pac');
+
+    // Conteo de pacientes en hero
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { count } = await supabase.from('pacientes').select('id', {count:'exact', head:true}).eq('fono_id', user.id);
+        const conteoEl = document.getElementById('conteo-pacientes');
+        if (conteoEl && count !== null) conteoEl.textContent = `👥 ${count} paciente${count !== 1 ? 's' : ''}`;
+        // Nombre del profesional
+        const { data: conf } = await supabase.from('configuracion').select('nombre').eq('user_id', user.id).single();
+        const nombreHeroEl = document.getElementById('nombre-hero');
+        if (nombreHeroEl && conf?.nombre) nombreHeroEl.textContent = conf.nombre.split(' ')[0];
+      }
+    } catch(e) { /* continuar si falla */ }
+
+    // Inicializar objetivos vacíos
+    renderObjetivos();
+  });
+
 </script>
 
 </body>
