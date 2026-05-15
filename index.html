@@ -2089,10 +2089,53 @@
     btn.classList.add('selected');
   }
 
-  function analizarAnamnesisConWerni() {
-    const motivo = document.getElementById('motivo_consulta')?.value || '';
-    const nombre = document.getElementById('nombre')?.value || '';
-    alert('✨ Anamnesis recopilada. Werni analizará cuando se integre Claude Haiku.');
+  const WERNI_URL = 'https://uoethqvuqbbxvckgpowd.supabase.co/functions/v1/werni';
+
+  async function llamarWerni(mensaje, tipo, paciente) {
+    const resp = await fetch(WERNI_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mensaje, tipo, paciente })
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error || 'Error desconocido');
+    return data.respuesta;
+  }
+
+  async function analizarAnamnesisConWerni() {
+    const btn = document.querySelector('[onclick="analizarAnamnesisConWerni()"]');
+    const nombre = document.getElementById('nombre')?.value?.trim() || '';
+    const motivo = document.getElementById('motivo_consulta')?.value?.trim() || '';
+    const diagnostico = document.getElementById('diagnostico')?.value?.trim() || '';
+    const edad = document.getElementById('edad_cronologica')?.value?.trim() || '';
+
+    if (!motivo && !nombre) {
+      alert('⚠️ Completa al menos el Nombre y el Motivo de consulta para que Werni pueda orientarte.');
+      return;
+    }
+
+    const divRespuesta = document.getElementById('werniRespuesta');
+    if (!divRespuesta) return;
+
+    if (btn) { btn.textContent = '⏳ Werni analizando…'; btn.disabled = true; }
+    divRespuesta.style.display = 'block';
+    divRespuesta.textContent = '🔍 Revisando la anamnesis con base en evidencia clínica…';
+
+    const mensaje = `Revisa esta anamnesis y oriéntame éticamente sobre qué señales de alerta observas y qué evaluaciones sugerirías (sin diagnosticar).
+
+Paciente: ${nombre || 'No indicado'}
+Edad cronológica: ${edad || 'No indicada'}
+Diagnóstico previo: ${diagnostico || 'Sin antecedentes'}
+Motivo de consulta: ${motivo || 'No indicado'}`;
+
+    try {
+      const respuesta = await llamarWerni(mensaje, 'anamnesis', { nombre, edad, diagnostico });
+      divRespuesta.textContent = respuesta;
+    } catch (e) {
+      divRespuesta.textContent = '❌ Error al conectar con Werni. Verifica que el Edge Function esté desplegado en Supabase.';
+    } finally {
+      if (btn) { btn.textContent = '✨ Werni, revisar'; btn.disabled = false; }
+    }
   }
 
   async function guardarNuevoPaciente(e) {
