@@ -892,7 +892,7 @@
     </div>
 
     <!-- PAGE -->
-    <div class="page">
+    <div class="page" id="pane-inicio">
 
       <!-- COL IZQUIERDA -->
       <div class="col-left">
@@ -1089,6 +1089,37 @@
       
 
     </div><!-- /page -->
+
+    <!-- PANEL HISTORIAL PACIENTES -->
+    <div class="page" id="pane-historial" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <div style="font-size:1.1rem;font-weight:700;color:#38385A">Mis pacientes</div>
+        <button onclick="document.getElementById('formNuevoPaciente').style.display='block'" style="padding:9px 20px;border-radius:50px;border:none;background:linear-gradient(135deg,var(--t),var(--l));color:#fff;font-size:.78rem;font-weight:600;cursor:pointer;font-family:var(--f)">+ Nuevo paciente</button>
+      </div>
+      <div id="pacientesSearch" style="margin-bottom:16px">
+        <input type="text" id="pacientesSearchInput" oninput="filtrarPacientes(this.value)" placeholder="Buscar paciente…" style="width:100%;max-width:360px;padding:10px 16px;border-radius:50px;border:1.5px solid rgba(107,197,210,0.25);background:#fff;font-size:.83rem;font-family:var(--f);color:#38385A;outline:none"/>
+      </div>
+      <div id="pacientesLista" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px">
+        <div style="text-align:center;padding:60px;color:#8a89a3;font-size:.85rem;grid-column:1/-1">Cargando pacientes…</div>
+      </div>
+    </div>
+
+    <!-- PANEL SESIÓN (próximamente) -->
+    <div class="page" id="pane-sesion" style="display:none">
+      <div style="text-align:center;padding:80px;color:#8a89a3">
+        <div style="font-size:2rem;margin-bottom:12px">📝</div>
+        <div style="font-size:.95rem;font-weight:600;color:#38385A;margin-bottom:6px">Registro de sesión</div>
+        <div style="font-size:.80rem">Selecciona un paciente desde Historial para registrar su sesión.</div>
+      </div>
+    </div>
+
+    <!-- PANEL PENDIENTES -->
+    <div class="page" id="pane-pendientes" style="display:none">
+      <div style="font-size:1.1rem;font-weight:700;color:#38385A;margin-bottom:20px">Pendientes</div>
+      <div style="display:flex;flex-direction:column;gap:10px" id="pendientesListaPanel">
+        <div style="text-align:center;padding:40px;color:#8a89a3;font-size:.85rem">Sin pendientes por ahora.</div>
+      </div>
+    </div>
 
     <!-- FORMULARIO NUEVO PACIENTE CON ANAMNESIS -->
     <div class="form-container" id="formNuevoPaciente" style="display:none">
@@ -2098,6 +2129,77 @@
     } catch(e) {
       lista.innerHTML = '<div style="text-align:center;padding:40px;color:#8a89a3;font-size:.85rem">Error al cargar. Verifica tu conexión.</div>';
     }
+  }
+
+  // ── Tab switching ──────────────────────────────────────────────────
+  const PANES = ['inicio','historial','sesion','pendientes'];
+
+  function setTab(btn) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+    btn.classList.add('on');
+    const txt = btn.textContent.toLowerCase();
+    let pane = 'inicio';
+    if (txt.includes('historial')) pane = 'historial';
+    else if (txt.includes('sesi')) pane = 'sesion';
+    else if (txt.includes('pendiente')) pane = 'pendientes';
+    PANES.forEach(p => {
+      const el = document.getElementById('pane-' + p);
+      if (el) el.style.display = p === pane ? 'flex' : 'none';
+    });
+    if (pane === 'historial') cargarPacientes();
+    const w = document.getElementById('werniFloat');
+    if (w) w.style.display = (pane === 'inicio' || pane === 'sesion') ? 'block' : 'none';
+  }
+
+  // ── Lista de pacientes ──────────────────────────────────────────────
+  let _pacientesCache = [];
+
+  async function cargarPacientes() {
+    const lista = document.getElementById('pacientesLista');
+    if (!lista) return;
+    lista.innerHTML = '<div style="text-align:center;padding:60px;color:#8a89a3;font-size:.85rem;grid-column:1/-1">Cargando…</div>';
+    const { data, error } = await supabase.from('pacientes').select('id,nombre,fecha_nacimiento,diagnostico,motivo_consulta').order('nombre');
+    if (error || !data) {
+      lista.innerHTML = '<div style="text-align:center;padding:60px;color:#C04040;font-size:.85rem;grid-column:1/-1">Error al cargar pacientes.</div>';
+      return;
+    }
+    _pacientesCache = data;
+    renderPacientes(data);
+  }
+
+  function calcularEdad(fechaNac) {
+    if (!fechaNac) return '';
+    const hoy = new Date();
+    const fn = new Date(fechaNac + 'T12:00:00');
+    let meses = (hoy.getFullYear() - fn.getFullYear()) * 12 + (hoy.getMonth() - fn.getMonth());
+    if (meses < 24) return meses + ' m';
+    return Math.floor(meses / 12) + ' a';
+  }
+
+  function renderPacientes(data) {
+    const lista = document.getElementById('pacientesLista');
+    if (!lista) return;
+    if (!data || data.length === 0) {
+      lista.innerHTML = '<div style="text-align:center;padding:60px;color:#8a89a3;font-size:.85rem;grid-column:1/-1">No hay pacientes aún. Crea el primero →</div>';
+      return;
+    }
+    lista.innerHTML = data.map(p => {
+      const ini = (p.nombre || '?').charAt(0).toUpperCase();
+      const edad = calcularEdad(p.fecha_nacimiento);
+      const dx = p.diagnostico || p.motivo_consulta || '';
+      return `<div style="background:rgba(255,255,255,0.90);border-radius:18px;padding:18px 20px;border:1px solid rgba(255,255,255,0.90);box-shadow:0 2px 12px rgba(107,197,210,0.07);display:flex;align-items:center;gap:14px;cursor:pointer;transition:box-shadow .15s" onmouseenter="this.style.boxShadow='0 4px 20px rgba(107,197,210,0.18)'" onmouseleave="this.style.boxShadow='0 2px 12px rgba(107,197,210,0.07)'">
+        <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--tl),var(--ll));display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;color:#fff;flex-shrink:0">${ini}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:.88rem;font-weight:700;color:#38385A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.nombre}</div>
+          <div style="font-size:.72rem;color:#8a89a3;margin-top:2px">${edad}${edad && dx ? ' · ' : ''}${dx ? dx.slice(0,40) : ''}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function filtrarPacientes(q) {
+    const filtrado = q.trim() === '' ? _pacientesCache : _pacientesCache.filter(p => p.nombre.toLowerCase().includes(q.toLowerCase()));
+    renderPacientes(filtrado);
   }
 
   function mostrarVista(nombre) {
