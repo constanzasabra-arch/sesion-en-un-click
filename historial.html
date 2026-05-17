@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+  <title>Historial de Sesiones · FonoAprende</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+  :root{
+    --t:#6BC5D2; --tl:#A8DDE6; --tp:#E0F4F8;
+    --l:#C0AADC; --ll:#D8C8F0; --lp:#EEE8F8;
+    --g:#60D4A0; --bg:#F4F1FA;
+    --w:#FFFFFF;
+    --tx:#38385A; --tm:#8a89a3; --ts:#B8B8D0;
+    --glass:rgba(255,255,255,0.85); --bd:rgba(255,255,255,0.72);
+    --sh:0 4px 20px rgba(107,197,210,0.10),0 1px 6px rgba(107,197,210,0.06);
+    --shu:0 10px 36px rgba(107,197,210,0.16),0 3px 12px rgba(107,197,210,0.09);
+    --sb:248px;
+    --r1:10px;--r2:16px;--r3:22px;--r4:28px;
+    --ease:cubic-bezier(.4,0,.2,1);
+    --f:'Poppins',sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{font-size:15px;-webkit-font-smoothing:antialiased}
+  body{font-family:var(--f);color:var(--tx);min-height:100vh;background:var(--bg)}
+
+  /* ── Sidebar ── */
+  .sb{
+    width:var(--sb);
+    background:linear-gradient(160deg,#6BC5D2 0%,#8ab8d8 45%,#C0AADC 100%);
+    position:fixed;top:0;left:0;height:100vh;
+    z-index:100;display:flex;flex-direction:column;
+    box-shadow:3px 0 24px rgba(107,197,210,0.22);
+  }
+  .sb-logo{padding:26px 22px 18px}
+  .sb-logo-row{display:flex;align-items:center;gap:10px}
+  .sb-icon{width:38px;height:38px;background:rgba(255,255,255,0.25);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;backdrop-filter:blur(8px)}
+  .sb-app-name{font-size:0.80rem;font-weight:700;color:#fff;line-height:1.2;text-shadow:0 1px 4px rgba(0,0,0,0.12)}
+  .sb-app-sub{font-size:0.58rem;color:rgba(255,255,255,0.75);margin-top:2px;letter-spacing:0.04em}
+
+  .sb-user{
+    margin:0 14px 8px;padding:11px 14px;
+    background:rgba(255,255,255,0.18);
+    border-radius:var(--r3);border:1px solid rgba(255,255,255,0.28);
+    display:flex;align-items:center;gap:11px;backdrop-filter:blur(10px);
+  }
+  .sb-av{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.30);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.10)}
+  .sb-uname{font-size:0.74rem;font-weight:600;color:#fff}
+  .sb-urole{font-size:0.60rem;color:rgba(255,255,255,0.75);margin-top:1px}
+
+  .sb-nav{flex:1;padding:8px 10px;overflow-y:auto}
+  .sb-nav::-webkit-scrollbar{width:3px}
+  .sb-nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.25);border-radius:4px}
+
+  .ni{
+    display:flex;align-items:center;gap:10px;
+    padding:9px 12px;border-radius:var(--r1);margin-bottom:2px;
+    cursor:pointer;text-decoration:none;color:rgba(255,255,255,0.80);
+    font-size:0.76rem;font-weight:400;
+    transition:all 0.16s var(--ease);
+  }
+  .ni:hover{background:rgba(255,255,255,0.16);color:#fff}
+  .ni.on{
+    background:rgba(255,255,255,0.26);color:#fff;font-weight:600;
+    box-shadow:0 2px 12px rgba(0,0,0,0.09);
+    border:1px solid rgba(255,255,255,0.35);
+  }
+  .ni-em{font-size:1rem;width:22px;text-align:center;flex-shrink:0}
+  .ni-txt{flex:1}
+
+  .sb-foot{padding:14px;border-top:1px solid rgba(255,255,255,0.18);margin-top:auto}
+  .sb-foot-txt{font-size:0.58rem;color:rgba(255,255,255,0.55);text-align:center}
+
+  /* ── Main ── */
+  .main{margin-left:var(--sb);min-height:100vh;padding:32px 36px 72px;display:flex;flex-direction:column;gap:0}
+
+  /* ── Page header ── */
+  .ph{margin-bottom:24px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .ph-left{}
+  .ph-title{font-size:1.55rem;font-weight:700;color:var(--tx);line-height:1.2}
+  .ph-sub{font-size:0.75rem;color:var(--tm);margin-top:5px}
+  .btn-nueva{
+    padding:11px 22px;border-radius:var(--r3);
+    background:linear-gradient(135deg,var(--t),var(--l));
+    color:#fff;border:none;font-family:var(--f);font-size:0.78rem;font-weight:600;
+    cursor:pointer;display:flex;align-items:center;gap:8px;
+    box-shadow:0 4px 16px rgba(107,197,210,0.30);
+    transition:all 0.18s var(--ease);white-space:nowrap;
+    text-decoration:none;
+  }
+  .btn-nueva:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(107,197,210,0.40)}
+
+  /* ── Filtros ── */
+  .filtros-card{
+    background:var(--glass);backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,0.75);
+    border-radius:var(--r4);padding:20px 24px;
+    box-shadow:var(--sh);margin-bottom:20px;
+  }
+  .filtros-row{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap}
+  .filtro-group{display:flex;flex-direction:column;gap:5px;flex:1;min-width:160px}
+  .filtro-label{font-size:0.68rem;font-weight:600;color:var(--tx)}
+  .form-select,.form-input{
+    background:rgba(255,255,255,0.72);
+    border:1px solid rgba(192,170,220,0.30);
+    border-radius:var(--r2);
+    padding:10px 14px;
+    font-family:var(--f);font-size:0.80rem;color:var(--tx);
+    outline:none;
+    transition:all 0.16s var(--ease);
+    width:100%;
+  }
+  .form-select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238a89a3' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:34px}
+  .form-input:focus,.form-select:focus{border-color:var(--t);background:var(--w);box-shadow:0 0 0 3px rgba(107,197,210,0.15)}
+  .btn-filtrar{
+    padding:10px 20px;border-radius:var(--r2);
+    background:rgba(107,197,210,0.12);color:var(--t);
+    border:1.5px solid rgba(107,197,210,0.30);
+    font-family:var(--f);font-size:0.76rem;font-weight:600;cursor:pointer;
+    display:flex;align-items:center;gap:6px;
+    transition:all 0.15s var(--ease);white-space:nowrap;height:42px;
+  }
+  .btn-filtrar:hover{background:var(--tp);border-color:var(--t)}
+
+  /* ── Stats resumen ── */
+  .stats-row{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+  .stat-mini{
+    flex:1;min-width:120px;
+    background:var(--glass);backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,0.75);
+    border-radius:var(--r3);padding:14px 18px;
+    box-shadow:var(--sh);
+  }
+  .stat-mini-num{font-size:1.35rem;font-weight:700;color:var(--tx)}
+  .stat-mini-lbl{font-size:0.60rem;color:var(--tm);margin-top:3px}
+
+  /* ── Lista sesiones ── */
+  .sesiones-list{display:flex;flex-direction:column;gap:16px}
+
+  /* ── Sesión card ── */
+  .sesion-card{
+    background:var(--glass);backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,0.75);
+    border-radius:var(--r4);
+    padding:22px 26px;
+    box-shadow:var(--sh);
+    transition:all 0.20s var(--ease);
+    animation:cardIn 0.30s var(--ease) both;
+  }
+  .sesion-card:hover{box-shadow:var(--shu);transform:translateY(-2px)}
+  @keyframes cardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+  .sc-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px;flex-wrap:wrap}
+  .sc-title-block{}
+  .sc-num{font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--tm);margin-bottom:4px}
+  .sc-paciente{font-size:1.02rem;font-weight:700;color:var(--tx)}
+  .sc-fecha{font-size:0.74rem;color:var(--tm);margin-top:2px;display:flex;align-items:center;gap:5px}
+  .sc-acciones{display:flex;gap:8px;align-items:center;flex-shrink:0;flex-wrap:wrap}
+
+  /* ── Objetivos chips en historial ── */
+  .sc-objetivos{margin-bottom:14px}
+  .sc-sec-label{font-size:0.60rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--tm);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+  .sc-sec-label::after{content:'';flex:1;height:1px;background:rgba(192,170,220,0.22)}
+  .obj-chips{display:flex;flex-wrap:wrap;gap:6px}
+  .obj-chip{
+    display:inline-flex;align-items:center;gap:5px;
+    padding:4px 11px;border-radius:50px;
+    font-size:0.69rem;font-weight:600;
+  }
+  .oc-logrado{background:#E2F8EF;color:#2A9068;border:1px solid rgba(96,212,160,0.30)}
+  .oc-parcial{background:var(--tp);color:#3A96A8;border:1px solid rgba(107,197,210,0.30)}
+  .oc-apoyo{background:#FEF3E2;color:#B06820;border:1px solid rgba(240,160,60,0.30)}
+  .oc-no_logrado{background:#FEECEC;color:#C03030;border:1px solid rgba(220,80,80,0.25)}
+
+  /* ── Registro clínico en tarjeta ── */
+  .sc-registro{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+  .sc-reg-item{background:rgba(255,255,255,0.65);border-radius:var(--r2);padding:11px 14px;border:1px solid rgba(220,215,240,0.40)}
+  .sc-reg-label{font-size:0.60rem;font-weight:700;color:var(--tm);margin-bottom:4px;display:flex;align-items:center;gap:5px}
+  .sc-reg-texto{font-size:0.74rem;color:var(--tx);line-height:1.45;white-space:pre-wrap}
+  .sc-reg-vacio{font-size:0.72rem;color:var(--ts);font-style:italic}
+
+  /* ── Botones de acción ── */
+  .btn-accion{
+    padding:7px 14px;border-radius:var(--r1);
+    font-family:var(--f);font-size:0.72rem;font-weight:600;
+    cursor:pointer;border:none;
+    display:flex;align-items:center;gap:5px;
+    transition:all 0.15s var(--ease);white-space:nowrap;
+  }
+  .btn-editar{background:rgba(107,197,210,0.12);color:var(--t);border:1.5px solid rgba(107,197,210,0.28)}
+  .btn-editar:hover{background:var(--tp);border-color:var(--t)}
+  .btn-whatsapp{background:rgba(37,211,102,0.10);color:#1a9c48;border:1.5px solid rgba(37,211,102,0.28)}
+  .btn-whatsapp:hover{background:#E6F9EE;border-color:#25D366}
+  .btn-eliminar{background:rgba(240,80,80,0.08);color:#C03030;border:1.5px solid rgba(220,80,80,0.22)}
+  .btn-eliminar:hover{background:#FEECEC;border-color:#E05050}
+
+  /* ── Empty state ── */
+  .empty-state{
+    text-align:center;padding:64px 32px;
+    background:var(--glass);backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,0.75);
+    border-radius:var(--r4);box-shadow:var(--sh);
+  }
+  .empty-icon{font-size:3.5rem;margin-bottom:16px;opacity:0.6}
+  .empty-title{font-size:1.05rem;font-weight:700;color:var(--tx);margin-bottom:8px}
+  .empty-sub{font-size:0.78rem;color:var(--tm);margin-bottom:24px}
+
+  /* ── Modal overlay ── */
+  .modal-overlay{
+    display:none;position:fixed;inset:0;
+    background:rgba(56,56,90,0.38);backdrop-filter:blur(6px);
+    z-index:500;align-items:center;justify-content:center;padding:20px;
+  }
+  .modal-overlay.show{display:flex}
+  .modal{
+    background:var(--w);border-radius:var(--r4);
+    padding:30px 32px;max-width:720px;width:100%;
+    max-height:90vh;overflow-y:auto;
+    box-shadow:0 20px 60px rgba(56,56,90,0.20);
+    animation:modalIn 0.28s var(--ease);
+  }
+  @keyframes modalIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
+  .modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+  .modal-title{font-size:1.05rem;font-weight:700;color:var(--tx);display:flex;align-items:center;gap:8px}
+  .btn-modal-close{
+    width:32px;height:32px;border-radius:50%;
+    background:rgba(138,137,163,0.10);border:none;
+    font-size:1.1rem;cursor:pointer;color:var(--tm);
+    display:flex;align-items:center;justify-content:center;
+    transition:background 0.14s;
+  }
+  .btn-modal-close:hover{background:rgba(240,80,80,0.12);color:#D04040}
+
+  .modal-form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+  .modal-form-group{display:flex;flex-direction:column;gap:5px}
+  .modal-form-group.full{grid-column:1/-1}
+  .modal-form-label{font-size:0.71rem;font-weight:600;color:var(--tx)}
+  .modal-form-input,.modal-form-textarea,.modal-form-select{
+    background:rgba(244,241,250,0.70);
+    border:1px solid rgba(192,170,220,0.30);
+    border-radius:var(--r2);padding:10px 13px;
+    font-family:var(--f);font-size:0.80rem;color:var(--tx);
+    outline:none;transition:all 0.16s var(--ease);width:100%;
+  }
+  .modal-form-textarea{resize:vertical;min-height:76px;line-height:1.5}
+  .modal-form-select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238a89a3' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:34px}
+  .modal-form-input:focus,.modal-form-textarea:focus,.modal-form-select:focus{
+    border-color:var(--t);background:var(--w);box-shadow:0 0 0 3px rgba(107,197,210,0.15)
+  }
+
+  /* ── Objetivos en modal ── */
+  .modal-obj-list{display:flex;flex-direction:column;gap:10px;margin-bottom:4px}
+  .modal-obj-card{background:rgba(244,241,250,0.60);border:1px solid rgba(220,215,240,0.50);border-radius:var(--r2);padding:12px 14px}
+  .modal-obj-header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+  .modal-obj-texto{font-size:0.78rem;font-weight:500;color:var(--tx);flex:1}
+  .modal-estado-btns{display:flex;flex-wrap:wrap;gap:6px}
+  .btn-estado{
+    padding:4px 10px;border-radius:50px;
+    font-family:var(--f);font-size:0.65rem;font-weight:600;
+    cursor:pointer;border:1.5px solid transparent;
+    transition:all 0.14s var(--ease);opacity:0.55;
+  }
+  .btn-estado:hover{opacity:1}
+  .btn-estado.active{opacity:1;box-shadow:0 2px 8px rgba(0,0,0,0.10)}
+  .be-no{background:rgba(240,80,80,0.10);color:#D04040;border-color:rgba(220,60,60,0.25)}
+  .be-no.active{background:#FEECEC;color:#C03030;border-color:#F5ADAD}
+  .be-apoyo{background:rgba(240,160,60,0.10);color:#C07830;border-color:rgba(220,140,50,0.25)}
+  .be-apoyo.active{background:#FEF3E2;color:#B06820;border-color:#F5D0A0}
+  .be-parcial{background:rgba(107,197,210,0.10);color:var(--t);border-color:rgba(107,197,210,0.25)}
+  .be-parcial.active{background:var(--tp);color:#3A96A8;border-color:var(--tl)}
+  .be-logrado{background:rgba(96,212,160,0.10);color:#38A878;border-color:rgba(80,200,140,0.25)}
+  .be-logrado.active{background:#E2F8EF;color:#2A9068;border-color:#9AE0C4}
+
+  .modal-footer{display:flex;justify-content:flex-end;gap:10px;margin-top:22px;padding-top:18px;border-top:1px solid rgba(220,215,240,0.40)}
+  .btn-cancelar{padding:11px 22px;border-radius:var(--r3);background:transparent;color:var(--tm);border:1.5px solid rgba(138,137,163,0.25);font-family:var(--f);font-size:0.80rem;font-weight:600;cursor:pointer;transition:all 0.15s var(--ease)}
+  .btn-cancelar:hover{background:rgba(138,137,163,0.08);border-color:rgba(138,137,163,0.45)}
+  .btn-guardar-modal{padding:11px 26px;border-radius:var(--r3);background:linear-gradient(135deg,var(--t),var(--l));color:#fff;border:none;font-family:var(--f);font-size:0.80rem;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(107,197,210,0.30);transition:all 0.18s var(--ease)}
+  .btn-guardar-modal:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(107,197,210,0.40)}
+
+  /* ── Confirm dialog ── */
+  .confirm-overlay{
+    display:none;position:fixed;inset:0;
+    background:rgba(56,56,90,0.45);backdrop-filter:blur(6px);
+    z-index:600;align-items:center;justify-content:center;padding:20px;
+  }
+  .confirm-overlay.show{display:flex}
+  .confirm-box{
+    background:var(--w);border-radius:var(--r4);
+    padding:28px 30px;max-width:400px;width:100%;
+    box-shadow:0 20px 60px rgba(56,56,90,0.22);
+    animation:modalIn 0.25s var(--ease);
+    text-align:center;
+  }
+  .confirm-icon{font-size:2.8rem;margin-bottom:12px}
+  .confirm-title{font-size:1.05rem;font-weight:700;color:var(--tx);margin-bottom:8px}
+  .confirm-sub{font-size:0.78rem;color:var(--tm);line-height:1.5;margin-bottom:22px}
+  .confirm-btns{display:flex;gap:10px;justify-content:center}
+  .btn-conf-cancel{padding:10px 22px;border-radius:var(--r3);background:transparent;color:var(--tm);border:1.5px solid rgba(138,137,163,0.28);font-family:var(--f);font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.15s}
+  .btn-conf-cancel:hover{background:rgba(138,137,163,0.08)}
+  .btn-conf-ok{padding:10px 22px;border-radius:var(--r3);background:linear-gradient(135deg,#E05050,#C83030);color:#fff;border:none;font-family:var(--f);font-size:0.78rem;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(200,48,48,0.28);transition:all 0.15s}
+  .btn-conf-ok:hover{transform:translateY(-1px);box-shadow:0 7px 20px rgba(200,48,48,0.38)}
+
+  /* ── Toast ── */
+  .toast-wrap{position:fixed;top:20px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+  .toast{padding:12px 18px 12px 14px;border-radius:var(--r2);background:var(--w);border:1px solid rgba(220,215,240,0.6);box-shadow:0 8px 28px rgba(56,56,90,0.13);font-size:0.78rem;font-weight:500;color:var(--tx);display:flex;align-items:center;gap:10px;min-width:240px;max-width:340px;animation:toastIn 0.28s var(--ease);pointer-events:all}
+  .toast-exit{animation:toastOut 0.25s var(--ease) forwards}
+  @keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+  @keyframes toastOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(20px)}}
+  .toast-ok{border-left:3px solid var(--g)}
+  .toast-err{border-left:3px solid #E05050}
+  .toast-info{border-left:3px solid var(--t)}
+  .toast-em{font-size:1.05rem;flex-shrink:0}
+
+  /* ── Responsive ── */
+  @media(max-width:900px){
+    .sb{transform:translateX(-100%);transition:transform 0.25s var(--ease)}
+    .sb.open{transform:translateX(0)}
+    .main{margin-left:0;padding:20px 18px 60px}
+    .filtros-row{flex-direction:column}
+    .sc-registro{grid-template-columns:1fr}
+    .modal-form-row{grid-template-columns:1fr}
+    .sc-acciones{width:100%;justify-content:flex-start}
+  }
+  @media(max-width:600px){
+    .main{padding:16px 14px 60px}
+    .stats-row{display:none}
+  }
+  </style>
+</head>
+<body>
+<div class="sb" id="sb">
+  <div class="sb-logo">
+    <div class="sb-logo-row">
+      <div class="sb-icon">🗣️</div>
+      <div>
+        <div class="sb-app-name">FonoAprende</div>
+        <div class="sb-app-sub">Sesión en un Click</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sb-user">
+    <div class="sb-av">👩‍⚕️</div>
+    <div>
+      <div class="sb-uname" id="sb-nombre">Fonoaudióloga</div>
+      <div class="sb-urole">Fonoaudióloga</div>
+    </div>
+  </div>
+
+  <nav class="sb-nav">
+    <a href="index.html" class="ni"><span class="ni-em">🏠</span><span class="ni-txt">Inicio</span></a>
+    <a href="pacientes.html" class="ni"><span class="ni-em">👥</span><span class="ni-txt">Pacientes</span></a>
+    <a href="sesion.html" class="ni"><span class="ni-em">📝</span><span class="ni-txt">Sesión</span></a>
+    <a href="historial.html" class="ni on"><span class="ni-em">📅</span><span class="ni-txt">Historial</span></a>
+    <a href="biblioteca.html" class="ni"><span class="ni-em">📚</span><span class="ni-txt">Biblioteca</span></a>
+    <a href="#" class="ni"><span class="ni-em">⚙️</span><span class="ni-txt">Configuración</span></a>
+  </nav>
+
+  <div class="sb-foot">
+    <div class="sb-foot-txt">FonoAprende v1.0 · 2026</div>
+  </div>
+</div>
+
+<main class="main">
+  <div class="ph">
+    <div class="ph-left">
+      <div class="ph-title">📅 Historial de Sesiones</div>
+      <div class="ph-sub">Revisa, edita y comparte el registro de todas las sesiones</div>
+    </div>
+    <a href="sesion.html" class="btn-nueva"><span>+</span> Nueva Sesión</a>
+  </div>
+
+  <!-- Stats resumen -->
+  <div class="stats-row" id="stats-row">
+    <div class="stat-mini"><div class="stat-mini-num" id="stat-total">0</div><div class="stat-mini-lbl">Sesiones totales</div></div>
+    <div class="stat-mini"><div class="stat-mini-num" id="stat-pacientes">0</div><div class="stat-mini-lbl">Pacientes activos</div></div>
+    <div class="stat-mini"><div class="stat-mini-num" id="stat-semana">0</div><div class="stat-mini-lbl">Esta semana</div></div>
+    <div class="stat-mini"><div class="stat-mini-num" id="stat-logros">0%</div><div class="stat-mini-lbl">Objetivos logrados</div></div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filtros-card">
+    <div class="filtros-row">
+      <div class="filtro-group">
+        <label class="filtro-label">Paciente</label>
+        <select class="form-select" id="filtro-paciente" onchange="renderHistorial()">
+          <option value="">Todos los pacientes</option>
+        </select>
+      </div>
+      <div class="filtro-group">
+        <label class="filtro-label">Desde</label>
+        <input type="date" class="form-input" id="filtro-desde" onchange="renderHistorial()"/>
+      </div>
+      <div class="filtro-group">
+        <label class="filtro-label">Hasta</label>
+        <input type="date" class="form-input" id="filtro-hasta" onchange="renderHistorial()"/>
+      </div>
+      <button class="btn-filtrar" onclick="limpiarFiltros()">✕ Limpiar</button>
+    </div>
+  </div>
+
+  <!-- Lista de sesiones -->
+  <div class="sesiones-list" id="sesiones-list"></div>
+</main>
+
+<!-- Modal editar -->
+<div class="modal-overlay" id="modal-editar">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">✏️ Editar Sesión</div>
+      <button class="btn-modal-close" onclick="cerrarModal()">×</button>
+    </div>
+    <div class="modal-form-row">
+      <div class="modal-form-group">
+        <label class="modal-form-label">Fecha</label>
+        <input type="date" class="modal-form-input" id="m-fecha"/>
+      </div>
+      <div class="modal-form-group">
+        <label class="modal-form-label">Número de sesión</label>
+        <input type="number" class="modal-form-input" id="m-numero" min="1"/>
+      </div>
+    </div>
+
+    <div class="modal-form-group full" style="margin-bottom:14px">
+      <label class="modal-form-label">Objetivos trabajados</label>
+      <div class="modal-obj-list" id="m-objetivos-list"></div>
+    </div>
+
+    <div class="modal-form-row">
+      <div class="modal-form-group">
+        <label class="modal-form-label">💡 Logros y Avances</label>
+        <textarea class="modal-form-textarea" id="m-logros" placeholder="Logros de la sesión…"></textarea>
+      </div>
+      <div class="modal-form-group">
+        <label class="modal-form-label">👁️ Observaciones Clínicas</label>
+        <textarea class="modal-form-textarea" id="m-observaciones" placeholder="Observaciones…"></textarea>
+      </div>
+      <div class="modal-form-group">
+        <label class="modal-form-label">⚠️ Barreras y Dificultades</label>
+        <textarea class="modal-form-textarea" id="m-barreras" placeholder="Dificultades…"></textarea>
+      </div>
+      <div class="modal-form-group">
+        <label class="modal-form-label">🏠 Tareas para el Hogar</label>
+        <textarea class="modal-form-textarea" id="m-tareas" placeholder="Tareas…"></textarea>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn-guardar-modal" onclick="guardarEdicion()">💾 Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm eliminar -->
+<div class="confirm-overlay" id="confirm-overlay">
+  <div class="confirm-box">
+    <div class="confirm-icon">🗑️</div>
+    <div class="confirm-title">¿Eliminar esta sesión?</div>
+    <div class="confirm-sub">Esta acción no se puede deshacer. La sesión será eliminada permanentemente del historial.</div>
+    <div class="confirm-btns">
+      <button class="btn-conf-cancel" onclick="cerrarConfirm()">Cancelar</button>
+      <button class="btn-conf-ok" onclick="confirmarEliminar()">Sí, eliminar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script>
+// ── IndexedDB helpers ──────────────────────────────────────────────────────
+let _db = null;
+async function initDB() {
+  if (_db) return _db;
+  return new Promise((res, rej) => {
+    const r = indexedDB.open('SesionesFonoDB', 1);
+    r.onupgradeneeded = e => {
+      if (!e.target.result.objectStoreNames.contains('datos'))
+        e.target.result.createObjectStore('datos', {keyPath:'id'});
+    };
+    r.onsuccess = e => { _db = e.target.result; res(_db); };
+    r.onerror = rej;
+  });
+}
+async function loadData() {
+  await initDB();
+  return new Promise(res => {
+    const tx = _db.transaction('datos','readonly');
+    const req = tx.objectStore('datos').get('app-data');
+    req.onsuccess = () => res(req.result || {id:'app-data',pacientes:[],sesiones:[],configuracion:{}});
+  });
+}
+async function saveData(data) {
+  await initDB();
+  return new Promise(res => {
+    const tx = _db.transaction('datos','readwrite');
+    tx.objectStore('datos').put(data);
+    tx.oncomplete = res;
+  });
+}
+
+// ── Escape ─────────────────────────────────────────────────────────────────
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Estado global ──────────────────────────────────────────────────────────
+let appData = null;
+let sesionEditandoId = null;
+let sesionEliminandoId = null;
+let objetivosEditando = [];
+
+// ── Meses en español ───────────────────────────────────────────────────────
+const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+function fechaES(iso) {
+  if (!iso) return '';
+  const [y,m,d] = iso.split('-');
+  return `${parseInt(d)} de ${MESES[parseInt(m)-1]} de ${y}`;
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', async () => {
+  appData = await loadData();
+  cargarPacientesSelect();
+  renderHistorial();
+  cargarNombreSidebar();
+
+  // Cerrar modal con Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { cerrarModal(); cerrarConfirm(); }
+  });
+  // Cerrar modal con clic afuera
+  document.getElementById('modal-editar').addEventListener('click', e => {
+    if (e.target === document.getElementById('modal-editar')) cerrarModal();
+  });
+  document.getElementById('confirm-overlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('confirm-overlay')) cerrarConfirm();
+  });
+});
+
+function cargarNombreSidebar() {
+  if (appData.configuracion && appData.configuracion.nombre) {
+    document.getElementById('sb-nombre').textContent = appData.configuracion.nombre;
+  }
+}
+
+// ── Filtros ────────────────────────────────────────────────────────────────
+function cargarPacientesSelect() {
+  const sel = document.getElementById('filtro-paciente');
+  sel.innerHTML = '<option value="">Todos los pacientes</option>';
+  (appData.pacientes || []).forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p.id;
+    opt.textContent = p.nombre;
+    sel.appendChild(opt);
+  });
+}
+
+function limpiarFiltros() {
+  document.getElementById('filtro-paciente').value = '';
+  document.getElementById('filtro-desde').value = '';
+  document.getElementById('filtro-hasta').value = '';
+  renderHistorial();
+}
+
+// ── Render historial ───────────────────────────────────────────────────────
+function renderHistorial() {
+  const filPaciente = document.getElementById('filtro-paciente').value;
+  const filDesde = document.getElementById('filtro-desde').value;
+  const filHasta = document.getElementById('filtro-hasta').value;
+
+  let sesiones = [...(appData.sesiones || [])];
+
+  // Filtros
+  if (filPaciente) sesiones = sesiones.filter(s => String(s.pacienteId) === filPaciente);
+  if (filDesde)    sesiones = sesiones.filter(s => s.fecha >= filDesde);
+  if (filHasta)    sesiones = sesiones.filter(s => s.fecha <= filHasta);
+
+  // Ordenar por fecha desc
+  sesiones.sort((a,b) => {
+    if (b.fecha !== a.fecha) return b.fecha.localeCompare(a.fecha);
+    return b.numero_sesion - a.numero_sesion;
+  });
+
+  // Stats
+  actualizarStats();
+
+  const list = document.getElementById('sesiones-list');
+  list.innerHTML = '';
+
+  if (!sesiones.length) {
+    list.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">📋</div>
+        <div class="empty-title">Sin sesiones registradas</div>
+        <div class="empty-sub">No hay sesiones que coincidan con los filtros aplicados.<br>¡Registra tu primera sesión!</div>
+        <a href="sesion.html" class="btn-nueva" style="display:inline-flex;margin:0 auto">+ Nueva Sesión</a>
+      </div>`;
+    return;
+  }
+
+  sesiones.forEach((sesion, i) => {
+    const paciente = (appData.pacientes || []).find(p => p.id === sesion.pacienteId);
+    const nomPaciente = paciente ? paciente.nombre : 'Paciente desconocido';
+    const card = crearCardSesion(sesion, nomPaciente, i);
+    list.appendChild(card);
+  });
+}
+
+function crearCardSesion(sesion, nomPaciente, idx) {
+  const card = document.createElement('div');
+  card.className = 'sesion-card';
+  card.style.animationDelay = (idx * 0.04) + 's';
+
+  // Objetivos HTML
+  let objetivosHTML = '';
+  const objs = sesion.objetivos_trabajados || [];
+  if (objs.length) {
+    const chipsHTML = objs.map(o => {
+      const cls = estadoClass(o.estado);
+      const em = estadoEmoji(o.estado);
+      return `<span class="obj-chip ${cls}">${em} ${esc(o.texto)}</span>`;
+    }).join('');
+    objetivosHTML = `
+      <div class="sc-objetivos">
+        <div class="sc-sec-label">Objetivos trabajados</div>
+        <div class="obj-chips">${chipsHTML}</div>
+      </div>`;
+  }
+
+  // Registro clínico
+  const campos = [
+    {em:'💡', label:'Logros', val:sesion.logros},
+    {em:'👁️', label:'Observaciones', val:sesion.observaciones},
+    {em:'⚠️', label:'Barreras', val:sesion.barreras},
+    {em:'🏠', label:'Tareas', val:sesion.tareas},
+  ];
+  const registroHTML = campos.map(c => `
+    <div class="sc-reg-item">
+      <div class="sc-reg-label"><span>${c.em}</span> ${esc(c.label)}</div>
+      ${c.val
+        ? `<div class="sc-reg-texto">${esc(c.val)}</div>`
+        : `<div class="sc-reg-vacio">Sin registrar</div>`}
+    </div>`).join('');
+
+  card.innerHTML = `
+    <div class="sc-header">
+      <div class="sc-title-block">
+        <div class="sc-num">Sesión #${esc(String(sesion.numero_sesion || '?'))}</div>
+        <div class="sc-paciente">${esc(nomPaciente)}</div>
+        <div class="sc-fecha">📅 ${esc(fechaES(sesion.fecha))}</div>
+      </div>
+      <div class="sc-acciones">
+        <button class="btn-accion btn-editar" onclick="abrirEditar(${sesion.id})">✏️ Editar</button>
+        <button class="btn-accion btn-whatsapp" onclick="enviarWhatsApp(${sesion.id})">💬 WhatsApp</button>
+        <button class="btn-accion btn-eliminar" onclick="pedirEliminar(${sesion.id})">🗑️ Eliminar</button>
+      </div>
+    </div>
+    ${objetivosHTML}
+    <div class="sc-registro">${registroHTML}</div>`;
+
+  return card;
+}
+
+function estadoClass(estado) {
+  const map = {logrado:'oc-logrado', parcial:'oc-parcial', con_apoyo:'oc-apoyo', no_logrado:'oc-no_logrado'};
+  return map[estado] || 'oc-no_logrado';
+}
+function estadoEmoji(estado) {
+  const map = {logrado:'✅', parcial:'🔵', con_apoyo:'🟡', no_logrado:'❌'};
+  return map[estado] || '❌';
+}
+
+function actualizarStats() {
+  const sesiones = appData.sesiones || [];
+  const pacientesConSesion = new Set(sesiones.map(s => s.pacienteId)).size;
+
+  // Sesiones esta semana
+  const ahora = new Date();
+  const lunesStr = (() => {
+    const d = new Date(ahora);
+    const day = d.getDay() || 7;
+    d.setDate(d.getDate() - day + 1);
+    return d.toISOString().slice(0,10);
+  })();
+  const estaSemana = sesiones.filter(s => s.fecha >= lunesStr).length;
+
+  // % logrados
+  let total = 0, logrados = 0;
+  sesiones.forEach(s => {
+    (s.objetivos_trabajados || []).forEach(o => {
+      total++;
+      if (o.estado === 'logrado') logrados++;
+    });
+  });
+  const pct = total > 0 ? Math.round(logrados/total*100) : 0;
+
+  document.getElementById('stat-total').textContent = sesiones.length;
+  document.getElementById('stat-pacientes').textContent = pacientesConSesion;
+  document.getElementById('stat-semana').textContent = estaSemana;
+  document.getElementById('stat-logros').textContent = pct + '%';
+}
+
+// ── WhatsApp ───────────────────────────────────────────────────────────────
+function generarMensajeWhatsApp(sesion, paciente) {
+  const nombre = paciente ? paciente.nombre : 'el/la paciente';
+  const nombreFono = (appData.configuracion && appData.configuracion.nombre) ? appData.configuracion.nombre : 'Tu fonoaudióloga';
+  const fecha = fechaES(sesion.fecha);
+  const numSesion = sesion.numero_sesion || '';
+
+  let objetivosLineas = '';
+  (sesion.objetivos_trabajados || []).forEach(o => {
+    const em = estadoEmoji(o.estado);
+    objetivosLineas += `${em} ${o.texto}\n`;
+  });
+
+  let msg = `Hola! Te comparto el resumen de la sesión de ${nombre}:\n\n`;
+  msg += `📅 Sesión #${numSesion} · ${fecha}\n\n`;
+
+  if (objetivosLineas) {
+    msg += `🎯 Objetivos trabajados:\n${objetivosLineas}\n`;
+  }
+  if (sesion.logros) msg += `💡 Avances: ${sesion.logros}\n\n`;
+  if (sesion.observaciones) msg += `👁️ Observaciones: ${sesion.observaciones}\n\n`;
+  if (sesion.barreras) msg += `⚠️ Dificultades: ${sesion.barreras}\n\n`;
+  if (sesion.tareas) msg += `🏠 Tareas: ${sesion.tareas}\n\n`;
+  msg += `Cualquier consulta, ¡escríbeme!\n— ${nombreFono}`;
+
+  return msg;
+}
+
+function enviarWhatsApp(sesionId) {
+  const sesion = (appData.sesiones || []).find(s => s.id === sesionId);
+  if (!sesion) return;
+  const paciente = (appData.pacientes || []).find(p => p.id === sesion.pacienteId);
+  const telefono = (paciente && paciente.telefono) ? paciente.telefono.replace(/\D/g,'') : '';
+  const msg = generarMensajeWhatsApp(sesion, paciente);
+  const url = `https://wa.me/${telefono}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+}
+
+// ── Editar ─────────────────────────────────────────────────────────────────
+function abrirEditar(sesionId) {
+  const sesion = (appData.sesiones || []).find(s => s.id === sesionId);
+  if (!sesion) return;
+  sesionEditandoId = sesionId;
+
+  document.getElementById('m-fecha').value = sesion.fecha || '';
+  document.getElementById('m-numero').value = sesion.numero_sesion || '';
+  document.getElementById('m-logros').value = sesion.logros || '';
+  document.getElementById('m-observaciones').value = sesion.observaciones || '';
+  document.getElementById('m-barreras').value = sesion.barreras || '';
+  document.getElementById('m-tareas').value = sesion.tareas || '';
+
+  objetivosEditando = JSON.parse(JSON.stringify(sesion.objetivos_trabajados || []));
+  renderObjetivosModal();
+
+  document.getElementById('modal-editar').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderObjetivosModal() {
+  const list = document.getElementById('m-objetivos-list');
+  list.innerHTML = '';
+  if (!objetivosEditando.length) {
+    const p = document.createElement('p');
+    p.style.cssText = 'font-size:0.75rem;color:var(--ts);font-style:italic;padding:8px 0';
+    p.textContent = 'Sin objetivos registrados en esta sesión';
+    list.appendChild(p);
+    return;
+  }
+  objetivosEditando.forEach((obj, idx) => {
+    const card = document.createElement('div');
+    card.className = 'modal-obj-card';
+    const estados = [
+      {key:'no_logrado',label:'❌ No logrado',cls:'be-no'},
+      {key:'con_apoyo',label:'🟠 Con apoyo',cls:'be-apoyo'},
+      {key:'parcial',label:'🔵 Logro parcial',cls:'be-parcial'},
+      {key:'logrado',label:'✅ Logrado',cls:'be-logrado'},
+    ];
+    const btns = estados.map(e =>
+      `<button class="btn-estado ${e.cls}${obj.estado===e.key?' active':''}" onclick="setEstadoEdit(${idx},'${e.key}')">${e.label}</button>`
+    ).join('');
+    card.innerHTML = `
+      <div class="modal-obj-header">
+        <div class="modal-obj-texto">${esc(obj.texto)}</div>
+      </div>
+      <div class="modal-estado-btns">${btns}</div>`;
+    list.appendChild(card);
+  });
+}
+
+function setEstadoEdit(idx, estado) {
+  if (objetivosEditando[idx]) {
+    objetivosEditando[idx].estado = estado;
+    renderObjetivosModal();
+  }
+}
+
+async function guardarEdicion() {
+  if (!sesionEditandoId) return;
+  const data = await loadData();
+  const idx = data.sesiones.findIndex(s => s.id === sesionEditandoId);
+  if (idx < 0) return;
+
+  data.sesiones[idx].fecha = document.getElementById('m-fecha').value;
+  data.sesiones[idx].numero_sesion = parseInt(document.getElementById('m-numero').value) || data.sesiones[idx].numero_sesion;
+  data.sesiones[idx].logros = document.getElementById('m-logros').value.trim();
+  data.sesiones[idx].observaciones = document.getElementById('m-observaciones').value.trim();
+  data.sesiones[idx].barreras = document.getElementById('m-barreras').value.trim();
+  data.sesiones[idx].tareas = document.getElementById('m-tareas').value.trim();
+  data.sesiones[idx].objetivos_trabajados = objetivosEditando;
+
+  await saveData(data);
+  appData = data;
+  cerrarModal();
+  renderHistorial();
+  showToast('Sesión actualizada correctamente','ok');
+}
+
+function cerrarModal() {
+  document.getElementById('modal-editar').classList.remove('show');
+  document.body.style.overflow = '';
+  sesionEditandoId = null;
+  objetivosEditando = [];
+}
+
+// ── Eliminar ───────────────────────────────────────────────────────────────
+function pedirEliminar(sesionId) {
+  sesionEliminandoId = sesionId;
+  document.getElementById('confirm-overlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+async function confirmarEliminar() {
+  if (!sesionEliminandoId) return;
+  const data = await loadData();
+  data.sesiones = (data.sesiones || []).filter(s => s.id !== sesionEliminandoId);
+  await saveData(data);
+  appData = data;
+  cerrarConfirm();
+  renderHistorial();
+  showToast('Sesión eliminada','info');
+}
+
+function cerrarConfirm() {
+  document.getElementById('confirm-overlay').classList.remove('show');
+  document.body.style.overflow = '';
+  sesionEliminandoId = null;
+}
+
+// ── Toast ──────────────────────────────────────────────────────────────────
+function showToast(msg, tipo='info') {
+  const wrap = document.getElementById('toast-wrap');
+  const t = document.createElement('div');
+  const em = tipo==='ok' ? '✅' : tipo==='err' ? '❌' : 'ℹ️';
+  t.className = `toast toast-${tipo==='ok'?'ok':tipo==='err'?'err':'info'}`;
+  const span = document.createElement('span');
+  span.className = 'toast-em';
+  span.textContent = em;
+  const txt = document.createElement('span');
+  txt.textContent = msg;
+  t.appendChild(span);
+  t.appendChild(txt);
+  wrap.appendChild(t);
+  setTimeout(() => {
+    t.classList.add('toast-exit');
+    t.addEventListener('animationend', () => t.remove());
+  }, 3200);
+}
+</script>
+</body>
+</html>
