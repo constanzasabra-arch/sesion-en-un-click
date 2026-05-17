@@ -1980,48 +1980,63 @@
       <button class="ideas-filtro" onclick="filtrarIdeas('mof',this)">MOF</button>
       <button class="ideas-filtro" onclick="filtrarIdeas('pragmatica',this)">Pragmática</button>
       <button class="ideas-filtro" onclick="filtrarIdeas('voz',this)">Voz</button>
-      <button class="ideas-filtro" onclick="filtrarIdeas('otro',this)">Otras</button>
+      <button class="ideas-filtro" onclick="filtrarIdeas('otras',this)">Otras</button>
     </div>
     <div id="ideasGrid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px"><div style="grid-column:1/-1;text-align:center;padding:40px;color:#8a89a3">Cargando ideas…</div></div>
   </div>
 </div>
 
 <!-- MODAL NUEVA IDEA -->
-<div id="modal-nueva-idea" style="display:none;position:fixed;inset:0;z-index:700;background:rgba(56,56,90,.2);align-items:center;justify-content:center">
-  <div style="background:#fff;border-radius:28px;padding:36px;max-width:480px;width:92%;box-shadow:0 20px 60px rgba(0,0,0,.15)">
-    <h3 style="font-size:1.1rem;font-weight:700;color:#38385A;margin-bottom:20px">💡 Nueva Idea de Planificación</h3>
-    <div style="display:flex;flex-direction:column;gap:12px">
+<div id="modal-nueva-idea" style="display:none;position:fixed;inset:0;z-index:700;background:rgba(56,56,90,.22);backdrop-filter:blur(4px);align-items:center;justify-content:center">
+  <div style="background:linear-gradient(160deg,#f9f6ff,#f0fafe);border-radius:28px;padding:36px;max-width:480px;width:92%;box-shadow:0 24px 64px rgba(107,197,210,.18),0 4px 16px rgba(0,0,0,.08);border:1.5px solid rgba(255,255,255,.8)">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px">
+      <span style="font-size:1.6rem">💡</span>
       <div>
-        <label style="font-size:.72rem;font-weight:600;color:#8a89a3;display:block;margin-bottom:5px">Área clínica</label>
-        <select id="nueva-idea-cat" style="width:100%;padding:10px 14px;border-radius:12px;border:1.5px solid rgba(107,197,210,.2);font-family:inherit;font-size:.82rem;outline:none">
-          <option value="fonologia">Fonología</option>
-          <option value="lenguaje">Lenguaje</option>
-          <option value="mof">MOF</option>
-          <option value="pragmatica">Pragmática</option>
-          <option value="voz">Voz</option>
-          <option value="otro">Otra</option>
-        </select>
+        <div style="font-size:1.05rem;font-weight:700;color:#38385A">Nueva Idea de Planificación</div>
+        <div style="font-size:.70rem;color:#8a89a3;margin-top:2px">Guarda actividades que usas en tus sesiones</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:13px">
+      <div style="display:grid;grid-template-columns:1fr 80px;gap:10px">
+        <div>
+          <label style="font-size:.70rem;font-weight:600;color:#8a89a3;display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em">Área clínica</label>
+          <select id="idea-categoria" style="width:100%;padding:10px 14px;border-radius:12px;border:1.5px solid rgba(107,197,210,.25);font-family:inherit;font-size:.82rem;outline:none;background:#fff;color:#38385A">
+            <option value="fonologia">🔤 Fonología</option>
+            <option value="lenguaje" selected>💬 Lenguaje</option>
+            <option value="mof">👄 MOF</option>
+            <option value="pragmatica">🤝 Pragmática</option>
+            <option value="voz">🎤 Voz</option>
+            <option value="otras">✨ Otras</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:.70rem;font-weight:600;color:#8a89a3;display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em">Emoji</label>
+          <input type="text" id="idea-emoji" value="💡" maxlength="2" style="width:100%;padding:10px 0;border-radius:12px;border:1.5px solid rgba(107,197,210,.25);font-size:1.4rem;text-align:center;outline:none;background:#fff">
+        </div>
       </div>
       <div>
-        <label style="font-size:.72rem;font-weight:600;color:#8a89a3;display:block;margin-bottom:5px">Emoji</label>
-        <input type="text" id="nueva-idea-emoji" value="✨" maxlength="2" style="width:80px;padding:10px 14px;border-radius:12px;border:1.5px solid rgba(107,197,210,.2);font-size:1.2rem;text-align:center">
+        <label style="font-size:.70rem;font-weight:600;color:#8a89a3;display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em">Título <span style="color:#e07070;text-transform:none">*</span></label>
+        <input type="text" id="idea-titulo" placeholder="Ej: Repetición de pares mínimos" style="width:100%;padding:10px 14px;border-radius:12px;border:1.5px solid rgba(107,197,210,.25);font-family:inherit;font-size:.85rem;outline:none;background:#fff;color:#38385A">
       </div>
       <div>
-        <label style="font-size:.72rem;font-weight:600;color:#8a89a3;display:block;margin-bottom:5px">Título <span style="color:#e07070">*</span></label>
-        <input type="text" id="nueva-idea-titulo" placeholder="Ej: Repetición de pares mínimos" style="width:100%;padding:10px 14px;border-radius:12px;border:1.5px solid rgba(107,197,210,.2);font-family:inherit;font-size:.82rem;outline:none">
+        <label style="font-size:.70rem;font-weight:600;color:#8a89a3;display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em">Descripción</label>
+        <textarea id="idea-descripcion" rows="3" placeholder="Describe brevemente la actividad, cómo aplicarla…" style="width:100%;padding:10px 14px;border-radius:12px;border:1.5px solid rgba(107,197,210,.25);font-family:inherit;font-size:.82rem;outline:none;resize:vertical;background:#fff;color:#38385A"></textarea>
       </div>
       <div>
-        <label style="font-size:.72rem;font-weight:600;color:#8a89a3;display:block;margin-bottom:5px">Descripción</label>
-        <textarea id="nueva-idea-desc" rows="3" placeholder="Describe brevemente la actividad…" style="width:100%;padding:10px 14px;border-radius:12px;border:1.5px solid rgba(107,197,210,.2);font-family:inherit;font-size:.82rem;outline:none;resize:vertical"></textarea>
+        <label style="font-size:.70rem;font-weight:600;color:#8a89a3;display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em">Materiales necesarios</label>
+        <input type="text" id="idea-materiales" placeholder="Ej: Tarjetas, espejo, pelota" style="width:100%;padding:10px 14px;border-radius:12px;border:1.5px solid rgba(107,197,210,.25);font-family:inherit;font-size:.82rem;outline:none;background:#fff;color:#38385A">
       </div>
-      <div>
-        <label style="font-size:.72rem;font-weight:600;color:#8a89a3;display:block;margin-bottom:5px">Materiales necesarios</label>
-        <input type="text" id="nueva-idea-mat" placeholder="Ej: Tarjetas, espejo, pelota" style="width:100%;padding:10px 14px;border-radius:12px;border:1.5px solid rgba(107,197,210,.2);font-family:inherit;font-size:.82rem;outline:none">
-      </div>
+      <label style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;background:linear-gradient(135deg,rgba(107,197,210,.08),rgba(192,170,220,.08));border:1.5px solid rgba(107,197,210,.2);cursor:pointer">
+        <input type="checkbox" id="idea-publica" style="width:16px;height:16px;accent-color:#6BC5D2">
+        <div>
+          <div style="font-size:.82rem;font-weight:600;color:#38385A">⭐ Compartir con todas mis suscriptoras</div>
+          <div style="font-size:.70rem;color:#8a89a3;margin-top:1px">Esta idea aparecerá en la biblioteca de todas las fonoaudiólogas de FonoAprende</div>
+        </div>
+      </label>
     </div>
     <div style="display:flex;gap:10px;margin-top:24px;justify-content:flex-end">
       <button onclick="cerrarNuevaIdea()" style="padding:10px 20px;border-radius:12px;border:1.5px solid rgba(107,197,210,.25);background:#fff;font-family:inherit;font-size:.82rem;color:#8a89a3;cursor:pointer">Cancelar</button>
-      <button onclick="guardarNuevaIdea()" id="btn-guardar-idea" style="padding:10px 22px;border-radius:12px;border:none;background:linear-gradient(135deg,#6BC5D2,#A8DCC8);color:#fff;font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer">Guardar</button>
+      <button onclick="guardarNuevaIdea()" id="btn-guardar-idea" style="padding:10px 24px;border-radius:12px;border:none;background:linear-gradient(135deg,#6BC5D2,#A8DCC8);color:#fff;font-family:inherit;font-size:.85rem;font-weight:600;cursor:pointer;box-shadow:0 4px 14px rgba(107,197,210,.3)">Guardar idea ✨</button>
     </div>
   </div>
 </div>
@@ -2215,7 +2230,10 @@
       ideasUsuario = (data || []).map(i => ({
         id: i.id, area: i.categoria, titulo: i.titulo,
         desc: i.descripcion || '', emoji: i.emoji || '💡',
-        materiales: i.materiales || '', fuente: 'usuario'
+        materiales: i.materiales || '',
+        publica: !!i.publica,
+        esMia: i.fono_id === currentUser?.id,
+        fuente: 'usuario'
       }));
     } catch(e) { ideasUsuario = []; }
   }
@@ -2230,11 +2248,16 @@
       return;
     }
     grid.innerHTML = items.map(i => {
-      const esMia = i.fuente === 'usuario';
-      const tagColor = esMia ? 'background:linear-gradient(135deg,#C0AADC,#D8C8F0);color:#6B4FA0' : '';
-      return `<div class="idea-card" style="${esMia?'border:1.5px solid rgba(192,170,220,.35)':''}">
-        ${esMia ? `<button onclick="eliminarIdea('${i.id}')" title="Eliminar" style="position:absolute;top:8px;right:8px;background:none;border:none;cursor:pointer;font-size:.75rem;color:#bbb;padding:2px 5px">✕</button>` : ''}
-        <span class="idea-tag ${i.area}" style="${tagColor}">${esMia?'✨ Mía':i.area.charAt(0).toUpperCase()+i.area.slice(1)}</span>
+      const esBase = i.fuente === 'base';
+      const esMia = i.fuente === 'usuario' && i.esMia;
+      const esPublica = i.fuente === 'usuario' && i.publica && !i.esMia;
+      let badge, borderStyle;
+      if (esPublica) { badge = `<span style="background:linear-gradient(135deg,#6BC5D2,#A8DCC8);color:white;font-size:.58rem;padding:3px 9px;border-radius:20px;font-weight:700;display:inline-block;margin-bottom:8px">⭐ FonoAprende</span>`; borderStyle='border:1.5px solid rgba(107,197,210,.35)'; }
+      else if (esMia) { badge = `<span style="background:linear-gradient(135deg,#C0AADC,#D8C8F0);color:#6B4FA0;font-size:.58rem;padding:3px 9px;border-radius:20px;font-weight:700;display:inline-block;margin-bottom:8px">✨ Mía</span>`; borderStyle='border:1.5px solid rgba(192,170,220,.35)'; }
+      else { badge = `<span class="idea-tag ${i.area}" style="margin-bottom:8px;display:inline-block">${i.area.charAt(0).toUpperCase()+i.area.slice(1)}</span>`; borderStyle=''; }
+      return `<div class="idea-card" style="${borderStyle}">
+        ${esMia ? `<button onclick="eliminarIdea('${esc(i.id)}')" title="Eliminar" style="position:absolute;top:8px;right:8px;background:none;border:none;cursor:pointer;font-size:.75rem;color:#bbb;padding:2px 5px">✕</button>` : ''}
+        ${badge}
         <div style="font-size:1.4rem;margin-bottom:8px">${esc(i.emoji)}</div>
         <div style="font-size:.84rem;font-weight:700;color:#38385A;margin-bottom:6px">${esc(i.titulo)}</div>
         <div style="font-size:.75rem;color:#8a89a3;line-height:1.55">${esc(i.desc)}</div>
@@ -2251,15 +2274,15 @@
   function cerrarNuevaIdea() {
     const m = document.getElementById('modal-nueva-idea');
     if (m) m.style.display = 'none';
-    ['idea-categoria','idea-emoji','idea-titulo','idea-descripcion','idea-materiales'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.value = id === 'idea-categoria' ? 'lenguaje' : id === 'idea-emoji' ? '💡' : '';
-    });
+    const defaults = {'idea-categoria':'lenguaje','idea-emoji':'💡','idea-titulo':'','idea-descripcion':'','idea-materiales':''};
+    Object.entries(defaults).forEach(([id,v]) => { const el=document.getElementById(id); if(el) el.value=v; });
+    const cb = document.getElementById('idea-publica');
+    if (cb) cb.checked = false;
   }
 
   async function guardarNuevaIdea() {
     const titulo = document.getElementById('idea-titulo')?.value.trim();
-    if (!titulo) { showToast('Ingresa un título para la idea'); return; }
+    if (!titulo) { showToast('Escribe un título para la idea'); return; }
     const btn = document.getElementById('btn-guardar-idea');
     if (btn) { btn.disabled = true; btn.textContent = 'Guardando…'; }
     try {
@@ -2269,17 +2292,19 @@
         emoji: document.getElementById('idea-emoji')?.value.trim() || '💡',
         titulo: titulo,
         descripcion: document.getElementById('idea-descripcion')?.value.trim() || '',
-        materiales: document.getElementById('idea-materiales')?.value.trim() || ''
+        materiales: document.getElementById('idea-materiales')?.value.trim() || '',
+        publica: document.getElementById('idea-publica')?.checked || false
       });
       if (error) throw error;
+      const esPublica = document.getElementById('idea-publica')?.checked;
       cerrarNuevaIdea();
-      showToast('¡Idea guardada! ✨');
+      showToast(esPublica ? '¡Idea compartida con todas! ⭐' : '¡Idea guardada! ✨');
       await cargarIdeasUsuario();
       renderIdeas();
     } catch(e) {
       showToast('Error al guardar. Verifica tu conexión.');
     } finally {
-      if (btn) { btn.disabled = false; btn.textContent = 'Guardar'; }
+      if (btn) { btn.disabled = false; btn.textContent = 'Guardar idea ✨'; }
     }
   }
 
@@ -2576,6 +2601,8 @@ Motivo de consulta: ${motivo || 'No indicado'}`;
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlleHh6em9lbGVleWFmYXdha2ZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MTQ4NTEsImV4cCI6MjA5MjI5MDg1MX0.J8zkTJErSeitGnDhowg68nZKsdfu00QjA62N8W_7KP4';
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   console.log('✅ Supabase inicializado');
+
+  function esc(s){ return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
   // ══════════════════════════════════════════
   // AUTH — login / logout
