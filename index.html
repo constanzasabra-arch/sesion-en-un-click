@@ -471,7 +471,7 @@
   .btn-agregar-form:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(107,197,210,.25)}
   .ideas-filtro{padding:8px 18px;border-radius:50px;border:1.5px solid rgba(200,215,230,0.6);background:#F8FAFD;color:#8a89a3;font-family:inherit;font-size:.78rem;font-weight:500;cursor:pointer;transition:all .18s ease}
   .ideas-filtro.on,.ideas-filtro:hover{background:linear-gradient(135deg,rgba(107,197,210,0.14),rgba(192,170,220,0.10));border-color:rgba(107,197,210,0.35);color:#6BC5D2;font-weight:600}
-  .idea-card{background:white;border-radius:20px;padding:20px;border:1.5px solid rgba(200,215,230,0.5);box-shadow:0 2px 12px rgba(107,197,210,0.06);transition:all .2s ease;cursor:default}
+  .idea-card{position:relative;background:white;border-radius:20px;padding:20px;border:1.5px solid rgba(200,215,230,0.5);box-shadow:0 2px 12px rgba(107,197,210,0.06);transition:all .2s ease;cursor:default}
   .idea-card:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(107,197,210,0.12)}
   .idea-tag{display:inline-block;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;padding:3px 10px;border-radius:20px;margin-bottom:10px}
   .idea-tag.fonologia{background:rgba(107,197,210,0.12);color:#6BC5D2}
@@ -813,12 +813,12 @@
         <span class="ni-ico"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M240,208H224V136l2.34,2.34A8,8,0,0,0,237.66,127L139.31,28.68a16,16,0,0,0-22.62,0L18.34,127a8,8,0,0,0,11.32,11.31L32,136v72H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM48,120l80-80,80,80v88H160V152a8,8,0,0,0-8-8H104a8,8,0,0,0-8,8v56H48Zm96,88H112V160h32Z"/></svg></span>
         <span class="ni-txt">Inicio</span>
       </a>
-      <a class="ni" href="#">
+      <a class="ni" href="pacientes.html">
         <span class="ni-ico"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Z"/></svg></span>
         <span class="ni-txt">Mis Pacientes</span>
-        <span class="ni-pill np-c">12</span>
+        
       </a>
-      <a class="ni" href="#">
+      <a class="ni" href="sesion.html">
         <span class="ni-ico"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-38.34-85.66a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L116,164.69l42.34-42.35A8,8,0,0,1,169.66,122.34Z"/></svg></span>
         <span class="ni-txt">Agenda</span>
       </a>
@@ -901,15 +901,15 @@
       <button class="tab on">
         <span class="tab-em">🏠</span> Inicio
       </button>
-      <button class="tab">
+      <a class="tab" href="sesion.html" style="text-decoration:none">
         <span class="tab-em">📝</span> Sesión
-      </button>
-      <button class="tab">
+      </a>
+      <a class="tab" href="historial.html" style="text-decoration:none">
         <span class="tab-em">📁</span> Historial
-      </button>
-      <button class="tab">
-        <span class="tab-em">✅</span> Pendientes
-      </button>
+      </a>
+      <a class="tab" href="pacientes.html" style="text-decoration:none">
+        <span class="tab-em">👥</span> Pacientes
+      </a>
     </div>
 
     <!-- PAGE -->
@@ -1962,23 +1962,67 @@
 
 <!-- PANEL: IDEAS PLANIFICACIÓN -->
 <div class="form-container" id="vistaideas">
-  <div class="form-wrapper" style="max-width:860px">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px">
+  <div class="form-wrapper" style="max-width:900px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:12px">
       <div>
         <h1 style="font-size:1.8rem;font-weight:700;background:linear-gradient(135deg,#6BC5D2,#A8DCC8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Ideas de Planificación ✨</h1>
         <p style="color:#8a89a3;font-size:.88rem;margin-top:4px">Actividades y estrategias por área clínica</p>
       </div>
-      <button onclick="cerrarVista('ideas')" style="padding:10px 20px;border-radius:50px;border:1.5px solid rgba(107,197,210,0.3);background:white;color:#6BC5D2;font-weight:600;cursor:pointer;font-family:inherit">← Volver</button>
+      <div style="display:flex;gap:10px">
+        <button onclick="abrirNuevaIdea()" style="padding:10px 20px;border-radius:50px;border:none;background:linear-gradient(135deg,#6BC5D2,#A8DCC8);color:white;font-weight:600;cursor:pointer;font-family:inherit;font-size:.82rem">+ Agregar idea</button>
+        <button onclick="cerrarVista('ideas')" style="padding:10px 20px;border-radius:50px;border:1.5px solid rgba(107,197,210,0.3);background:white;color:#6BC5D2;font-weight:600;cursor:pointer;font-family:inherit">← Volver</button>
+      </div>
     </div>
-    <!-- Filtros por área -->
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px" id="ideasFiltros">
       <button class="ideas-filtro on" onclick="filtrarIdeas('todos',this)">Todas</button>
       <button class="ideas-filtro" onclick="filtrarIdeas('fonologia',this)">Fonología</button>
       <button class="ideas-filtro" onclick="filtrarIdeas('lenguaje',this)">Lenguaje</button>
       <button class="ideas-filtro" onclick="filtrarIdeas('mof',this)">MOF</button>
       <button class="ideas-filtro" onclick="filtrarIdeas('pragmatica',this)">Pragmática</button>
+      <button class="ideas-filtro" onclick="filtrarIdeas('voz',this)">Voz</button>
+      <button class="ideas-filtro" onclick="filtrarIdeas('otro',this)">Otras</button>
     </div>
-    <div id="ideasGrid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px"></div>
+    <div id="ideasGrid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px"><div style="grid-column:1/-1;text-align:center;padding:40px;color:#8a89a3">Cargando ideas…</div></div>
+  </div>
+</div>
+
+<!-- MODAL NUEVA IDEA -->
+<div id="modal-nueva-idea" style="display:none;position:fixed;inset:0;z-index:700;background:rgba(56,56,90,.2);align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:28px;padding:36px;max-width:480px;width:92%;box-shadow:0 20px 60px rgba(0,0,0,.15)">
+    <h3 style="font-size:1.1rem;font-weight:700;color:#38385A;margin-bottom:20px">💡 Nueva Idea de Planificación</h3>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div>
+        <label style="font-size:.72rem;font-weight:600;color:#8a89a3;display:block;margin-bottom:5px">Área clínica</label>
+        <select id="nueva-idea-cat" style="width:100%;padding:10px 14px;border-radius:12px;border:1.5px solid rgba(107,197,210,.2);font-family:inherit;font-size:.82rem;outline:none">
+          <option value="fonologia">Fonología</option>
+          <option value="lenguaje">Lenguaje</option>
+          <option value="mof">MOF</option>
+          <option value="pragmatica">Pragmática</option>
+          <option value="voz">Voz</option>
+          <option value="otro">Otra</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:.72rem;font-weight:600;color:#8a89a3;display:block;margin-bottom:5px">Emoji</label>
+        <input type="text" id="nueva-idea-emoji" value="✨" maxlength="2" style="width:80px;padding:10px 14px;border-radius:12px;border:1.5px solid rgba(107,197,210,.2);font-size:1.2rem;text-align:center">
+      </div>
+      <div>
+        <label style="font-size:.72rem;font-weight:600;color:#8a89a3;display:block;margin-bottom:5px">Título <span style="color:#e07070">*</span></label>
+        <input type="text" id="nueva-idea-titulo" placeholder="Ej: Repetición de pares mínimos" style="width:100%;padding:10px 14px;border-radius:12px;border:1.5px solid rgba(107,197,210,.2);font-family:inherit;font-size:.82rem;outline:none">
+      </div>
+      <div>
+        <label style="font-size:.72rem;font-weight:600;color:#8a89a3;display:block;margin-bottom:5px">Descripción</label>
+        <textarea id="nueva-idea-desc" rows="3" placeholder="Describe brevemente la actividad…" style="width:100%;padding:10px 14px;border-radius:12px;border:1.5px solid rgba(107,197,210,.2);font-family:inherit;font-size:.82rem;outline:none;resize:vertical"></textarea>
+      </div>
+      <div>
+        <label style="font-size:.72rem;font-weight:600;color:#8a89a3;display:block;margin-bottom:5px">Materiales necesarios</label>
+        <input type="text" id="nueva-idea-mat" placeholder="Ej: Tarjetas, espejo, pelota" style="width:100%;padding:10px 14px;border-radius:12px;border:1.5px solid rgba(107,197,210,.2);font-family:inherit;font-size:.82rem;outline:none">
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:24px;justify-content:flex-end">
+      <button onclick="cerrarNuevaIdea()" style="padding:10px 20px;border-radius:12px;border:1.5px solid rgba(107,197,210,.25);background:#fff;font-family:inherit;font-size:.82rem;color:#8a89a3;cursor:pointer">Cancelar</button>
+      <button onclick="guardarNuevaIdea()" id="btn-guardar-idea" style="padding:10px 22px;border-radius:12px;border:none;background:linear-gradient(135deg,#6BC5D2,#A8DCC8);color:#fff;font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer">Guardar</button>
+    </div>
   </div>
 </div>
 
@@ -2134,24 +2178,29 @@
   // (tabs gestionados en el bloque de Supabase script)
 
   // ── Vistas del sidebar ──
-  const IDEAS_DATA = [
-    {area:'fonologia', titulo:'Mímesis articulatoria', desc:'Imitar sonidos del ambiente y animales para estimular /r/, /l/, /s/.', emoji:'🐍'},
-    {area:'fonologia', titulo:'Pares mínimos', desc:'Trabajar conciencia fonológica con palabras que difieren en un fonema (pala/bala).', emoji:'🃏'},
-    {area:'fonologia', titulo:'Canciones con target', desc:'Canciones que repiten el fonema objetivo en posición inicial y final.', emoji:'🎵'},
-    {area:'fonologia', titulo:'Discriminación auditiva', desc:'El niño identifica si dos palabras son iguales o diferentes.', emoji:'👂'},
-    {area:'lenguaje', titulo:'Narración de cuentos', desc:'Usar cuento con imágenes para estimular vocabulario y morfosintaxis.', emoji:'📖'},
-    {area:'lenguaje', titulo:'Juego simbólico guiado', desc:'Juego de roles para ampliar vocabulario temático y frases.', emoji:'🎭'},
-    {area:'lenguaje', titulo:'Categorías semánticas', desc:'Clasificar objetos por categoría: animales, frutas, ropa.', emoji:'🗂️'},
-    {area:'lenguaje', titulo:'Preguntas Wh-', desc:'Estimular comprensión y uso de ¿qué?, ¿quién?, ¿dónde?, ¿cuándo?', emoji:'❓'},
-    {area:'mof', titulo:'Soplo dirigido', desc:'Soplar velas, plumas o burbujas para fortalecer musculatura labial.', emoji:'💨'},
-    {area:'mof', titulo:'Ejercicios de lengua', desc:'Elevación, lateralización y vibración lingual ante espejo.', emoji:'👅'},
-    {area:'mof', titulo:'Masticación funcional', desc:'Introducir texturas progresivas para estimular el ciclo masticatorio.', emoji:'🍎'},
-    {area:'pragmatica', titulo:'Turno conversacional', desc:'Juego de pelota mientras se espera turno para hablar.', emoji:'⚽'},
-    {area:'pragmatica', titulo:'Contacto visual', desc:'Actividades que refuerzan atención conjunta y mirada.', emoji:'👀'},
-    {area:'pragmatica', titulo:'Intención comunicativa', desc:'Estimular petición, rechazo, comentario y saludo.', emoji:'🤝'},
+  const IDEAS_BASE = [
+    {id:'b1',area:'fonologia', titulo:'Mímesis articulatoria', desc:'Imitar sonidos del ambiente y animales para estimular /r/, /l/, /s/.', emoji:'🐍', fuente:'base'},
+    {id:'b2',area:'fonologia', titulo:'Pares mínimos', desc:'Trabajar conciencia fonológica con palabras que difieren en un fonema (pala/bala).', emoji:'🃏', fuente:'base'},
+    {id:'b3',area:'fonologia', titulo:'Canciones con target', desc:'Canciones que repiten el fonema objetivo en posición inicial y final.', emoji:'🎵', fuente:'base'},
+    {id:'b4',area:'fonologia', titulo:'Discriminación auditiva', desc:'El niño identifica si dos palabras son iguales o diferentes.', emoji:'👂', fuente:'base'},
+    {id:'b5',area:'lenguaje', titulo:'Narración de cuentos', desc:'Usar cuento con imágenes para estimular vocabulario y morfosintaxis.', emoji:'📖', fuente:'base'},
+    {id:'b6',area:'lenguaje', titulo:'Juego simbólico guiado', desc:'Juego de roles para ampliar vocabulario temático y frases.', emoji:'🎭', fuente:'base'},
+    {id:'b7',area:'lenguaje', titulo:'Categorías semánticas', desc:'Clasificar objetos por categoría: animales, frutas, ropa.', emoji:'🗂️', fuente:'base'},
+    {id:'b8',area:'lenguaje', titulo:'Preguntas Wh-', desc:'Estimular comprensión y uso de ¿qué?, ¿quién?, ¿dónde?, ¿cuándo?', emoji:'❓', fuente:'base'},
+    {id:'b9',area:'mof', titulo:'Soplo dirigido', desc:'Soplar velas, plumas o burbujas para fortalecer musculatura labial.', emoji:'💨', fuente:'base'},
+    {id:'b10',area:'mof', titulo:'Ejercicios de lengua', desc:'Elevación, lateralización y vibración lingual ante espejo.', emoji:'👅', fuente:'base'},
+    {id:'b11',area:'mof', titulo:'Masticación funcional', desc:'Introducir texturas progresivas para estimular el ciclo masticatorio.', emoji:'🍎', fuente:'base'},
+    {id:'b12',area:'pragmatica', titulo:'Turno conversacional', desc:'Juego de pelota mientras se espera turno para hablar.', emoji:'⚽', fuente:'base'},
+    {id:'b13',area:'pragmatica', titulo:'Contacto visual', desc:'Actividades que refuerzan atención conjunta y mirada.', emoji:'👀', fuente:'base'},
+    {id:'b14',area:'pragmatica', titulo:'Intención comunicativa', desc:'Estimular petición, rechazo, comentario y saludo.', emoji:'🤝', fuente:'base'},
+    {id:'b15',area:'voz', titulo:'Higiene vocal', desc:'Hidratación, descanso vocal y evitar gritos para cuidar la voz.', emoji:'💧', fuente:'base'},
+    {id:'b16',area:'voz', titulo:'Respiración costodiafragmática', desc:'Ejercicios de respiración para apoyar la fonación eficiente.', emoji:'🌬️', fuente:'base'},
+    {id:'b17',area:'otras', titulo:'Rutinas de comunicación', desc:'Usar rutinas cotidianas (baño, comida) como oportunidades comunicativas.', emoji:'🏠', fuente:'base'},
+    {id:'b18',area:'otras', titulo:'Apoyo visual', desc:'Pictogramas, tableros y agendas visuales para facilitar la comprensión.', emoji:'🖼️', fuente:'base'},
   ];
 
   let filtroActual = 'todos';
+  let ideasUsuario = [];
 
   function filtrarIdeas(area, btn) {
     filtroActual = area;
@@ -2160,18 +2209,88 @@
     renderIdeas();
   }
 
+  async function cargarIdeasUsuario() {
+    try {
+      const { data } = await supabase.from('ideas_planificacion').select('*').order('created_at', {ascending:false});
+      ideasUsuario = (data || []).map(i => ({
+        id: i.id, area: i.categoria, titulo: i.titulo,
+        desc: i.descripcion || '', emoji: i.emoji || '💡',
+        materiales: i.materiales || '', fuente: 'usuario'
+      }));
+    } catch(e) { ideasUsuario = []; }
+  }
+
   function renderIdeas() {
     const grid = document.getElementById('ideasGrid');
     if (!grid) return;
-    const items = filtroActual === 'todos' ? IDEAS_DATA : IDEAS_DATA.filter(i => i.area === filtroActual);
-    grid.innerHTML = items.map(i => `
-      <div class="idea-card">
-        <span class="idea-tag ${i.area}">${i.area.charAt(0).toUpperCase()+i.area.slice(1)}</span>
-        <div style="font-size:1.4rem;margin-bottom:8px">${i.emoji}</div>
-        <div style="font-size:.84rem;font-weight:700;color:#38385A;margin-bottom:6px">${i.titulo}</div>
-        <div style="font-size:.75rem;color:#8a89a3;line-height:1.55">${i.desc}</div>
-      </div>
-    `).join('');
+    const todas = [...ideasUsuario, ...IDEAS_BASE];
+    const items = filtroActual === 'todos' ? todas : todas.filter(i => i.area === filtroActual);
+    if (items.length === 0) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#8a89a3;font-size:.85rem">No hay ideas en esta categoría aún.</div>';
+      return;
+    }
+    grid.innerHTML = items.map(i => {
+      const esMia = i.fuente === 'usuario';
+      const tagColor = esMia ? 'background:linear-gradient(135deg,#C0AADC,#D8C8F0);color:#6B4FA0' : '';
+      return `<div class="idea-card" style="${esMia?'border:1.5px solid rgba(192,170,220,.35)':''}">
+        ${esMia ? `<button onclick="eliminarIdea('${i.id}')" title="Eliminar" style="position:absolute;top:8px;right:8px;background:none;border:none;cursor:pointer;font-size:.75rem;color:#bbb;padding:2px 5px">✕</button>` : ''}
+        <span class="idea-tag ${i.area}" style="${tagColor}">${esMia?'✨ Mía':i.area.charAt(0).toUpperCase()+i.area.slice(1)}</span>
+        <div style="font-size:1.4rem;margin-bottom:8px">${esc(i.emoji)}</div>
+        <div style="font-size:.84rem;font-weight:700;color:#38385A;margin-bottom:6px">${esc(i.titulo)}</div>
+        <div style="font-size:.75rem;color:#8a89a3;line-height:1.55">${esc(i.desc)}</div>
+        ${i.materiales ? `<div style="font-size:.72rem;color:#6BC5D2;margin-top:8px;font-weight:500">📦 ${esc(i.materiales)}</div>` : ''}
+      </div>`;
+    }).join('');
+  }
+
+  function abrirNuevaIdea() {
+    const m = document.getElementById('modal-nueva-idea');
+    if (m) { m.style.display = 'flex'; document.getElementById('idea-titulo').focus(); }
+  }
+
+  function cerrarNuevaIdea() {
+    const m = document.getElementById('modal-nueva-idea');
+    if (m) m.style.display = 'none';
+    ['idea-categoria','idea-emoji','idea-titulo','idea-descripcion','idea-materiales'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = id === 'idea-categoria' ? 'lenguaje' : id === 'idea-emoji' ? '💡' : '';
+    });
+  }
+
+  async function guardarNuevaIdea() {
+    const titulo = document.getElementById('idea-titulo')?.value.trim();
+    if (!titulo) { showToast('Ingresa un título para la idea'); return; }
+    const btn = document.getElementById('btn-guardar-idea');
+    if (btn) { btn.disabled = true; btn.textContent = 'Guardando…'; }
+    try {
+      const { error } = await supabase.from('ideas_planificacion').insert({
+        fono_id: currentUser?.id,
+        categoria: document.getElementById('idea-categoria')?.value || 'lenguaje',
+        emoji: document.getElementById('idea-emoji')?.value.trim() || '💡',
+        titulo: titulo,
+        descripcion: document.getElementById('idea-descripcion')?.value.trim() || '',
+        materiales: document.getElementById('idea-materiales')?.value.trim() || ''
+      });
+      if (error) throw error;
+      cerrarNuevaIdea();
+      showToast('¡Idea guardada! ✨');
+      await cargarIdeasUsuario();
+      renderIdeas();
+    } catch(e) {
+      showToast('Error al guardar. Verifica tu conexión.');
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = 'Guardar'; }
+    }
+  }
+
+  async function eliminarIdea(id) {
+    if (!confirm('¿Eliminar esta idea?')) return;
+    try {
+      await supabase.from('ideas_planificacion').delete().eq('id', id);
+      await cargarIdeasUsuario();
+      renderIdeas();
+      showToast('Idea eliminada');
+    } catch(e) { showToast('Error al eliminar'); }
   }
 
   async function cargarCumpleanos() {
@@ -2221,7 +2340,7 @@
     if (vista) {
       vista.classList.add('abierto');
       if (nombre === 'cumpleanos') cargarCumpleanos();
-      if (nombre === 'ideas') renderIdeas();
+      if (nombre === 'ideas') { cargarIdeasUsuario().then(renderIdeas); }
     }
     document.querySelectorAll('.ni').forEach(x => x.classList.remove('on'));
   }
@@ -2541,11 +2660,23 @@ Motivo de consulta: ${motivo || 'No indicado'}`;
       if (!user) return;
       const { data, error } = await supabase
         .from('sesiones')
-        .select('id, hora, numero_sesion, paciente_id, pacientes(nombre, diagnostico)')
+        .select('id, hora, numero_sesion, paciente_id')
         .eq('user_id', user.id)
         .eq('fecha', hoyStr)
         .order('hora', { ascending: true });
-      if (error || !data) return;
+      if (error || !data) {
+        const cardHoy = document.getElementById('card-hoy-lista');
+        if (cardHoy) cardHoy.innerHTML = '<div style="font-size:.75rem;color:#8a89a3;text-align:center;padding:12px">Sin sesiones hoy</div>';
+        return;
+      }
+      // Fetch patient names separately
+      const pacIds = [...new Set(data.filter(s=>s.paciente_id).map(s=>s.paciente_id))];
+      let pacMap = {};
+      if (pacIds.length > 0) {
+        const { data: pacs } = await supabase.from('pacientes').select('id,nombre,diagnostico').in('id', pacIds);
+        if (pacs) pacs.forEach(p => { pacMap[p.id] = p; });
+      }
+      data.forEach(s => { s.pacientes = pacMap[s.paciente_id] || null; });
 
       // Card pequeña "Hoy" en dashboard
       const cardHoy = document.getElementById('card-hoy-lista');
@@ -2895,7 +3026,10 @@ Motivo de consulta: ${motivo || 'No indicado'}`;
   // ══════════════════════════════════════════
   // INIT: cargar datos tras login
   // ══════════════════════════════════════════
+  let currentUser = null;
+
   async function initApp(user) {
+    currentUser = user;
     // Fecha por defecto sesión = hoy
     const hoy = new Date().toISOString().split('T')[0];
     const sesFecha = document.getElementById('ses-fecha');
