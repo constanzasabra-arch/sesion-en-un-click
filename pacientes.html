@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+  <title>Pacientes · FonoAprende · Sesión en un Click</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+  :root{
+    --t:#6BC5D2; --tl:#A8DDE6; --tp:#E0F4F8;
+    --l:#C0AADC; --ll:#D8C8F0; --lp:#EEE8F8;
+    --g:#60D4A0;
+    --w:#FFFFFF; --bg:#F4F1FA;
+    --tx:#38385A; --tm:#8a89a3; --ts:#B8B8D0;
+    --glass:rgba(255,255,255,0.82); --bd:rgba(255,255,255,0.72);
+    --sh:0 4px 20px rgba(107,197,210,0.09),0 1px 5px rgba(107,197,210,0.05);
+    --shu:0 10px 36px rgba(107,197,210,0.14),0 3px 10px rgba(107,197,210,0.07);
+    --sb:248px;
+    --r1:10px;--r2:16px;--r3:22px;--r4:28px;
+    --ease:cubic-bezier(.4,0,.2,1);
+    --f:'Poppins',sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{font-size:15.5px;-webkit-font-smoothing:antialiased}
+  body{font-family:var(--f);color:var(--tx);min-height:100vh;overflow-x:hidden;background:var(--bg)}
+
+  /* ══════════ LAYOUT ══════════ */
+  #app{display:flex;min-height:100vh;position:relative}
+
+  /* ══════════ SIDEBAR ══════════ */
+  .sb{
+    width:var(--sb);
+    background:linear-gradient(170deg,#5BB8C6 0%,#7EC8D4 30%,#A8AADC 70%,#C0AADC 100%);
+    position:fixed;top:0;left:0;height:100vh;
+    z-index:100;display:flex;flex-direction:column;
+    box-shadow:3px 0 24px rgba(107,197,210,0.18);
+  }
+
+  .sb-logo{padding:26px 22px 18px}
+  .sb-logo-row{display:flex;align-items:center;gap:10px}
+  .sb-icon{font-size:1.6rem;filter:drop-shadow(0 2px 8px rgba(255,255,255,0.35))}
+  .sb-brand{
+    font-size:0.95rem;font-weight:700;color:#fff;
+    line-height:1.1;
+    background:linear-gradient(90deg,#fff,rgba(255,255,255,0.78));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  }
+  .sb-sub{font-size:0.57rem;color:rgba(255,255,255,0.65);margin-top:2px;letter-spacing:0.03em}
+
+  .sb-divider{height:1px;background:rgba(255,255,255,0.18);margin:0 16px}
+
+  .sb-nav{flex:1;padding:14px 10px;overflow-y:auto}
+
+  .ni{
+    display:flex;align-items:center;gap:10px;
+    padding:9px 13px;border-radius:50px;margin-bottom:3px;
+    cursor:pointer;text-decoration:none;
+    color:rgba(255,255,255,0.75);
+    font-size:0.77rem;font-weight:500;
+    transition:all 0.16s var(--ease);
+  }
+  .ni:hover{background:rgba(255,255,255,0.15);color:#fff}
+  .ni.on{
+    background:rgba(255,255,255,0.92);
+    color:var(--t);font-weight:700;
+    box-shadow:0 2px 12px rgba(0,0,0,0.08);
+  }
+  .ni-em{font-size:1rem;line-height:1;flex-shrink:0}
+  .ni-txt{flex:1}
+
+  .sb-foot{
+    padding:14px;border-top:1px solid rgba(255,255,255,0.15);
+  }
+  .sb-user{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 12px;
+    background:rgba(255,255,255,0.15);
+    border-radius:var(--r3);
+    border:1px solid rgba(255,255,255,0.22);
+  }
+  .sb-av{
+    width:32px;height:32px;border-radius:50%;
+    background:rgba(255,255,255,0.28);
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;flex-shrink:0;
+  }
+  .sb-uname{font-size:0.74rem;font-weight:600;color:#fff}
+  .sb-urole{font-size:0.58rem;color:rgba(255,255,255,0.60);margin-top:1px}
+
+  /* ══════════ MAIN ══════════ */
+  .main{flex:1;margin-left:var(--sb);min-height:100vh;display:flex;flex-direction:column}
+
+  /* ══ TOPBAR ══ */
+  .topbar{
+    height:64px;
+    background:rgba(255,255,255,0.72);
+    backdrop-filter:blur(24px);
+    border-bottom:1px solid var(--bd);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 36px;
+    position:sticky;top:0;z-index:80;
+    box-shadow:0 1px 8px rgba(107,197,210,0.06);
+  }
+  .tb-left{display:flex;flex-direction:column}
+  .tb-title{font-size:1.10rem;font-weight:700;color:var(--tx)}
+  .tb-sub{font-size:0.60rem;color:var(--tm);margin-top:1px}
+  .tb-right{display:flex;align-items:center;gap:10px}
+
+  .srch{
+    display:flex;align-items:center;gap:8px;
+    background:rgba(255,255,255,0.80);border:1px solid var(--bd);
+    border-radius:50px;padding:0 16px;height:36px;width:220px;
+    transition:all 0.18s var(--ease);
+  }
+  .srch:focus-within{
+    border-color:var(--tl);background:var(--w);
+    box-shadow:0 0 0 3px rgba(107,197,210,0.12);width:260px;
+  }
+  .srch svg{width:13px;height:13px;opacity:0.35;flex-shrink:0}
+  .srch input{
+    border:none;background:transparent;
+    font-family:var(--f);font-size:0.73rem;color:var(--tx);
+    outline:none;flex:1;
+  }
+  .srch input::placeholder{color:var(--ts)}
+
+  .btn-nuevo{
+    display:flex;align-items:center;gap:7px;
+    padding:0 18px;height:36px;
+    background:linear-gradient(135deg,var(--t),var(--l));
+    color:#fff;border:none;border-radius:50px;
+    font-family:var(--f);font-size:0.75rem;font-weight:600;
+    cursor:pointer;white-space:nowrap;
+    box-shadow:0 4px 14px rgba(107,197,210,0.32);
+    transition:all 0.18s var(--ease);
+  }
+  .btn-nuevo:hover{transform:translateY(-1px);box-shadow:0 7px 20px rgba(107,197,210,0.40)}
+  .btn-nuevo:active{transform:translateY(0)}
+
+  /* ══ CONTENT ══ */
+  .content{flex:1;padding:32px 36px 60px}
+
+  /* Stats row */
+  .stats-row{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+    margin-bottom:28px;
+  }
+  .stat-card{
+    background:var(--glass);backdrop-filter:blur(14px);
+    border:1px solid var(--bd);border-radius:var(--r4);
+    padding:18px 20px;box-shadow:var(--sh);
+    display:flex;align-items:center;gap:14px;
+    animation:fadeUp 0.36s var(--ease) both;
+  }
+  .stat-card:nth-child(1){animation-delay:.04s}
+  .stat-card:nth-child(2){animation-delay:.08s}
+  .stat-card:nth-child(3){animation-delay:.12s}
+  .stat-card:nth-child(4){animation-delay:.16s}
+  .stat-ico{
+    width:42px;height:42px;border-radius:var(--r2);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.2rem;flex-shrink:0;
+  }
+  .stat-ico.teal{background:var(--tp)}
+  .stat-ico.lav{background:var(--lp)}
+  .stat-ico.green{background:#E4F8EE}
+  .stat-ico.rose{background:#FFF0F4}
+  .stat-num{font-size:1.50rem;font-weight:700;color:var(--tx);line-height:1}
+  .stat-lbl{font-size:0.62rem;color:var(--tm);margin-top:3px}
+
+  /* Section header */
+  .sec-header{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:18px;
+  }
+  .sec-title{font-size:0.95rem;font-weight:700;color:var(--tx)}
+  .sec-count{
+    font-size:0.65rem;font-weight:600;
+    background:var(--tp);color:var(--t);
+    padding:3px 10px;border-radius:20px;margin-left:10px;
+  }
+
+  /* Patient grid */
+  .pac-grid{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:16px;
+  }
+
+  /* Patient card */
+  .pac-card{
+    background:var(--glass);backdrop-filter:blur(14px);
+    border:1px solid var(--bd);border-radius:var(--r4);
+    padding:20px;box-shadow:var(--sh);
+    cursor:pointer;
+    transition:all 0.20s var(--ease);
+    animation:fadeUp 0.38s var(--ease) both;
+  }
+  .pac-card:hover{
+    transform:translateY(-2px);
+    box-shadow:var(--shu);
+    border-color:rgba(107,197,210,0.35);
+  }
+
+  .pac-card-head{display:flex;align-items:flex-start;gap:13px;margin-bottom:14px}
+  .pac-av{
+    width:46px;height:46px;border-radius:50%;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.1rem;font-weight:700;color:#fff;
+    background:linear-gradient(135deg,var(--tl),var(--ll));
+    box-shadow:0 2px 10px rgba(107,197,210,0.22);
+  }
+  .pac-info{flex:1;min-width:0}
+  .pac-name{
+    font-size:0.88rem;font-weight:700;color:var(--tx);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .pac-age{font-size:0.62rem;color:var(--tm);margin-top:2px}
+  .pac-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+
+  .badge{
+    font-size:0.54rem;font-weight:700;
+    padding:3px 9px;border-radius:20px;
+  }
+  .badge-activo{background:#E4F8EE;color:#3DAA78}
+  .badge-alta{background:#FFF0E4;color:#D4841E}
+  .badge-dx{background:var(--lp);color:var(--l)}
+
+  .pac-card-body{
+    border-top:1px solid rgba(220,215,240,0.35);
+    padding-top:13px;
+    display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  }
+  .pac-field{display:flex;flex-direction:column;gap:2px}
+  .pac-field-lbl{font-size:0.56rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--tm)}
+  .pac-field-val{font-size:0.68rem;color:var(--tx);font-weight:500}
+
+  .pac-card-foot{
+    display:flex;align-items:center;gap:8px;
+    margin-top:13px;border-top:1px solid rgba(220,215,240,0.25);
+    padding-top:12px;
+  }
+  .btn-sm{
+    display:flex;align-items:center;gap:5px;
+    padding:6px 13px;border-radius:50px;
+    font-family:var(--f);font-size:0.65rem;font-weight:600;
+    cursor:pointer;border:none;transition:all 0.14s var(--ease);
+    text-decoration:none;
+  }
+  .btn-sm-outline{
+    background:transparent;color:var(--tm);
+    border:1px solid rgba(220,215,240,0.65);
+  }
+  .btn-sm-outline:hover{background:var(--lp);color:var(--l);border-color:var(--ll)}
+  .btn-sm-teal{
+    background:var(--tp);color:var(--t);
+    border:1px solid rgba(107,197,210,0.22);
+  }
+  .btn-sm-teal:hover{background:#C8E8F4}
+  .btn-sm-edit{
+    background:var(--lp);color:var(--l);
+    border:1px solid rgba(192,170,220,0.28);
+  }
+  .btn-sm-edit:hover{background:#E0D4F8}
+
+  /* Empty state */
+  .empty{
+    grid-column:1/-1;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:72px 20px;text-align:center;
+    background:var(--glass);backdrop-filter:blur(14px);
+    border:1px dashed rgba(107,197,210,0.35);
+    border-radius:var(--r4);
+  }
+  .empty-ico{font-size:3rem;margin-bottom:14px;opacity:0.55}
+  .empty-title{font-size:1rem;font-weight:600;color:var(--tx);margin-bottom:6px}
+  .empty-sub{font-size:0.72rem;color:var(--tm);max-width:280px;line-height:1.55}
+
+  /* ══════════ OVERLAY FORMULARIO ══════════ */
+  .overlay{
+    position:fixed;inset:0;z-index:600;
+    background:rgba(48,42,80,0.45);
+    backdrop-filter:blur(8px);
+    display:none;align-items:flex-start;justify-content:flex-end;
+    animation:fadeIn 0.20s var(--ease);
+  }
+  .overlay.open{display:flex}
+
+  .form-panel{
+    width:min(640px,100vw);height:100vh;
+    background:#fff;
+    display:flex;flex-direction:column;
+    box-shadow:-8px 0 48px rgba(48,42,80,0.16);
+    animation:slideRight 0.26s var(--ease);
+    overflow:hidden;
+  }
+  @keyframes slideRight{
+    from{transform:translateX(100%);opacity:0}
+    to{transform:translateX(0);opacity:1}
+  }
+
+  .form-header{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 28px;
+    background:linear-gradient(135deg,var(--tp),var(--lp));
+    border-bottom:1px solid var(--bd);
+    flex-shrink:0;
+  }
+  .form-header-left{display:flex;align-items:center;gap:12px}
+  .form-header-ico{
+    width:40px;height:40px;border-radius:var(--r2);
+    background:rgba(255,255,255,0.65);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.2rem;
+  }
+  .form-title{font-size:1rem;font-weight:700;color:var(--tx)}
+  .form-subtitle{font-size:0.62rem;color:var(--tm);margin-top:2px}
+  .btn-close{
+    width:34px;height:34px;border-radius:50%;
+    background:rgba(255,255,255,0.55);border:none;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1rem;cursor:pointer;color:var(--tm);
+    transition:all 0.14s;flex-shrink:0;
+  }
+  .btn-close:hover{background:#fff;color:var(--tx)}
+
+  .form-body{
+    flex:1;overflow-y:auto;padding:28px;
+    display:flex;flex-direction:column;gap:24px;
+  }
+  .form-body::-webkit-scrollbar{width:5px}
+  .form-body::-webkit-scrollbar-track{background:transparent}
+  .form-body::-webkit-scrollbar-thumb{background:var(--ll);border-radius:10px}
+
+  /* Form sections */
+  .fsec{
+    background:rgba(248,245,255,0.60);
+    border:1px solid rgba(220,215,240,0.55);
+    border-radius:var(--r3);
+    padding:20px;
+  }
+  .fsec-title{
+    display:flex;align-items:center;gap:9px;
+    font-size:0.78rem;font-weight:700;color:var(--tx);
+    margin-bottom:16px;
+    padding-bottom:10px;
+    border-bottom:1px solid rgba(220,215,240,0.45);
+  }
+  .fsec-num{
+    width:22px;height:22px;border-radius:50%;
+    background:linear-gradient(135deg,var(--t),var(--l));
+    color:#fff;font-size:0.60rem;font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+
+  .frow{display:grid;gap:13px}
+  .frow-2{grid-template-columns:1fr 1fr}
+  .frow-3{grid-template-columns:1fr 1fr 1fr}
+
+  .fgroup{display:flex;flex-direction:column;gap:5px}
+  .flabel{
+    font-size:0.65rem;font-weight:600;
+    text-transform:uppercase;letter-spacing:0.07em;color:var(--tm);
+  }
+  .flabel .req{color:var(--t);margin-left:2px}
+  .finput,
+  .fselect,
+  .ftextarea{
+    font-family:var(--f);font-size:0.78rem;color:var(--tx);
+    background:rgba(255,255,255,0.90);
+    border:1px solid rgba(220,215,240,0.70);
+    border-radius:var(--r2);
+    padding:9px 13px;
+    outline:none;
+    transition:all 0.15s var(--ease);
+    width:100%;
+  }
+  .finput:focus,
+  .fselect:focus,
+  .ftextarea:focus{
+    border-color:var(--t);
+    box-shadow:0 0 0 3px rgba(107,197,210,0.12);
+    background:#fff;
+  }
+  .ftextarea{resize:vertical;min-height:72px;line-height:1.55}
+  .fselect{cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238a89a3' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+
+  /* Edad calculada */
+  .edad-display{
+    padding:8px 13px;
+    background:linear-gradient(135deg,var(--tp),var(--lp));
+    border:1px solid var(--bd);border-radius:var(--r2);
+    font-size:0.76rem;font-weight:600;color:var(--t);
+    min-height:36px;display:flex;align-items:center;
+  }
+
+  .form-foot{
+    display:flex;align-items:center;justify-content:flex-end;gap:10px;
+    padding:18px 28px;
+    border-top:1px solid rgba(220,215,240,0.45);
+    background:rgba(248,245,255,0.60);
+    flex-shrink:0;
+  }
+  .btn-cancel{
+    padding:9px 22px;border-radius:50px;
+    background:transparent;color:var(--tm);
+    border:1px solid rgba(220,215,240,0.65);
+    font-family:var(--f);font-size:0.76rem;font-weight:600;
+    cursor:pointer;transition:all 0.14s;
+  }
+  .btn-cancel:hover{background:var(--lp);color:var(--l)}
+  .btn-save{
+    padding:9px 26px;border-radius:50px;
+    background:linear-gradient(135deg,var(--t),var(--l));
+    color:#fff;border:none;
+    font-family:var(--f);font-size:0.76rem;font-weight:700;
+    cursor:pointer;
+    box-shadow:0 4px 14px rgba(107,197,210,0.30);
+    transition:all 0.18s var(--ease);
+  }
+  .btn-save:hover{transform:translateY(-1px);box-shadow:0 7px 20px rgba(107,197,210,0.40)}
+
+  /* ══════════ PANEL DETALLE ══════════ */
+  .detail-overlay{
+    position:fixed;inset:0;z-index:500;
+    background:rgba(48,42,80,0.35);
+    backdrop-filter:blur(6px);
+    display:none;align-items:flex-start;justify-content:flex-end;
+    animation:fadeIn 0.20s var(--ease);
+  }
+  .detail-overlay.open{display:flex}
+
+  .detail-panel{
+    width:min(560px,100vw);height:100vh;
+    background:#fff;
+    display:flex;flex-direction:column;
+    box-shadow:-8px 0 48px rgba(48,42,80,0.14);
+    animation:slideRight 0.26s var(--ease);
+    overflow:hidden;
+  }
+
+  .detail-header{
+    padding:24px 26px 20px;
+    background:linear-gradient(135deg,var(--tp),var(--lp));
+    flex-shrink:0;
+  }
+  .detail-header-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
+  .detail-av{
+    width:56px;height:56px;border-radius:50%;
+    background:linear-gradient(135deg,var(--tl),var(--ll));
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.4rem;font-weight:700;color:#fff;
+    box-shadow:0 3px 14px rgba(107,197,210,0.28);
+    flex-shrink:0;
+  }
+  .detail-name{font-size:1.05rem;font-weight:700;color:var(--tx);margin-top:3px}
+  .detail-meta{font-size:0.64rem;color:var(--tm);margin-top:3px}
+  .detail-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+
+  .detail-actions{
+    display:flex;gap:8px;padding:14px 26px;
+    border-bottom:1px solid rgba(220,215,240,0.40);
+    flex-shrink:0;background:#fff;
+  }
+
+  .detail-body{
+    flex:1;overflow-y:auto;padding:20px 26px 36px;
+  }
+  .detail-body::-webkit-scrollbar{width:5px}
+  .detail-body::-webkit-scrollbar-track{background:transparent}
+  .detail-body::-webkit-scrollbar-thumb{background:var(--ll);border-radius:10px}
+
+  .dsec{margin-bottom:20px}
+  .dsec-title{
+    font-size:0.68rem;font-weight:700;
+    text-transform:uppercase;letter-spacing:0.10em;
+    color:var(--t);
+    display:flex;align-items:center;gap:7px;
+    margin-bottom:12px;
+    padding-bottom:8px;
+    border-bottom:2px solid var(--tp);
+  }
+  .drow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .dfield{display:flex;flex-direction:column;gap:3px}
+  .dfield.full{grid-column:1/-1}
+  .dfield-lbl{font-size:0.57rem;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--tm)}
+  .dfield-val{font-size:0.74rem;color:var(--tx);line-height:1.50}
+  .dfield-empty{color:var(--ts);font-style:italic}
+
+  /* ══════════ TOAST ══════════ */
+  #toast{
+    position:fixed;bottom:28px;left:50%;transform:translateX(-50%);
+    z-index:900;pointer-events:none;
+  }
+  .toast-msg{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:10px 20px;border-radius:50px;
+    font-size:0.76rem;font-weight:600;
+    box-shadow:0 6px 24px rgba(0,0,0,0.12);
+    animation:toastIn 0.22s var(--ease);
+    white-space:nowrap;
+  }
+  .toast-ok{background:linear-gradient(135deg,#3DAA78,#5DC898);color:#fff}
+  .toast-err{background:linear-gradient(135deg,#E55A6A,#F08080);color:#fff}
+
+  /* ══════════ MODAL CONFIRMACIÓN ══════════ */
+  .confirm-overlay{
+    position:fixed;inset:0;z-index:700;
+    background:rgba(48,42,80,0.50);
+    backdrop-filter:blur(8px);
+    display:none;align-items:center;justify-content:center;
+  }
+  .confirm-overlay.open{display:flex}
+  .confirm-box{
+    background:#fff;border-radius:var(--r4);
+    padding:28px 32px;
+    max-width:380px;width:90%;
+    box-shadow:0 20px 60px rgba(48,42,80,0.18);
+    animation:popIn 0.22s var(--ease);
+    text-align:center;
+  }
+  .confirm-ico{font-size:2.4rem;margin-bottom:12px}
+  .confirm-title{font-size:0.96rem;font-weight:700;color:var(--tx);margin-bottom:8px}
+  .confirm-msg{font-size:0.75rem;color:var(--tm);line-height:1.55;margin-bottom:22px}
+  .confirm-btns{display:flex;gap:10px;justify-content:center}
+  .btn-confirm-cancel{
+    padding:9px 22px;border-radius:50px;
+    background:transparent;color:var(--tm);
+    border:1px solid rgba(220,215,240,0.65);
+    font-family:var(--f);font-size:0.75rem;font-weight:600;cursor:pointer;
+    transition:all 0.14s;
+  }
+  .btn-confirm-cancel:hover{background:var(--lp)}
+  .btn-confirm-ok{
+    padding:9px 22px;border-radius:50px;
+    background:linear-gradient(135deg,#E55A6A,#F08080);
+    color:#fff;border:none;
+    font-family:var(--f);font-size:0.75rem;font-weight:700;cursor:pointer;
+    box-shadow:0 4px 14px rgba(229,90,106,0.30);
+    transition:all 0.14s;
+  }
+  .btn-confirm-ok:hover{transform:translateY(-1px)}
+
+  /* ══════════ ANIMATIONS ══════════ */
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(12px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  @keyframes fadeIn{
+    from{opacity:0}to{opacity:1}
+  }
+  @keyframes toastIn{
+    from{opacity:0;transform:translateX(-50%) translateY(10px)}
+    to{opacity:1;transform:translateX(-50%) translateY(0)}
+  }
+  @keyframes popIn{
+    from{opacity:0;transform:scale(0.88)}
+    to{opacity:1;transform:scale(1)}
+  }
+
+  /* ══════════ RESPONSIVE ══════════ */
+  @media(max-width:900px){
+    .stats-row{grid-template-columns:repeat(2,1fr)}
+    .pac-grid{grid-template-columns:1fr}
+  }
+  @media(max-width:680px){
+    :root{--sb:0px}
+    .sb{transform:translateX(-100%)}
+    .main{margin-left:0}
+    .topbar{padding:0 18px}
+    .content{padding:18px 16px 60px}
+    .stats-row{grid-template-columns:1fr 1fr;gap:10px}
+    .frow-2,.frow-3{grid-template-columns:1fr}
+    .drow{grid-template-columns:1fr}
+  }
+  </style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sb">
+    <div class="sb-logo">
+      <div class="sb-logo-row">
+        <span class="sb-icon">🎙️</span>
+        <div>
+          <div class="sb-brand">FonoAprende</div>
+          <div class="sb-sub">Sesión en un Click</div>
+        </div>
+      </div>
+    </div>
+    <div class="sb-divider"></div>
+    <nav class="sb-nav">
+      <a class="ni" href="index.html">
+        <span class="ni-em">🏠</span>
+        <span class="ni-txt">Inicio</span>
+      </a>
+      <a class="ni on" href="pacientes.html">
+        <span class="ni-em">👥</span>
+        <span class="ni-txt">Pacientes</span>
+      </a>
+      <a class="ni" href="sesion.html">
+        <span class="ni-em">📝</span>
+        <span class="ni-txt">Sesión</span>
+      </a>
+      <a class="ni" href="historial.html">
+        <span class="ni-em">📅</span>
+        <span class="ni-txt">Historial</span>
+      </a>
+      <a class="ni" href="biblioteca.html">
+        <span class="ni-em">📚</span>
+        <span class="ni-txt">Biblioteca</span>
+      </a>
+      <a class="ni" href="#">
+        <span class="ni-em">⚙️</span>
+        <span class="ni-txt">Configuración</span>
+      </a>
+    </nav>
+    <div class="sb-foot">
+      <div class="sb-user">
+        <div class="sb-av">👩‍⚕️</div>
+        <div>
+          <div class="sb-uname">Fonoaudióloga</div>
+          <div class="sb-urole">FonoAprende</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN ══ -->
+  <main class="main">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="tb-left">
+        <div class="tb-title">Mis Pacientes</div>
+        <div class="tb-sub">Gestión de ficha clínica y anamnesis</div>
+      </div>
+      <div class="tb-right">
+        <div class="srch">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="9" cy="9" r="6"/><line x1="14" y1="14" x2="18" y2="18"/>
+          </svg>
+          <input id="inp-buscar" type="search" placeholder="Buscar por nombre o diagnóstico…" oninput="renderPacientes(this.value)"/>
+        </div>
+        <button class="btn-nuevo" onclick="abrirFormulario()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="7" y1="1" x2="7" y2="13"/><line x1="1" y1="7" x2="13" y2="7"/>
+          </svg>
+          Nuevo paciente
+        </button>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="content">
+
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-ico teal">👥</div>
+          <div>
+            <div class="stat-num" id="stat-total">0</div>
+            <div class="stat-lbl">Total pacientes</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ico green">✅</div>
+          <div>
+            <div class="stat-num" id="stat-activos">0</div>
+            <div class="stat-lbl">Activos</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ico lav">🎓</div>
+          <div>
+            <div class="stat-num" id="stat-alta">0</div>
+            <div class="stat-lbl">Con alta</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ico rose">📅</div>
+          <div>
+            <div class="stat-num" id="stat-sesiones">0</div>
+            <div class="stat-lbl">Sesiones totales</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lista pacientes -->
+      <div>
+        <div class="sec-header">
+          <div style="display:flex;align-items:center;gap:4px">
+            <span class="sec-title">Fichas clínicas</span>
+            <span class="sec-count" id="count-label">0</span>
+          </div>
+        </div>
+        <div class="pac-grid" id="pac-grid">
+          <!-- Cards rendered here -->
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </main><!-- /main -->
+</div><!-- /app -->
+
+<!-- ══════════ OVERLAY FORMULARIO ══════════ -->
+<div class="overlay" id="overlay-form" onclick="cerrarFormulario(event)">
+  <div class="form-panel" onclick="event.stopPropagation()">
+    <div class="form-header">
+      <div class="form-header-left">
+        <div class="form-header-ico">📋</div>
+        <div>
+          <div class="form-title" id="form-panel-title">Nueva Anamnesis</div>
+          <div class="form-subtitle">Complete los datos del paciente</div>
+        </div>
+      </div>
+      <button class="btn-close" onclick="cerrarFormulario()" aria-label="Cerrar">✕</button>
+    </div>
+
+    <form class="form-body" id="form-paciente" onsubmit="guardarPaciente(event)" novalidate>
+
+      <!-- Sección 1: Datos Personales -->
+      <div class="fsec">
+        <div class="fsec-title">
+          <div class="fsec-num">1</div>
+          Datos Personales
+        </div>
+        <div class="frow frow-1" style="margin-bottom:13px">
+          <div class="fgroup">
+            <label class="flabel">Nombre completo <span class="req">*</span></label>
+            <input class="finput" type="text" id="f-nombre" placeholder="Ej. María José González Rojas" required autocomplete="off"/>
+          </div>
+        </div>
+        <div class="frow frow-2" style="margin-bottom:13px">
+          <div class="fgroup">
+            <label class="flabel">RUT</label>
+            <input class="finput" type="text" id="f-rut" placeholder="12.345.678-9"/>
+          </div>
+          <div class="fgroup">
+            <label class="flabel">Fecha de nacimiento <span class="req">*</span></label>
+            <input class="finput" type="date" id="f-nacimiento" required oninput="actualizarEdad()"/>
+          </div>
+        </div>
+        <div class="frow frow-2" style="margin-bottom:13px">
+          <div class="fgroup">
+            <label class="flabel">Edad cronológica</label>
+            <div class="edad-display" id="edad-display">—</div>
+          </div>
+          <div class="fgroup">
+            <label class="flabel">Teléfono (WhatsApp)</label>
+            <input class="finput" type="tel" id="f-telefono" placeholder="+56 9 1234 5678"/>
+          </div>
+        </div>
+        <div class="frow frow-2">
+          <div class="fgroup">
+            <label class="flabel">Email de familia</label>
+            <input class="finput" type="email" id="f-email" placeholder="familia@email.com"/>
+          </div>
+          <div class="fgroup">
+            <label class="flabel">Colegio / Institución</label>
+            <input class="finput" type="text" id="f-colegio" placeholder="Nombre del establecimiento"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección 2: Motivo de Consulta -->
+      <div class="fsec">
+        <div class="fsec-title">
+          <div class="fsec-num">2</div>
+          Motivo de Consulta
+        </div>
+        <div class="frow" style="margin-bottom:13px">
+          <div class="fgroup">
+            <label class="flabel">Motivo de consulta <span class="req">*</span></label>
+            <textarea class="ftextarea" id="f-motivo" placeholder="Describa el motivo de consulta…" required rows="3"></textarea>
+          </div>
+        </div>
+        <div class="frow frow-2">
+          <div class="fgroup">
+            <label class="flabel">Derivado por</label>
+            <input class="finput" type="text" id="f-derivacion" placeholder="Ej. Pediatra, colegio, familia"/>
+          </div>
+          <div class="fgroup">
+            <label class="flabel">Diagnóstico principal</label>
+            <input class="finput" type="text" id="f-diagnostico" placeholder="Ej. TEL, dislalia, tartamudez"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección 3: Antecedentes -->
+      <div class="fsec">
+        <div class="fsec-title">
+          <div class="fsec-num">3</div>
+          Antecedentes
+        </div>
+        <div class="frow" style="margin-bottom:13px">
+          <div class="fgroup">
+            <label class="flabel">Embarazo</label>
+            <textarea class="ftextarea" id="f-embarazo" placeholder="Normal, complicaciones, tratamientos durante el embarazo…" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="frow frow-2">
+          <div class="fgroup">
+            <label class="flabel">Parto</label>
+            <textarea class="ftextarea" id="f-parto" placeholder="Normal, cesárea, semanas de gestación…" rows="2"></textarea>
+          </div>
+          <div class="fgroup">
+            <label class="flabel">Período neonatal</label>
+            <textarea class="ftextarea" id="f-neonatal" placeholder="UCIN, alimentación neonatal, complicaciones…" rows="2"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección 4: Historia del Desarrollo -->
+      <div class="fsec">
+        <div class="fsec-title">
+          <div class="fsec-num">4</div>
+          Historia del Desarrollo
+        </div>
+        <div class="frow frow-2" style="margin-bottom:13px">
+          <div class="fgroup">
+            <label class="flabel">Edad primeras palabras</label>
+            <input class="finput" type="text" id="f-primeras-palabras" placeholder="Ej. 12 meses, 1 año 3 meses"/>
+          </div>
+          <div class="fgroup">
+            <label class="flabel">Edad primeras frases</label>
+            <input class="finput" type="text" id="f-primeras-frases" placeholder="Ej. 2 años, 2 años 6 meses"/>
+          </div>
+        </div>
+        <div class="frow" style="margin-bottom:13px">
+          <div class="fgroup">
+            <label class="flabel">Desarrollo motor</label>
+            <textarea class="ftextarea" id="f-motor" placeholder="Gateo, marcha, control de tronco, hitos motores…" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="frow">
+          <div class="fgroup">
+            <label class="flabel">Observaciones del desarrollo</label>
+            <textarea class="ftextarea" id="f-obs-desarrollo" placeholder="Otras observaciones sobre la historia del desarrollo…" rows="2"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección 5: Antecedentes Médicos -->
+      <div class="fsec">
+        <div class="fsec-title">
+          <div class="fsec-num">5</div>
+          Antecedentes Médicos
+        </div>
+        <div class="frow" style="margin-bottom:13px">
+          <div class="fgroup">
+            <label class="flabel">Antecedentes médicos relevantes</label>
+            <textarea class="ftextarea" id="f-antecedentes-medicos" placeholder="Diagnósticos médicos, hospitalizaciones, cirugías, alergias…" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="frow" style="margin-bottom:13px">
+          <div class="fgroup">
+            <label class="flabel">Tratamientos previos</label>
+            <textarea class="ftextarea" id="f-tratamientos" placeholder="Fonoaudiología, psicología, kinesiología, terapia ocupacional…" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="frow frow-2">
+          <div class="fgroup">
+            <label class="flabel">Audición</label>
+            <select class="fselect" id="f-audicion">
+              <option value="">Seleccionar…</option>
+              <option value="normal">Normal</option>
+              <option value="hipoacusia">Hipoacusia</option>
+              <option value="no evaluada">No evaluada</option>
+              <option value="en evaluación">En evaluación</option>
+            </select>
+          </div>
+          <div class="fgroup">
+            <label class="flabel">Notas sobre audición</label>
+            <input class="finput" type="text" id="f-audicion-notas" placeholder="Detalles adicionales…"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección 6: Observaciones -->
+      <div class="fsec">
+        <div class="fsec-title">
+          <div class="fsec-num">6</div>
+          Observaciones Generales
+        </div>
+        <div class="fgroup">
+          <label class="flabel">Observaciones de anamnesis</label>
+          <textarea class="ftextarea" id="f-obs-anamnesis" placeholder="Observaciones generales de la sesión de anamnesis, impresión clínica inicial…" rows="3"></textarea>
+        </div>
+      </div>
+
+      <!-- Estado alta (solo visible en edición) -->
+      <div class="fsec" id="sec-estado" style="display:none">
+        <div class="fsec-title">
+          <div class="fsec-num">7</div>
+          Estado del Paciente
+        </div>
+        <div class="fgroup">
+          <label class="flabel">Estado clínico</label>
+          <select class="fselect" id="f-alta">
+            <option value="false">Activo/a (en tratamiento)</option>
+            <option value="true">Con alta fonoaudiológica</option>
+          </select>
+        </div>
+      </div>
+
+      <input type="hidden" id="f-edit-id" value=""/>
+    </form>
+
+    <div class="form-foot">
+      <button type="button" class="btn-cancel" onclick="cerrarFormulario()">Cancelar</button>
+      <button type="submit" class="btn-save" form="form-paciente">💾 Guardar Paciente</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ OVERLAY DETALLE ══════════ -->
+<div class="detail-overlay" id="overlay-detalle" onclick="cerrarDetalle(event)">
+  <div class="detail-panel" id="detail-panel" onclick="event.stopPropagation()">
+    <!-- Rendered dynamically -->
+  </div>
+</div>
+
+<!-- ══════════ CONFIRM MODAL ══════════ -->
+<div class="confirm-overlay" id="overlay-confirm">
+  <div class="confirm-box">
+    <div class="confirm-ico">🗑️</div>
+    <div class="confirm-title">¿Eliminar paciente?</div>
+    <div class="confirm-msg" id="confirm-msg">Esta acción eliminará la ficha clínica y todos los datos del paciente. No se puede deshacer.</div>
+    <div class="confirm-btns">
+      <button class="btn-confirm-cancel" onclick="cerrarConfirm()">Cancelar</button>
+      <button class="btn-confirm-ok" id="btn-confirm-ok">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ TOAST ══════════ -->
+<div id="toast"></div>
+
+<script>
+'use strict';
+
+// ──────────────────────────────────────────────
+// SEGURIDAD: escape para usar en innerHTML
+// ──────────────────────────────────────────────
+function esc(s){
+  return String(s||'')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+// ──────────────────────────────────────────────
+// INDEXEDDB
+// ──────────────────────────────────────────────
+const DB_NAME = 'SesionesFonoDB';
+const DB_VERSION = 1;
+const STORE = 'datos';
+const KEY = 'app-data';
+
+let db = null;
+
+function initDB(){
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, DB_VERSION);
+    req.onupgradeneeded = e => {
+      const d = e.target.result;
+      if(!d.objectStoreNames.contains(STORE)){
+        d.createObjectStore(STORE, {keyPath:'id'});
+      }
+    };
+    req.onsuccess = e => { db = e.target.result; resolve(db); };
+    req.onerror = e => reject(e.target.error);
+  });
+}
+
+function loadData(){
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE,'readonly');
+    const req = tx.objectStore(STORE).get(KEY);
+    req.onsuccess = e => {
+      const val = e.target.result;
+      if(val){
+        resolve(val);
+      } else {
+        // Estructura inicial vacía
+        resolve({id:KEY, pacientes:[], sesiones:[], configuracion:{}});
+      }
+    };
+    req.onerror = e => reject(e.target.error);
+  });
+}
+
+function saveData(data){
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE,'readwrite');
+    const req = tx.objectStore(STORE).put(data);
+    req.onsuccess = () => resolve();
+    req.onerror = e => reject(e.target.error);
+  });
+}
+
+// ──────────────────────────────────────────────
+// ESTADO DE LA APP
+// ──────────────────────────────────────────────
+let appData = {id:KEY, pacientes:[], sesiones:[], configuracion:{}};
+
+// ──────────────────────────────────────────────
+// UTILIDADES
+// ──────────────────────────────────────────────
+function calcularEdad(nacimiento){
+  if(!nacimiento) return '';
+  const hoy = new Date();
+  const nac = new Date(nacimiento + 'T00:00:00');
+  if(isNaN(nac.getTime())) return '';
+  let años = hoy.getFullYear() - nac.getFullYear();
+  let meses = hoy.getMonth() - nac.getMonth();
+  if(meses < 0){ años--; meses += 12; }
+  if(hoy.getDate() < nac.getDate()) meses--;
+  if(meses < 0){ años--; meses += 12; }
+  if(años < 0) return 'Fecha inválida';
+  const partes = [];
+  if(años > 0) partes.push(años === 1 ? '1 año' : `${años} años`);
+  if(meses > 0) partes.push(meses === 1 ? '1 mes' : `${meses} meses`);
+  if(partes.length === 0) partes.push('Menos de 1 mes');
+  return partes.join(' ');
+}
+
+function hoy(){
+  return new Date().toISOString().split('T')[0];
+}
+
+function formatFecha(f){
+  if(!f) return '—';
+  const [y,m,d] = f.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+function ultimaSesion(pacienteId){
+  const secs = (appData.sesiones || []).filter(s => String(s.paciente_id) === String(pacienteId));
+  if(!secs.length) return null;
+  secs.sort((a,b) => (b.fecha||'').localeCompare(a.fecha||''));
+  return secs[0].fecha || null;
+}
+
+function contarSesionesPaciente(pacienteId){
+  return (appData.sesiones || []).filter(s => String(s.paciente_id) === String(pacienteId)).length;
+}
+
+function iniciales(nombre){
+  return String(nombre||'?').split(' ').slice(0,2).map(p => p[0]||'').join('').toUpperCase();
+}
+
+// ──────────────────────────────────────────────
+// TOAST
+// ──────────────────────────────────────────────
+let toastTimer = null;
+function showToast(msg, tipo='ok'){
+  const el = document.getElementById('toast');
+  if(toastTimer) clearTimeout(toastTimer);
+  const div = document.createElement('div');
+  div.className = 'toast-msg toast-' + tipo;
+  div.textContent = (tipo === 'ok' ? '✓ ' : '⚠ ') + msg;
+  el.innerHTML = '';
+  el.appendChild(div);
+  toastTimer = setTimeout(() => { el.innerHTML = ''; }, 3200);
+}
+
+// ──────────────────────────────────────────────
+// RENDER PACIENTES
+// ──────────────────────────────────────────────
+function renderPacientes(filtro=''){
+  const grid = document.getElementById('pac-grid');
+  const pacientes = appData.pacientes || [];
+  const q = String(filtro).toLowerCase().trim();
+
+  const filtrados = q
+    ? pacientes.filter(p =>
+        String(p.nombre||'').toLowerCase().includes(q) ||
+        String(p.diagnostico||'').toLowerCase().includes(q) ||
+        String(p.rut||'').toLowerCase().includes(q)
+      )
+    : pacientes;
+
+  // Stats
+  document.getElementById('stat-total').textContent = pacientes.length;
+  document.getElementById('stat-activos').textContent = pacientes.filter(p => !p.alta).length;
+  document.getElementById('stat-alta').textContent = pacientes.filter(p => p.alta).length;
+  document.getElementById('stat-sesiones').textContent = (appData.sesiones||[]).length;
+  document.getElementById('count-label').textContent = filtrados.length;
+
+  if(!filtrados.length){
+    const msg = q
+      ? 'No se encontraron pacientes con esa búsqueda.'
+      : 'Aún no hay pacientes registrados. ¡Agrega el primero!';
+    grid.innerHTML = `
+      <div class="empty">
+        <div class="empty-ico">👥</div>
+        <div class="empty-title">${q ? 'Sin resultados' : 'Sin pacientes'}</div>
+        <div class="empty-sub">${esc(msg)}</div>
+      </div>`;
+    return;
+  }
+
+  // Ordenar: activos primero, luego por nombre
+  const ordenados = [...filtrados].sort((a,b) => {
+    if(a.alta !== b.alta) return a.alta ? 1 : -1;
+    return String(a.nombre||'').localeCompare(String(b.nombre||''), 'es');
+  });
+
+  grid.innerHTML = ordenados.map((p, i) => {
+    const edad = calcularEdad(p.nacimiento);
+    const ult = ultimaSesion(p.id);
+    const nSes = contarSesionesPaciente(p.id);
+    const inics = iniciales(p.nombre);
+    const estadoBadge = p.alta
+      ? '<span class="badge badge-alta">Con alta</span>'
+      : '<span class="badge badge-activo">Activo/a</span>';
+    const dxBadge = p.diagnostico
+      ? `<span class="badge badge-dx">${esc(p.diagnostico)}</span>`
+      : '';
+
+    return `<div class="pac-card" style="animation-delay:${i*0.04}s" onclick="verDetalle(${p.id})">
+      <div class="pac-card-head">
+        <div class="pac-av">${esc(inics)}</div>
+        <div class="pac-info">
+          <div class="pac-name">${esc(p.nombre)}</div>
+          <div class="pac-age">${edad ? esc(edad) : '—'}</div>
+          <div class="pac-badges">
+            ${estadoBadge}
+            ${dxBadge}
+          </div>
+        </div>
+      </div>
+      <div class="pac-card-body">
+        <div class="pac-field">
+          <div class="pac-field-lbl">Última sesión</div>
+          <div class="pac-field-val">${ult ? esc(formatFecha(ult)) : 'Sin sesiones'}</div>
+        </div>
+        <div class="pac-field">
+          <div class="pac-field-lbl">Total sesiones</div>
+          <div class="pac-field-val">${nSes}</div>
+        </div>
+        <div class="pac-field">
+          <div class="pac-field-lbl">Motivo</div>
+          <div class="pac-field-val">${p.motivo_consulta ? esc(p.motivo_consulta).substring(0,60)+(p.motivo_consulta.length>60?'…':'') : '—'}</div>
+        </div>
+        <div class="pac-field">
+          <div class="pac-field-lbl">Ingreso</div>
+          <div class="pac-field-val">${esc(formatFecha(p.fecha_creacion))}</div>
+        </div>
+      </div>
+      <div class="pac-card-foot" onclick="event.stopPropagation()">
+        <button class="btn-sm btn-sm-edit" onclick="editarPaciente(${p.id})">✏️ Editar</button>
+        <a class="btn-sm btn-sm-teal" href="historial.html?paciente=${p.id}">📅 Sesiones</a>
+        <button class="btn-sm btn-sm-outline" style="margin-left:auto" onclick="confirmarEliminar(${p.id})">🗑️</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ──────────────────────────────────────────────
+// FORMULARIO: NUEVO / EDITAR
+// ──────────────────────────────────────────────
+function abrirFormulario(id=null){
+  const overlay = document.getElementById('overlay-form');
+  const titulo = document.getElementById('form-panel-title');
+  const secEstado = document.getElementById('sec-estado');
+
+  limpiarFormulario();
+
+  if(id !== null){
+    const p = (appData.pacientes||[]).find(x => x.id === id);
+    if(!p) return;
+    titulo.textContent = 'Editar Paciente';
+    secEstado.style.display = 'block';
+    document.getElementById('f-edit-id').value = id;
+    document.getElementById('f-nombre').value = p.nombre || '';
+    document.getElementById('f-rut').value = p.rut || '';
+    document.getElementById('f-nacimiento').value = p.nacimiento || '';
+    document.getElementById('f-telefono').value = p.telefono || '';
+    document.getElementById('f-email').value = p.email || '';
+    document.getElementById('f-colegio').value = p.colegio_institucion || '';
+    document.getElementById('f-motivo').value = p.motivo_consulta || '';
+    document.getElementById('f-derivacion').value = p.derivacion || '';
+    document.getElementById('f-diagnostico').value = p.diagnostico || '';
+    document.getElementById('f-embarazo').value = p.antecedentes_embarazo || '';
+    document.getElementById('f-parto').value = p.antecedentes_parto || '';
+    document.getElementById('f-neonatal').value = p.antecedentes_parto_neonatal || '';
+    document.getElementById('f-primeras-palabras').value = p.primeras_palabras || '';
+    document.getElementById('f-primeras-frases').value = p.primeras_frases || '';
+    document.getElementById('f-motor').value = p.desarrollo_motor || '';
+    document.getElementById('f-obs-desarrollo').value = p.observaciones_desarrollo || '';
+    document.getElementById('f-antecedentes-medicos').value = p.antecedentes_medicos || '';
+    document.getElementById('f-tratamientos').value = p.tratamientos_previos || '';
+    document.getElementById('f-audicion').value = p.audicion || '';
+    document.getElementById('f-audicion-notas').value = p.audicion_notas || '';
+    document.getElementById('f-obs-anamnesis').value = p.observaciones_anamnesis || '';
+    document.getElementById('f-alta').value = p.alta ? 'true' : 'false';
+    actualizarEdad();
+  } else {
+    titulo.textContent = 'Nueva Anamnesis';
+    secEstado.style.display = 'none';
+  }
+
+  overlay.classList.add('open');
+  document.getElementById('f-nombre').focus();
+}
+
+function cerrarFormulario(e){
+  if(e && e.target !== document.getElementById('overlay-form')) return;
+  document.getElementById('overlay-form').classList.remove('open');
+}
+
+function limpiarFormulario(){
+  document.getElementById('form-paciente').reset();
+  document.getElementById('f-edit-id').value = '';
+  document.getElementById('edad-display').textContent = '—';
+}
+
+function actualizarEdad(){
+  const val = document.getElementById('f-nacimiento').value;
+  const ed = calcularEdad(val);
+  document.getElementById('edad-display').textContent = ed || '—';
+}
+
+async function guardarPaciente(e){
+  e.preventDefault();
+  const nombre = document.getElementById('f-nombre').value.trim();
+  const nacimiento = document.getElementById('f-nacimiento').value;
+  const motivo = document.getElementById('f-motivo').value.trim();
+
+  if(!nombre){ showToast('El nombre es obligatorio.','err'); document.getElementById('f-nombre').focus(); return; }
+  if(!nacimiento){ showToast('La fecha de nacimiento es obligatoria.','err'); document.getElementById('f-nacimiento').focus(); return; }
+  if(!motivo){ showToast('El motivo de consulta es obligatorio.','err'); document.getElementById('f-motivo').focus(); return; }
+
+  const editId = document.getElementById('f-edit-id').value;
+  const esEdicion = editId !== '';
+
+  const datos = {
+    nombre,
+    rut: document.getElementById('f-rut').value.trim(),
+    nacimiento,
+    edad_cronologica: calcularEdad(nacimiento),
+    telefono: document.getElementById('f-telefono').value.trim(),
+    email: document.getElementById('f-email').value.trim(),
+    colegio_institucion: document.getElementById('f-colegio').value.trim(),
+    motivo_consulta: motivo,
+    derivacion: document.getElementById('f-derivacion').value.trim(),
+    diagnostico: document.getElementById('f-diagnostico').value.trim(),
+    antecedentes_embarazo: document.getElementById('f-embarazo').value.trim(),
+    antecedentes_parto: document.getElementById('f-parto').value.trim(),
+    antecedentes_parto_neonatal: document.getElementById('f-neonatal').value.trim(),
+    primeras_palabras: document.getElementById('f-primeras-palabras').value.trim(),
+    primeras_frases: document.getElementById('f-primeras-frases').value.trim(),
+    desarrollo_motor: document.getElementById('f-motor').value.trim(),
+    observaciones_desarrollo: document.getElementById('f-obs-desarrollo').value.trim(),
+    antecedentes_medicos: document.getElementById('f-antecedentes-medicos').value.trim(),
+    tratamientos_previos: document.getElementById('f-tratamientos').value.trim(),
+    audicion: document.getElementById('f-audicion').value,
+    audicion_notas: document.getElementById('f-audicion-notas').value.trim(),
+    observaciones_anamnesis: document.getElementById('f-obs-anamnesis').value.trim(),
+  };
+
+  if(!appData.pacientes) appData.pacientes = [];
+
+  if(esEdicion){
+    const idx = appData.pacientes.findIndex(p => p.id === Number(editId));
+    if(idx !== -1){
+      const altaVal = document.getElementById('f-alta').value === 'true';
+      appData.pacientes[idx] = {
+        ...appData.pacientes[idx],
+        ...datos,
+        alta: altaVal,
+      };
+    }
+  } else {
+    appData.pacientes.push({
+      id: Date.now(),
+      ...datos,
+      alta: false,
+      fecha_creacion: hoy(),
+      objetivos: [],
+      recordatorios: [],
+    });
+  }
+
+  try {
+    await saveData(appData);
+    cerrarFormulario();
+    limpiarFormulario();
+    renderPacientes(document.getElementById('inp-buscar').value);
+    showToast(esEdicion ? 'Paciente actualizado correctamente.' : 'Paciente registrado correctamente.', 'ok');
+  } catch(err) {
+    showToast('Error al guardar. Intenta nuevamente.', 'err');
+  }
+}
+
+function editarPaciente(id){
+  abrirFormulario(id);
+}
+
+// ──────────────────────────────────────────────
+// ELIMINAR
+// ──────────────────────────────────────────────
+let pendingDeleteId = null;
+
+function confirmarEliminar(id){
+  const p = (appData.pacientes||[]).find(x => x.id === id);
+  if(!p) return;
+  pendingDeleteId = id;
+  const msg = document.getElementById('confirm-msg');
+  msg.textContent = `Se eliminará la ficha de "${p.nombre}" y todos sus datos. Esta acción no se puede deshacer.`;
+  document.getElementById('overlay-confirm').classList.add('open');
+  document.getElementById('btn-confirm-ok').onclick = ejecutarEliminar;
+}
+
+function cerrarConfirm(){
+  pendingDeleteId = null;
+  document.getElementById('overlay-confirm').classList.remove('open');
+}
+
+async function ejecutarEliminar(){
+  if(pendingDeleteId === null) return;
+  appData.pacientes = (appData.pacientes||[]).filter(p => p.id !== pendingDeleteId);
+  cerrarConfirm();
+  try {
+    await saveData(appData);
+    renderPacientes(document.getElementById('inp-buscar').value);
+    showToast('Paciente eliminado.', 'ok');
+  } catch(err) {
+    showToast('Error al eliminar. Intenta nuevamente.', 'err');
+  }
+}
+
+// ──────────────────────────────────────────────
+// PANEL DETALLE
+// ──────────────────────────────────────────────
+function verDetalle(id){
+  const p = (appData.pacientes||[]).find(x => x.id === id);
+  if(!p) return;
+
+  const inics = iniciales(p.nombre);
+  const edad = calcularEdad(p.nacimiento);
+  const nSes = contarSesionesPaciente(id);
+  const ult = ultimaSesion(id);
+  const estadoBadge = p.alta
+    ? '<span class="badge badge-alta">Con alta</span>'
+    : '<span class="badge badge-activo">Activo/a</span>';
+
+  function campo(lbl, val, cls=''){
+    const vacio = !val || String(val).trim() === '';
+    return `<div class="dfield ${cls}">
+      <div class="dfield-lbl">${esc(lbl)}</div>
+      <div class="dfield-val ${vacio?'dfield-empty':''}">${vacio ? 'No registrado' : esc(String(val))}</div>
+    </div>`;
+  }
+
+  const html = `
+    <div class="detail-header">
+      <div class="detail-header-top">
+        <div style="display:flex;align-items:center;gap:14px">
+          <div class="detail-av">${esc(inics)}</div>
+          <div>
+            <div class="detail-name">${esc(p.nombre)}</div>
+            <div class="detail-meta">${edad ? esc(edad) : '—'} · ${nSes} sesion${nSes===1?'':'es'}</div>
+          </div>
+        </div>
+        <button class="btn-close" onclick="cerrarDetalle()" aria-label="Cerrar">✕</button>
+      </div>
+      <div class="detail-badges">
+        ${estadoBadge}
+        ${p.diagnostico ? `<span class="badge badge-dx">${esc(p.diagnostico)}</span>` : ''}
+      </div>
+    </div>
+    <div class="detail-actions">
+      <button class="btn-sm btn-sm-edit" onclick="editarPaciente(${p.id});cerrarDetalle()">✏️ Editar ficha</button>
+      <a class="btn-sm btn-sm-teal" href="historial.html?paciente=${p.id}">📅 Ver historial</a>
+    </div>
+    <div class="detail-body">
+
+      <div class="dsec">
+        <div class="dsec-title">👤 Datos Personales</div>
+        <div class="drow">
+          ${campo('RUT', p.rut)}
+          ${campo('Fecha de nacimiento', formatFecha(p.nacimiento))}
+          ${campo('Edad cronológica', edad)}
+          ${campo('Teléfono', p.telefono)}
+          ${campo('Email', p.email)}
+          ${campo('Colegio / Institución', p.colegio_institucion)}
+          ${campo('Fecha de ingreso', formatFecha(p.fecha_creacion))}
+          ${campo('Última sesión', ult ? formatFecha(ult) : 'Sin sesiones')}
+        </div>
+      </div>
+
+      <div class="dsec">
+        <div class="dsec-title">🔍 Motivo de Consulta</div>
+        <div class="drow">
+          ${campo('Motivo de consulta', p.motivo_consulta, 'full')}
+          ${campo('Derivado por', p.derivacion)}
+          ${campo('Diagnóstico', p.diagnostico)}
+        </div>
+      </div>
+
+      <div class="dsec">
+        <div class="dsec-title">🤰 Antecedentes</div>
+        <div class="drow">
+          ${campo('Embarazo', p.antecedentes_embarazo, 'full')}
+          ${campo('Parto', p.antecedentes_parto)}
+          ${campo('Período neonatal', p.antecedentes_parto_neonatal)}
+        </div>
+      </div>
+
+      <div class="dsec">
+        <div class="dsec-title">🌱 Historia del Desarrollo</div>
+        <div class="drow">
+          ${campo('Primeras palabras', p.primeras_palabras)}
+          ${campo('Primeras frases', p.primeras_frases)}
+          ${campo('Desarrollo motor', p.desarrollo_motor, 'full')}
+          ${campo('Observaciones desarrollo', p.observaciones_desarrollo, 'full')}
+        </div>
+      </div>
+
+      <div class="dsec">
+        <div class="dsec-title">🏥 Antecedentes Médicos</div>
+        <div class="drow">
+          ${campo('Antecedentes médicos', p.antecedentes_medicos, 'full')}
+          ${campo('Tratamientos previos', p.tratamientos_previos, 'full')}
+          ${campo('Audición', p.audicion)}
+          ${campo('Notas audición', p.audicion_notas)}
+        </div>
+      </div>
+
+      ${p.observaciones_anamnesis ? `
+      <div class="dsec">
+        <div class="dsec-title">📝 Observaciones de Anamnesis</div>
+        <div class="drow">
+          ${campo('Observaciones', p.observaciones_anamnesis, 'full')}
+        </div>
+      </div>` : ''}
+
+      ${p.objetivos && p.objetivos.length ? `
+      <div class="dsec">
+        <div class="dsec-title">🎯 Objetivos Terapéuticos</div>
+        <div class="drow">
+          <div class="dfield full">
+            <ul style="padding-left:16px;display:flex;flex-direction:column;gap:5px">
+              ${p.objetivos.map(o => `<li style="font-size:0.74rem;color:var(--tx);line-height:1.50">${esc(String(o))}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+      </div>` : ''}
+
+    </div>`;
+
+  const panel = document.getElementById('detail-panel');
+  panel.innerHTML = html;
+  document.getElementById('overlay-detalle').classList.add('open');
+}
+
+function cerrarDetalle(e){
+  if(e && e.target !== document.getElementById('overlay-detalle')) return;
+  document.getElementById('overlay-detalle').classList.remove('open');
+}
+
+// ──────────────────────────────────────────────
+// TECLADO: cerrar overlays con Escape
+// ──────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if(e.key !== 'Escape') return;
+  if(document.getElementById('overlay-confirm').classList.contains('open')){
+    cerrarConfirm();
+  } else if(document.getElementById('overlay-form').classList.contains('open')){
+    document.getElementById('overlay-form').classList.remove('open');
+  } else if(document.getElementById('overlay-detalle').classList.contains('open')){
+    document.getElementById('overlay-detalle').classList.remove('open');
+  }
+});
+
+// ──────────────────────────────────────────────
+// INICIALIZACIÓN
+// ──────────────────────────────────────────────
+(async function init(){
+  try {
+    await initDB();
+    appData = await loadData();
+    renderPacientes();
+  } catch(err) {
+    showToast('Error al cargar los datos. Recarga la página.', 'err');
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+  <title>Registrar Sesión · FonoAprende</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+  :root{
+    --t:#6BC5D2; --tl:#A8DDE6; --tp:#E0F4F8;
+    --l:#C0AADC; --ll:#D8C8F0; --lp:#EEE8F8;
+    --g:#60D4A0; --bg:#F4F1FA;
+    --w:#FFFFFF;
+    --tx:#38385A; --tm:#8a89a3; --ts:#B8B8D0;
+    --glass:rgba(255,255,255,0.85); --bd:rgba(255,255,255,0.72);
+    --sh:0 4px 20px rgba(107,197,210,0.10),0 1px 6px rgba(107,197,210,0.06);
+    --shu:0 10px 36px rgba(107,197,210,0.16),0 3px 12px rgba(107,197,210,0.09);
+    --sb:248px;
+    --r1:10px;--r2:16px;--r3:22px;--r4:28px;
+    --ease:cubic-bezier(.4,0,.2,1);
+    --f:'Poppins',sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{font-size:15px;-webkit-font-smoothing:antialiased}
+  body{font-family:var(--f);color:var(--tx);min-height:100vh;background:var(--bg)}
+
+  /* ── Sidebar ── */
+  .sb{
+    width:var(--sb);
+    background:linear-gradient(160deg,#6BC5D2 0%,#8ab8d8 45%,#C0AADC 100%);
+    position:fixed;top:0;left:0;height:100vh;
+    z-index:100;display:flex;flex-direction:column;
+    box-shadow:3px 0 24px rgba(107,197,210,0.22);
+  }
+  .sb-logo{padding:26px 22px 18px}
+  .sb-logo-row{display:flex;align-items:center;gap:10px}
+  .sb-icon{width:38px;height:38px;background:rgba(255,255,255,0.25);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;backdrop-filter:blur(8px)}
+  .sb-app-name{font-size:0.80rem;font-weight:700;color:#fff;line-height:1.2;text-shadow:0 1px 4px rgba(0,0,0,0.12)}
+  .sb-app-sub{font-size:0.58rem;color:rgba(255,255,255,0.75);margin-top:2px;letter-spacing:0.04em}
+
+  .sb-user{
+    margin:0 14px 8px;padding:11px 14px;
+    background:rgba(255,255,255,0.18);
+    border-radius:var(--r3);border:1px solid rgba(255,255,255,0.28);
+    display:flex;align-items:center;gap:11px;backdrop-filter:blur(10px);
+  }
+  .sb-av{
+    width:34px;height:34px;border-radius:50%;
+    background:rgba(255,255,255,0.30);
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;flex-shrink:0;
+    box-shadow:0 2px 8px rgba(0,0,0,0.10);
+  }
+  .sb-uname{font-size:0.74rem;font-weight:600;color:#fff}
+  .sb-urole{font-size:0.60rem;color:rgba(255,255,255,0.75);margin-top:1px}
+
+  .sb-nav{flex:1;padding:8px 10px;overflow-y:auto}
+  .sb-nav::-webkit-scrollbar{width:3px}
+  .sb-nav::-webkit-scrollbar-track{background:transparent}
+  .sb-nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.25);border-radius:4px}
+
+  .ni{
+    display:flex;align-items:center;gap:10px;
+    padding:9px 12px;border-radius:var(--r1);margin-bottom:2px;
+    cursor:pointer;text-decoration:none;color:rgba(255,255,255,0.80);
+    font-size:0.76rem;font-weight:400;
+    transition:all 0.16s var(--ease);
+  }
+  .ni:hover{background:rgba(255,255,255,0.16);color:#fff}
+  .ni.on{
+    background:rgba(255,255,255,0.26);color:#fff;font-weight:600;
+    box-shadow:0 2px 12px rgba(0,0,0,0.09);
+    border:1px solid rgba(255,255,255,0.35);
+  }
+  .ni-em{font-size:1rem;width:22px;text-align:center;flex-shrink:0}
+  .ni-txt{flex:1}
+
+  .sb-foot{padding:14px;border-top:1px solid rgba(255,255,255,0.18);margin-top:auto}
+  .sb-foot-txt{font-size:0.58rem;color:rgba(255,255,255,0.55);text-align:center}
+
+  /* ── Main ── */
+  .main{margin-left:var(--sb);min-height:100vh;padding:32px 36px 72px;display:flex;flex-direction:column;gap:0}
+
+  /* ── Page header ── */
+  .ph{margin-bottom:28px}
+  .ph-title{font-size:1.55rem;font-weight:700;color:var(--tx);line-height:1.2}
+  .ph-sub{font-size:0.75rem;color:var(--tm);margin-top:5px}
+
+  /* ── Card ── */
+  .card{
+    background:var(--glass);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,0.75);
+    border-radius:var(--r4);
+    padding:26px 28px;
+    box-shadow:var(--sh);
+    margin-bottom:20px;
+  }
+  .card-title{font-size:0.88rem;font-weight:600;color:var(--tx);margin-bottom:18px;display:flex;align-items:center;gap:8px}
+  .card-title span{font-size:1.05rem}
+  .step-badge{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:22px;height:22px;border-radius:50%;
+    background:linear-gradient(135deg,var(--t),var(--l));
+    color:#fff;font-size:0.60rem;font-weight:700;flex-shrink:0;
+  }
+
+  /* ── Form elements ── */
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:0}
+  .form-group{display:flex;flex-direction:column;gap:6px}
+  .form-group.full{grid-column:1/-1}
+  .form-label{font-size:0.72rem;font-weight:600;color:var(--tx)}
+  .form-label .req{color:var(--t)}
+
+  .form-input,.form-select,.form-textarea{
+    background:rgba(255,255,255,0.72);
+    border:1px solid rgba(192,170,220,0.30);
+    border-radius:var(--r2);
+    padding:11px 14px;
+    font-family:var(--f);font-size:0.82rem;color:var(--tx);
+    outline:none;
+    transition:all 0.16s var(--ease);
+    width:100%;
+  }
+  .form-input:focus,.form-select:focus,.form-textarea:focus{
+    border-color:var(--t);
+    background:var(--w);
+    box-shadow:0 0 0 3px rgba(107,197,210,0.15);
+  }
+  .form-textarea{resize:vertical;min-height:88px;line-height:1.5}
+  .form-select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238a89a3' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:34px}
+
+  /* ── Paciente pill ── */
+  .paciente-pill{
+    display:inline-flex;align-items:center;gap:9px;
+    background:linear-gradient(135deg,var(--tp),var(--lp));
+    border:1px solid rgba(107,197,210,0.25);
+    border-radius:50px;padding:8px 16px;margin-top:12px;
+  }
+  .paciente-pill-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--t),var(--l));display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:#fff;font-weight:700}
+  .paciente-pill-name{font-size:0.78rem;font-weight:600;color:var(--tx)}
+  .paciente-pill-dx{font-size:0.65rem;color:var(--tm)}
+
+  /* ── Borrador banner ── */
+  .draft-banner{
+    display:none;align-items:center;gap:12px;
+    background:linear-gradient(135deg,rgba(107,197,210,0.12),rgba(192,170,220,0.12));
+    border:1px solid rgba(107,197,210,0.28);
+    border-radius:var(--r2);padding:12px 16px;margin-bottom:20px;
+    animation:slideDown 0.3s var(--ease);
+  }
+  .draft-banner.show{display:flex}
+  @keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+  .draft-banner-icon{font-size:1.2rem;flex-shrink:0}
+  .draft-banner-text{flex:1}
+  .draft-banner-title{font-size:0.78rem;font-weight:600;color:var(--tx)}
+  .draft-banner-sub{font-size:0.65rem;color:var(--tm);margin-top:2px}
+  .btn-draft{
+    padding:7px 14px;border-radius:var(--r1);
+    background:linear-gradient(135deg,var(--t),var(--l));
+    color:#fff;border:none;font-family:var(--f);font-size:0.70rem;font-weight:600;cursor:pointer;
+    white-space:nowrap;
+  }
+  .btn-draft-discard{
+    padding:7px 14px;border-radius:var(--r1);
+    background:transparent;color:var(--tm);border:1px solid rgba(138,137,163,0.25);
+    font-family:var(--f);font-size:0.70rem;font-weight:500;cursor:pointer;
+    white-space:nowrap;
+  }
+
+  /* ── Objetivos chips ── */
+  .chips-container{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;min-height:36px}
+  .chip{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:7px 13px;border-radius:50px;
+    border:1.5px solid rgba(192,170,220,0.35);
+    background:rgba(255,255,255,0.75);
+    font-size:0.72rem;font-weight:500;color:var(--tx);
+    cursor:pointer;transition:all 0.15s var(--ease);
+    user-select:none;
+  }
+  .chip:hover{border-color:var(--t);background:var(--tp);color:var(--t)}
+  .chip.selected{border-color:var(--t);background:var(--tp);color:var(--t);font-weight:600}
+  .chip-cat{font-size:0.55rem;padding:1px 6px;border-radius:8px;background:rgba(107,197,210,0.18);color:var(--t)}
+  .chips-empty{font-size:0.74rem;color:var(--ts);font-style:italic}
+
+  /* ── Add objetivo manual ── */
+  .add-obj-row{display:flex;gap:10px;align-items:center}
+  .add-obj-input{flex:1}
+  .btn-add-obj{
+    padding:11px 18px;border-radius:var(--r2);
+    background:rgba(107,197,210,0.12);
+    color:var(--t);border:1.5px solid rgba(107,197,210,0.30);
+    font-family:var(--f);font-size:0.76rem;font-weight:600;cursor:pointer;
+    white-space:nowrap;transition:all 0.15s var(--ease);
+    display:flex;align-items:center;gap:6px;
+  }
+  .btn-add-obj:hover{background:var(--tp);border-color:var(--t)}
+
+  /* ── Objetivos sesión ── */
+  .obj-sesion-list{display:flex;flex-direction:column;gap:10px;margin-top:4px}
+  .obj-sesion-card{
+    background:rgba(255,255,255,0.80);
+    border:1px solid rgba(220,215,240,0.55);
+    border-radius:var(--r2);padding:14px 16px;
+    display:flex;flex-direction:column;gap:10px;
+    animation:fadeIn 0.22s var(--ease);
+  }
+  @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+  .obj-sesion-header{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .obj-sesion-texto{font-size:0.80rem;font-weight:500;color:var(--tx);flex:1}
+  .btn-remove-obj{
+    width:22px;height:22px;border-radius:50%;
+    background:rgba(248,80,80,0.10);color:#E05050;
+    border:none;font-size:1rem;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    line-height:1;transition:background 0.14s;flex-shrink:0;
+  }
+  .btn-remove-obj:hover{background:rgba(248,80,80,0.20)}
+
+  /* ── Estado buttons ── */
+  .estado-btns{display:flex;flex-wrap:wrap;gap:7px}
+  .btn-estado{
+    padding:5px 12px;border-radius:50px;
+    font-family:var(--f);font-size:0.67rem;font-weight:600;
+    cursor:pointer;border:1.5px solid transparent;
+    transition:all 0.14s var(--ease);
+    opacity:0.60;
+  }
+  .btn-estado:hover{opacity:1}
+  .btn-estado.active{opacity:1;box-shadow:0 2px 8px rgba(0,0,0,0.12)}
+
+  .be-no{background:rgba(240,80,80,0.10);color:#D04040;border-color:rgba(220,60,60,0.25)}
+  .be-no.active{background:#FEECEC;color:#C03030;border-color:#F5ADAD}
+
+  .be-apoyo{background:rgba(240,160,60,0.10);color:#C07830;border-color:rgba(220,140,50,0.25)}
+  .be-apoyo.active{background:#FEF3E2;color:#B06820;border-color:#F5D0A0}
+
+  .be-parcial{background:rgba(107,197,210,0.10);color:var(--t);border-color:rgba(107,197,210,0.25)}
+  .be-parcial.active{background:var(--tp);color:#3A96A8;border-color:var(--tl)}
+
+  .be-logrado{background:rgba(96,212,160,0.10);color:#38A878;border-color:rgba(80,200,140,0.25)}
+  .be-logrado.active{background:#E2F8EF;color:#2A9068;border-color:#9AE0C4}
+
+  /* ── Registro clínico grid ── */
+  .clinico-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .clinico-field{display:flex;flex-direction:column;gap:6px}
+  .clinico-label{font-size:0.72rem;font-weight:600;color:var(--tx);display:flex;align-items:center;gap:6px}
+  .clinico-label-em{font-size:1rem}
+
+  /* ── Save button ── */
+  .btn-save{
+    width:100%;padding:15px 24px;
+    background:linear-gradient(135deg,var(--t) 0%,#5AB8D0 50%,var(--l) 100%);
+    color:#fff;border:none;border-radius:var(--r3);
+    font-family:var(--f);font-size:0.92rem;font-weight:700;
+    cursor:pointer;
+    box-shadow:0 6px 22px rgba(107,197,210,0.38);
+    transition:all 0.20s var(--ease);
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    letter-spacing:0.01em;
+  }
+  .btn-save:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(107,197,210,0.48)}
+  .btn-save:active{transform:translateY(0)}
+  .btn-save:disabled{opacity:0.55;cursor:not-allowed;transform:none}
+
+  /* ── Toast ── */
+  .toast-wrap{position:fixed;top:20px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+  .toast{
+    padding:12px 18px 12px 14px;border-radius:var(--r2);
+    background:var(--w);border:1px solid rgba(220,215,240,0.6);
+    box-shadow:0 8px 28px rgba(56,56,90,0.13);
+    font-size:0.78rem;font-weight:500;color:var(--tx);
+    display:flex;align-items:center;gap:10px;min-width:240px;max-width:340px;
+    animation:toastIn 0.28s var(--ease);
+    pointer-events:all;
+  }
+  .toast-exit{animation:toastOut 0.25s var(--ease) forwards}
+  @keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+  @keyframes toastOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(20px)}}
+  .toast-ok{border-left:3px solid var(--g)}
+  .toast-err{border-left:3px solid #E05050}
+  .toast-info{border-left:3px solid var(--t)}
+  .toast-em{font-size:1.05rem;flex-shrink:0}
+
+  /* ── Section divider ── */
+  .sec-label{
+    font-size:0.62rem;font-weight:700;text-transform:uppercase;
+    letter-spacing:0.14em;color:var(--tm);margin-bottom:14px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .sec-label::after{content:'';flex:1;height:1px;background:rgba(192,170,220,0.25)}
+
+  /* ── Responsive ── */
+  @media(max-width:900px){
+    .sb{transform:translateX(-100%);transition:transform 0.25s var(--ease)}
+    .sb.open{transform:translateX(0)}
+    .main{margin-left:0;padding:20px 18px 60px}
+    .form-row{grid-template-columns:1fr}
+    .clinico-grid{grid-template-columns:1fr}
+    .add-obj-row{flex-direction:column}
+    .add-obj-input{width:100%}
+  }
+  @media(max-width:600px){
+    .main{padding:16px 14px 60px}
+    .card{padding:18px 16px}
+  }
+  </style>
+</head>
+<body>
+<div class="sb" id="sb">
+  <div class="sb-logo">
+    <div class="sb-logo-row">
+      <div class="sb-icon">🗣️</div>
+      <div>
+        <div class="sb-app-name">FonoAprende</div>
+        <div class="sb-app-sub">Sesión en un Click</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sb-user">
+    <div class="sb-av">👩‍⚕️</div>
+    <div>
+      <div class="sb-uname" id="sb-nombre">Fonoaudióloga</div>
+      <div class="sb-urole">Fonoaudióloga</div>
+    </div>
+  </div>
+
+  <nav class="sb-nav">
+    <a href="index.html" class="ni"><span class="ni-em">🏠</span><span class="ni-txt">Inicio</span></a>
+    <a href="pacientes.html" class="ni"><span class="ni-em">👥</span><span class="ni-txt">Pacientes</span></a>
+    <a href="sesion.html" class="ni on"><span class="ni-em">📝</span><span class="ni-txt">Sesión</span></a>
+    <a href="historial.html" class="ni"><span class="ni-em">📅</span><span class="ni-txt">Historial</span></a>
+    <a href="biblioteca.html" class="ni"><span class="ni-em">📚</span><span class="ni-txt">Biblioteca</span></a>
+    <a href="#" class="ni"><span class="ni-em">⚙️</span><span class="ni-txt">Configuración</span></a>
+  </nav>
+
+  <div class="sb-foot">
+    <div class="sb-foot-txt">FonoAprende v1.0 · 2026</div>
+  </div>
+</div>
+
+<main class="main">
+  <div class="ph">
+    <div class="ph-title">📝 Registrar Sesión</div>
+    <div class="ph-sub">Registra los objetivos trabajados y el progreso clínico de tu paciente</div>
+  </div>
+
+  <!-- Borrador banner -->
+  <div class="draft-banner" id="draft-banner">
+    <div class="draft-banner-icon">📋</div>
+    <div class="draft-banner-text">
+      <div class="draft-banner-title">Borrador recuperado</div>
+      <div class="draft-banner-sub" id="draft-banner-sub">Tienes una sesión sin guardar. ¿Quieres continuar?</div>
+    </div>
+    <button class="btn-draft-discard" onclick="descartarBorrador()">Descartar</button>
+    <button class="btn-draft" onclick="recuperarBorrador()">Continuar ✓</button>
+  </div>
+
+  <!-- Paso 1: Selección de paciente -->
+  <div class="card">
+    <div class="card-title"><span class="step-badge">1</span> <span>Seleccionar Paciente</span></div>
+    <div class="form-group">
+      <label class="form-label" for="sel-paciente">Paciente <span class="req">*</span></label>
+      <select class="form-select" id="sel-paciente" onchange="onPacienteChange()">
+        <option value="">— Selecciona un paciente —</option>
+      </select>
+    </div>
+    <div id="paciente-info"></div>
+  </div>
+
+  <!-- Paso 2: Datos de la sesión -->
+  <div class="card">
+    <div class="card-title"><span class="step-badge">2</span> <span>Datos de la Sesión</span></div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" for="inp-fecha">Fecha <span class="req">*</span></label>
+        <input type="date" class="form-input" id="inp-fecha"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inp-numero">Número de sesión</label>
+        <input type="number" class="form-input" id="inp-numero" min="1" placeholder="1"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paso 3: Objetivos trabajados -->
+  <div class="card">
+    <div class="card-title"><span class="step-badge">3</span> <span>Objetivos Trabajados</span></div>
+
+    <div class="sec-label">Objetivos del plan de tratamiento</div>
+    <div class="chips-container" id="chips-objetivos">
+      <span class="chips-empty">Selecciona un paciente para ver sus objetivos</span>
+    </div>
+
+    <div class="sec-label">Agregar objetivo personalizado</div>
+    <div class="add-obj-row">
+      <input type="text" class="form-input add-obj-input" id="inp-nuevo-obj" placeholder="Ej: Producción de /r/ en contexto de oraciones…" onkeydown="if(event.key==='Enter')agregarObjetivoManual()"/>
+      <button class="btn-add-obj" onclick="agregarObjetivoManual()"><span>+</span> Agregar</button>
+    </div>
+
+    <div id="obj-sesion-section" style="display:none;margin-top:22px">
+      <div class="sec-label">Objetivos de esta sesión</div>
+      <div class="obj-sesion-list" id="obj-sesion-list"></div>
+    </div>
+  </div>
+
+  <!-- Paso 4: Registro clínico -->
+  <div class="card">
+    <div class="card-title"><span class="step-badge">4</span> <span>Registro Clínico</span></div>
+    <div class="clinico-grid">
+      <div class="clinico-field">
+        <label class="clinico-label"><span class="clinico-label-em">💡</span> Logros y Avances</label>
+        <textarea class="form-textarea" id="inp-logros" placeholder="¿Qué logró el paciente hoy? ¿Qué salió bien?"></textarea>
+      </div>
+      <div class="clinico-field">
+        <label class="clinico-label"><span class="clinico-label-em">👁️</span> Observaciones Clínicas</label>
+        <textarea class="form-textarea" id="inp-observaciones" placeholder="Comportamiento, atención, estado general del paciente…"></textarea>
+      </div>
+      <div class="clinico-field">
+        <label class="clinico-label"><span class="clinico-label-em">⚠️</span> Barreras y Dificultades</label>
+        <textarea class="form-textarea" id="inp-barreras" placeholder="¿Qué dificultó la sesión? ¿Qué requirió más apoyo?"></textarea>
+      </div>
+      <div class="clinico-field">
+        <label class="clinico-label"><span class="clinico-label-em">🏠</span> Tareas para el Hogar</label>
+        <textarea class="form-textarea" id="inp-tareas" placeholder="Indicaciones y actividades para practicar en casa…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Guardar -->
+  <button class="btn-save" id="btn-guardar" onclick="guardarSesion()">
+    <span>💾</span> Guardar Sesión
+  </button>
+</main>
+
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script>
+// ── IndexedDB helpers ──────────────────────────────────────────────────────
+let _db = null;
+async function initDB() {
+  if (_db) return _db;
+  return new Promise((res, rej) => {
+    const r = indexedDB.open('SesionesFonoDB', 1);
+    r.onupgradeneeded = e => {
+      if (!e.target.result.objectStoreNames.contains('datos'))
+        e.target.result.createObjectStore('datos', {keyPath:'id'});
+    };
+    r.onsuccess = e => { _db = e.target.result; res(_db); };
+    r.onerror = rej;
+  });
+}
+async function loadData() {
+  await initDB();
+  return new Promise(res => {
+    const tx = _db.transaction('datos','readonly');
+    const req = tx.objectStore('datos').get('app-data');
+    req.onsuccess = () => res(req.result || {id:'app-data',pacientes:[],sesiones:[],configuracion:{}});
+  });
+}
+async function saveData(data) {
+  await initDB();
+  return new Promise(res => {
+    const tx = _db.transaction('datos','readwrite');
+    tx.objectStore('datos').put(data);
+    tx.oncomplete = res;
+  });
+}
+
+// ── Escape ─────────────────────────────────────────────────────────────────
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Estado global ─────────────────────────────────────────────────────────
+let appData = null;
+let objetivosSesion = []; // [{texto, estado}]
+let borradorPendiente = null;
+let autoGuardarTimer = null;
+
+// ── Init ───────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', async () => {
+  // Fecha por defecto: hoy
+  document.getElementById('inp-fecha').value = hoyISO();
+  appData = await loadData();
+  cargarPacientes();
+  cargarNombreSidebar();
+  verificarBorrador();
+  autoGuardarTimer = setInterval(autoGuardar, 5000);
+});
+
+function hoyISO() {
+  const d = new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+
+function cargarNombreSidebar() {
+  if (appData.configuracion && appData.configuracion.nombre) {
+    document.getElementById('sb-nombre').textContent = appData.configuracion.nombre;
+  }
+}
+
+// ── Pacientes ──────────────────────────────────────────────────────────────
+function cargarPacientes() {
+  const sel = document.getElementById('sel-paciente');
+  sel.innerHTML = '<option value="">— Selecciona un paciente —</option>';
+  (appData.pacientes || []).forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p.id;
+    opt.textContent = p.nombre + (p.diagnostico ? ' — ' + p.diagnostico : '');
+    sel.appendChild(opt);
+  });
+}
+
+function onPacienteChange() {
+  const id = parseInt(document.getElementById('sel-paciente').value);
+  const infoDiv = document.getElementById('paciente-info');
+
+  if (!id) {
+    infoDiv.innerHTML = '';
+    renderChipsObjetivos([]);
+    objetivosSesion = [];
+    renderObjetivosSesion();
+    document.getElementById('inp-numero').value = '';
+    return;
+  }
+
+  const paciente = (appData.pacientes || []).find(p => p.id === id);
+  if (!paciente) return;
+
+  // Pill info
+  const iniciales = paciente.nombre.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  infoDiv.innerHTML = `
+    <div class="paciente-pill">
+      <div class="paciente-pill-av">${esc(iniciales)}</div>
+      <div>
+        <div class="paciente-pill-name">${esc(paciente.nombre)}</div>
+        <div class="paciente-pill-dx">${esc(paciente.diagnostico||'Sin diagnóstico')}</div>
+      </div>
+    </div>`;
+
+  // Número sesión auto
+  const sesiones = (appData.sesiones || []).filter(s => s.pacienteId === id);
+  document.getElementById('inp-numero').value = sesiones.length + 1;
+
+  // Chips objetivos
+  renderChipsObjetivos(paciente.objetivos || []);
+}
+
+function renderChipsObjetivos(objetivos) {
+  const cont = document.getElementById('chips-objetivos');
+  if (!objetivos.length) {
+    cont.innerHTML = '<span class="chips-empty">Este paciente no tiene objetivos registrados aún</span>';
+    return;
+  }
+  cont.innerHTML = '';
+  objetivos.forEach(obj => {
+    const texto = typeof obj === 'string' ? obj : obj.texto;
+    const cat = (typeof obj === 'object' && obj.categoria) ? obj.categoria : '';
+    const isSelected = objetivosSesion.some(o => o.texto === texto);
+    const div = document.createElement('div');
+    div.className = 'chip' + (isSelected ? ' selected' : '');
+    div.setAttribute('data-texto', texto);
+    div.onclick = () => toggleObjetivo(texto);
+    let inner = esc(texto);
+    if (cat) inner += ` <span class="chip-cat">${esc(cat)}</span>`;
+    div.innerHTML = inner;
+    cont.appendChild(div);
+  });
+}
+
+// ── Objetivos sesión ───────────────────────────────────────────────────────
+function toggleObjetivo(texto) {
+  const idx = objetivosSesion.findIndex(o => o.texto === texto);
+  if (idx >= 0) {
+    objetivosSesion.splice(idx, 1);
+  } else {
+    objetivosSesion.push({texto, estado: null});
+  }
+  // Update chip visual
+  const chips = document.querySelectorAll('#chips-objetivos .chip');
+  chips.forEach(c => {
+    if (c.getAttribute('data-texto') === texto) {
+      c.classList.toggle('selected', objetivosSesion.some(o => o.texto === texto));
+    }
+  });
+  renderObjetivosSesion();
+}
+
+function agregarObjetivoManual() {
+  const inp = document.getElementById('inp-nuevo-obj');
+  const texto = inp.value.trim();
+  if (!texto) return;
+  if (objetivosSesion.some(o => o.texto === texto)) {
+    showToast('Este objetivo ya está en la lista','info');
+    return;
+  }
+  objetivosSesion.push({texto, estado: null});
+  inp.value = '';
+  renderObjetivosSesion();
+}
+
+function eliminarObjetivoSesion(idx) {
+  const texto = objetivosSesion[idx].texto;
+  objetivosSesion.splice(idx, 1);
+  // Unselect chip if exists
+  const chips = document.querySelectorAll('#chips-objetivos .chip');
+  chips.forEach(c => {
+    if (c.getAttribute('data-texto') === texto) c.classList.remove('selected');
+  });
+  renderObjetivosSesion();
+}
+
+function setEstado(idx, estado) {
+  if (objetivosSesion[idx]) {
+    objetivosSesion[idx].estado = estado;
+    renderObjetivosSesion();
+  }
+}
+
+function renderObjetivosSesion() {
+  const section = document.getElementById('obj-sesion-section');
+  const list = document.getElementById('obj-sesion-list');
+
+  if (!objetivosSesion.length) {
+    section.style.display = 'none';
+    return;
+  }
+  section.style.display = 'block';
+  list.innerHTML = '';
+
+  objetivosSesion.forEach((obj, idx) => {
+    const card = document.createElement('div');
+    card.className = 'obj-sesion-card';
+
+    const estados = [
+      {key:'no_logrado', label:'❌ No logrado', cls:'be-no'},
+      {key:'con_apoyo', label:'🟠 Con apoyo', cls:'be-apoyo'},
+      {key:'parcial', label:'🔵 Logro parcial', cls:'be-parcial'},
+      {key:'logrado', label:'✅ Logrado', cls:'be-logrado'},
+    ];
+
+    const btnEstados = estados.map(e =>
+      `<button class="btn-estado ${e.cls}${obj.estado===e.key?' active':''}" onclick="setEstado(${idx},'${e.key}')">${e.label}</button>`
+    ).join('');
+
+    card.innerHTML = `
+      <div class="obj-sesion-header">
+        <div class="obj-sesion-texto">${esc(obj.texto)}</div>
+        <button class="btn-remove-obj" title="Quitar objetivo" onclick="eliminarObjetivoSesion(${idx})">×</button>
+      </div>
+      <div class="estado-btns">${btnEstados}</div>`;
+
+    list.appendChild(card);
+  });
+}
+
+// ── Borrador ───────────────────────────────────────────────────────────────
+function autoGuardar() {
+  const pacienteId = document.getElementById('sel-paciente').value;
+  if (!pacienteId && !objetivosSesion.length &&
+      !document.getElementById('inp-logros').value &&
+      !document.getElementById('inp-observaciones').value) return;
+
+  const borrador = {
+    pacienteId: pacienteId ? parseInt(pacienteId) : null,
+    fecha: document.getElementById('inp-fecha').value,
+    numero_sesion: document.getElementById('inp-numero').value,
+    objetivosSesion: JSON.parse(JSON.stringify(objetivosSesion)),
+    logros: document.getElementById('inp-logros').value,
+    observaciones: document.getElementById('inp-observaciones').value,
+    barreras: document.getElementById('inp-barreras').value,
+    tareas: document.getElementById('inp-tareas').value,
+    ts: Date.now(),
+  };
+  localStorage.setItem('borrador_sesion', JSON.stringify(borrador));
+}
+
+function verificarBorrador() {
+  const raw = localStorage.getItem('borrador_sesion');
+  if (!raw) return;
+  try {
+    borradorPendiente = JSON.parse(raw);
+    const banner = document.getElementById('draft-banner');
+    const sub = document.getElementById('draft-banner-sub');
+    const hace = tiempoTranscurrido(borradorPendiente.ts);
+    sub.textContent = `Borrador guardado hace ${hace}. ¿Deseas continuar?`;
+    banner.classList.add('show');
+  } catch(e) {
+    localStorage.removeItem('borrador_sesion');
+  }
+}
+
+function recuperarBorrador() {
+  if (!borradorPendiente) return;
+  const b = borradorPendiente;
+
+  if (b.pacienteId) {
+    const sel = document.getElementById('sel-paciente');
+    sel.value = b.pacienteId;
+    onPacienteChange();
+  }
+  if (b.fecha) document.getElementById('inp-fecha').value = b.fecha;
+  if (b.numero_sesion) document.getElementById('inp-numero').value = b.numero_sesion;
+  if (b.logros) document.getElementById('inp-logros').value = b.logros;
+  if (b.observaciones) document.getElementById('inp-observaciones').value = b.observaciones;
+  if (b.barreras) document.getElementById('inp-barreras').value = b.barreras;
+  if (b.tareas) document.getElementById('inp-tareas').value = b.tareas;
+
+  objetivosSesion = b.objetivosSesion || [];
+  renderObjetivosSesion();
+
+  // Update chips selection
+  objetivosSesion.forEach(obj => {
+    const chips = document.querySelectorAll('#chips-objetivos .chip');
+    chips.forEach(c => {
+      if (c.getAttribute('data-texto') === obj.texto) c.classList.add('selected');
+    });
+  });
+
+  document.getElementById('draft-banner').classList.remove('show');
+  borradorPendiente = null;
+  showToast('Borrador recuperado correctamente','ok');
+}
+
+function descartarBorrador() {
+  localStorage.removeItem('borrador_sesion');
+  borradorPendiente = null;
+  document.getElementById('draft-banner').classList.remove('show');
+}
+
+function tiempoTranscurrido(ts) {
+  const diff = Math.floor((Date.now() - ts) / 1000);
+  if (diff < 60) return diff + ' segundos';
+  if (diff < 3600) return Math.floor(diff/60) + ' minutos';
+  return Math.floor(diff/3600) + ' horas';
+}
+
+// ── Guardar sesión ─────────────────────────────────────────────────────────
+async function guardarSesion() {
+  const pacienteId = parseInt(document.getElementById('sel-paciente').value);
+  const fecha = document.getElementById('inp-fecha').value;
+
+  if (!pacienteId) { showToast('Selecciona un paciente', 'err'); return; }
+  if (!fecha) { showToast('Ingresa la fecha de la sesión', 'err'); return; }
+
+  const btn = document.getElementById('btn-guardar');
+  btn.disabled = true;
+  btn.innerHTML = '<span>⏳</span> Guardando…';
+
+  const data = await loadData();
+
+  const sesionesDelPaciente = (data.sesiones || []).filter(s => s.pacienteId === pacienteId);
+  const numSesion = parseInt(document.getElementById('inp-numero').value) || (sesionesDelPaciente.length + 1);
+
+  const nuevaSesion = {
+    id: Date.now(),
+    pacienteId,
+    fecha,
+    numero_sesion: numSesion,
+    objetivos_trabajados: objetivosSesion.map(o => ({texto: o.texto, estado: o.estado || 'no_logrado'})),
+    logros: document.getElementById('inp-logros').value.trim(),
+    observaciones: document.getElementById('inp-observaciones').value.trim(),
+    barreras: document.getElementById('inp-barreras').value.trim(),
+    tareas: document.getElementById('inp-tareas').value.trim(),
+  };
+
+  data.sesiones = data.sesiones || [];
+  data.sesiones.push(nuevaSesion);
+  await saveData(data);
+
+  localStorage.removeItem('borrador_sesion');
+  clearInterval(autoGuardarTimer);
+
+  showToast('¡Sesión guardada exitosamente! 🎉', 'ok');
+  setTimeout(() => { window.location.href = 'historial.html'; }, 1200);
+}
+
+// ── Toast ──────────────────────────────────────────────────────────────────
+function showToast(msg, tipo='info') {
+  const wrap = document.getElementById('toast-wrap');
+  const t = document.createElement('div');
+  const em = tipo==='ok' ? '✅' : tipo==='err' ? '❌' : 'ℹ️';
+  t.className = `toast toast-${tipo==='ok'?'ok':tipo==='err'?'err':'info'}`;
+  const span = document.createElement('span');
+  span.className = 'toast-em';
+  span.textContent = em;
+  const txt = document.createElement('span');
+  txt.textContent = msg;
+  t.appendChild(span);
+  t.appendChild(txt);
+  wrap.appendChild(t);
+  setTimeout(() => {
+    t.classList.add('toast-exit');
+    t.addEventListener('animationend', () => t.remove());
+  }, 3200);
+}
+</script>
+</body>
+</html>
