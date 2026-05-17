@@ -437,7 +437,19 @@
 
 <div class="toast-wrap" id="toast-wrap"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+// ── Auth check ─────────────────────────────────────────────────────────────
+const _sb = window.supabase.createClient(
+  'https://yexxzzoeleeyafawakfj.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlleHh6em9lbGVleWFmYXdha2ZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MTQ4NTEsImV4cCI6MjA5MjI5MDg1MX0.J8zkTJErSeitGnDhowg68nZKsdfu00QjA62N8W_7KP4'
+);
+(async()=>{
+  const {data:{session}}=await _sb.auth.getSession();
+  if(!session) window.location.href='index.html';
+})();
+_sb.auth.onAuthStateChange((e,s)=>{ if(!s) window.location.href='index.html'; });
+
 // ── IndexedDB helpers ──────────────────────────────────────────────────────
 let _db = null;
 async function initDB() {

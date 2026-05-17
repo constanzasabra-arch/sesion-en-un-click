@@ -1,1496 +1,705 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-  <title>Pacientes · FonoAprende · Sesión en un Click</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-  <style>
-  :root{
-    --t:#6BC5D2; --tl:#A8DDE6; --tp:#E0F4F8;
-    --l:#C0AADC; --ll:#D8C8F0; --lp:#EEE8F8;
-    --g:#60D4A0;
-    --w:#FFFFFF; --bg:#F4F1FA;
-    --tx:#38385A; --tm:#8a89a3; --ts:#B8B8D0;
-    --glass:rgba(255,255,255,0.82); --bd:rgba(255,255,255,0.72);
-    --sh:0 4px 20px rgba(107,197,210,0.09),0 1px 5px rgba(107,197,210,0.05);
-    --shu:0 10px 36px rgba(107,197,210,0.14),0 3px 10px rgba(107,197,210,0.07);
-    --sb:248px;
-    --r1:10px;--r2:16px;--r3:22px;--r4:28px;
-    --ease:cubic-bezier(.4,0,.2,1);
-    --f:'Poppins',sans-serif;
-  }
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  html{font-size:15.5px;-webkit-font-smoothing:antialiased}
-  body{font-family:var(--f);color:var(--tx);min-height:100vh;overflow-x:hidden;background:var(--bg)}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pacientes · FonoAprende</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--t:#6BC5D2;--l:#C0AADC;--g:#60D4A0;--bg:#F4F1FA;--tx:#38385A;--tm:#8a89a3;--sb:248px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--tx);display:flex;min-height:100vh}
 
-  /* ══════════ LAYOUT ══════════ */
-  #app{display:flex;min-height:100vh;position:relative}
+.sb{position:fixed;top:0;left:0;width:var(--sb);height:100vh;background:linear-gradient(170deg,#6BC5D2 0%,#9BBBD4 50%,#C0AADC 100%);display:flex;flex-direction:column;z-index:100;overflow-y:auto}
+.sb-brand{padding:24px 20px 16px;display:flex;align-items:center;gap:10px}
+.sb-brand b{font-size:1rem;font-weight:700;color:#fff;display:block}
+.sb-brand small{font-size:.65rem;color:rgba(255,255,255,.6)}
+nav{flex:1;padding:8px 12px}
+.nav-sec{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.5);padding:14px 8px 6px}
+.ni{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;color:rgba(255,255,255,.82);text-decoration:none;font-size:.82rem;font-weight:500;transition:all .2s;margin-bottom:2px}
+.ni:hover{background:rgba(255,255,255,.15);color:#fff}
+.ni.on{background:rgba(255,255,255,.92);color:var(--t);font-weight:600}
+.ni svg{width:18px;height:18px;flex-shrink:0}
 
-  /* ══════════ SIDEBAR ══════════ */
-  .sb{
-    width:var(--sb);
-    background:linear-gradient(170deg,#5BB8C6 0%,#7EC8D4 30%,#A8AADC 70%,#C0AADC 100%);
-    position:fixed;top:0;left:0;height:100vh;
-    z-index:100;display:flex;flex-direction:column;
-    box-shadow:3px 0 24px rgba(107,197,210,0.18);
-  }
+.main{margin-left:var(--sb);flex:1;min-height:100vh}
+.topbar{padding:24px 32px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.topbar h1{font-size:1.4rem;font-weight:700}
+.topbar-r{display:flex;gap:10px;align-items:center}
+.search{padding:10px 16px;border-radius:12px;border:1.5px solid rgba(107,197,210,.2);background:rgba(255,255,255,.8);font-family:'Poppins',sans-serif;font-size:.82rem;color:var(--tx);outline:none;width:210px;transition:border .2s}
+.search:focus{border-color:var(--t)}
+.btn-p{padding:10px 20px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--t),#A8DCC8);color:#fff;font-family:'Poppins',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:opacity .2s}
+.btn-p:hover{opacity:.88}
+.btn-p:disabled{opacity:.5;cursor:not-allowed}
 
-  .sb-logo{padding:26px 22px 18px}
-  .sb-logo-row{display:flex;align-items:center;gap:10px}
-  .sb-icon{font-size:1.6rem;filter:drop-shadow(0 2px 8px rgba(255,255,255,0.35))}
-  .sb-brand{
-    font-size:0.95rem;font-weight:700;color:#fff;
-    line-height:1.1;
-    background:linear-gradient(90deg,#fff,rgba(255,255,255,0.78));
-    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  }
-  .sb-sub{font-size:0.57rem;color:rgba(255,255,255,0.65);margin-top:2px;letter-spacing:0.03em}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:0 32px 20px}
+.sc{background:rgba(255,255,255,.85);border-radius:18px;padding:16px 20px;border:1.5px solid rgba(255,255,255,.9);box-shadow:0 4px 20px rgba(107,197,210,.08)}
+.sc-n{font-size:1.6rem;font-weight:700;background:linear-gradient(135deg,var(--t),var(--l));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sc-l{font-size:.72rem;color:var(--tm);font-weight:500;margin-top:2px}
 
-  .sb-divider{height:1px;background:rgba(255,255,255,0.18);margin:0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;padding:0 32px 40px}
+.pac-card{background:rgba(255,255,255,.9);border-radius:22px;padding:20px;border:1.5px solid rgba(255,255,255,.95);box-shadow:0 4px 20px rgba(107,197,210,.08);cursor:pointer;transition:all .2s}
+.pac-card:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(107,197,210,.15)}
+.pac-name{font-size:.95rem;font-weight:700;margin-bottom:4px}
+.pac-diag{font-size:.75rem;color:var(--tm);margin-bottom:12px;line-height:1.4}
+.pac-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.pill{font-size:.65rem;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(107,197,210,.1);color:var(--t)}
+.pill.alta{background:rgba(200,200,220,.12);color:#b0afc0}
+.pac-btns{display:flex;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid rgba(107,197,210,.1)}
+.pb{flex:1;padding:7px 10px;border-radius:10px;border:1.5px solid rgba(107,197,210,.2);background:transparent;font-family:'Poppins',sans-serif;font-size:.72rem;font-weight:500;color:var(--t);cursor:pointer;transition:all .2s}
+.pb:hover{background:rgba(107,197,210,.08)}
+.pb.red{color:#e07070;border-color:rgba(220,130,130,.25)}
+.pb.red:hover{background:rgba(220,130,130,.06)}
+.empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--tm)}
 
-  .sb-nav{flex:1;padding:14px 10px;overflow-y:auto}
+/* OVERLAY */
+.ov{position:fixed;inset:0;z-index:600;background:var(--bg);overflow-y:auto;display:none}
+.ov.open{display:block}
+.ov-inner{max-width:720px;margin:0 auto;padding:32px 24px 80px}
+.ov-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+.ov-title{font-size:1.3rem;font-weight:700}
+.ov-x{width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(107,197,210,.25);background:#fff;font-size:1.1rem;cursor:pointer;color:var(--tm);display:flex;align-items:center;justify-content:center;transition:all .2s}
+.ov-x:hover{background:var(--t);color:#fff;border-color:var(--t)}
 
-  .ni{
-    display:flex;align-items:center;gap:10px;
-    padding:9px 13px;border-radius:50px;margin-bottom:3px;
-    cursor:pointer;text-decoration:none;
-    color:rgba(255,255,255,0.75);
-    font-size:0.77rem;font-weight:500;
-    transition:all 0.16s var(--ease);
-  }
-  .ni:hover{background:rgba(255,255,255,0.15);color:#fff}
-  .ni.on{
-    background:rgba(255,255,255,0.92);
-    color:var(--t);font-weight:700;
-    box-shadow:0 2px 12px rgba(0,0,0,0.08);
-  }
-  .ni-em{font-size:1rem;line-height:1;flex-shrink:0}
-  .ni-txt{flex:1}
+/* FORM SECTIONS */
+.fsec{background:#fff;border-radius:22px;padding:24px;margin-bottom:16px;border:1.5px solid rgba(107,197,210,.1);box-shadow:0 2px 16px rgba(107,197,210,.06)}
+.ftitle{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--t);margin-bottom:16px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.frow.x1{grid-template-columns:1fr}
+.frow.x3{grid-template-columns:1fr 1fr 1fr}
+.field label{display:block;font-size:.72rem;font-weight:600;color:var(--tm);margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid rgba(107,197,210,.2);background:rgba(248,250,253,.8);font-family:'Poppins',sans-serif;font-size:.82rem;color:var(--tx);outline:none;transition:border .2s;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--t);background:#fff}
+.field textarea{min-height:72px}
+.edad-tag{font-size:.68rem;color:var(--t);font-weight:500;margin-top:4px;min-height:14px}
+.req{color:#e07070}
 
-  .sb-foot{
-    padding:14px;border-top:1px solid rgba(255,255,255,0.15);
-  }
-  .sb-user{
-    display:flex;align-items:center;gap:10px;
-    padding:10px 12px;
-    background:rgba(255,255,255,0.15);
-    border-radius:var(--r3);
-    border:1px solid rgba(255,255,255,0.22);
-  }
-  .sb-av{
-    width:32px;height:32px;border-radius:50%;
-    background:rgba(255,255,255,0.28);
-    display:flex;align-items:center;justify-content:center;
-    font-size:14px;flex-shrink:0;
-  }
-  .sb-uname{font-size:0.74rem;font-weight:600;color:#fff}
-  .sb-urole{font-size:0.58rem;color:rgba(255,255,255,0.60);margin-top:1px}
+/* ANAMNESIS TOGGLE */
+.ana-btn{width:100%;padding:16px 20px;border-radius:18px;border:1.5px dashed rgba(107,197,210,.35);background:rgba(107,197,210,.04);font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:600;color:var(--t);cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;transition:all .2s;margin-bottom:4px}
+.ana-btn:hover{background:rgba(107,197,210,.08)}
+.ana-btn .arr{transition:transform .3s}
+.ana-btn.exp .arr{transform:rotate(180deg)}
+.ana-body{display:none}
+.ana-body.open{display:block}
+.ana-note{font-size:.72rem;color:var(--tm);padding:6px 20px 12px;font-style:italic}
 
-  /* ══════════ MAIN ══════════ */
-  .main{flex:1;margin-left:var(--sb);min-height:100vh;display:flex;flex-direction:column}
+.form-btns{display:flex;gap:12px;justify-content:flex-end;padding-top:8px}
+.btn-cancel{padding:11px 22px;border-radius:14px;border:1.5px solid rgba(107,197,210,.25);background:#fff;font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:500;color:var(--tm);cursor:pointer;transition:all .2s}
+.btn-cancel:hover{border-color:var(--t);color:var(--t)}
+.btn-save{padding:11px 28px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--t),#A8DCC8);color:#fff;font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;transition:opacity .2s}
+.btn-save:hover{opacity:.88}
+.btn-save:disabled{opacity:.5;cursor:not-allowed}
 
-  /* ══ TOPBAR ══ */
-  .topbar{
-    height:64px;
-    background:rgba(255,255,255,0.72);
-    backdrop-filter:blur(24px);
-    border-bottom:1px solid var(--bd);
-    display:flex;align-items:center;justify-content:space-between;
-    padding:0 36px;
-    position:sticky;top:0;z-index:80;
-    box-shadow:0 1px 8px rgba(107,197,210,0.06);
-  }
-  .tb-left{display:flex;flex-direction:column}
-  .tb-title{font-size:1.10rem;font-weight:700;color:var(--tx)}
-  .tb-sub{font-size:0.60rem;color:var(--tm);margin-top:1px}
-  .tb-right{display:flex;align-items:center;gap:10px}
+/* DETAIL */
+.drow{margin-bottom:12px}
+.dlabel{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tm);margin-bottom:3px}
+.dval{font-size:.85rem;padding:8px 12px;background:rgba(248,250,253,.8);border-radius:10px;border:1px solid rgba(107,197,210,.1)}
 
-  .srch{
-    display:flex;align-items:center;gap:8px;
-    background:rgba(255,255,255,0.80);border:1px solid var(--bd);
-    border-radius:50px;padding:0 16px;height:36px;width:220px;
-    transition:all 0.18s var(--ease);
-  }
-  .srch:focus-within{
-    border-color:var(--tl);background:var(--w);
-    box-shadow:0 0 0 3px rgba(107,197,210,0.12);width:260px;
-  }
-  .srch svg{width:13px;height:13px;opacity:0.35;flex-shrink:0}
-  .srch input{
-    border:none;background:transparent;
-    font-family:var(--f);font-size:0.73rem;color:var(--tx);
-    outline:none;flex:1;
-  }
-  .srch input::placeholder{color:var(--ts)}
+/* TOAST */
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#fff;border-radius:14px;padding:12px 22px;box-shadow:0 8px 30px rgba(0,0,0,.12);font-size:.82rem;font-weight:500;z-index:9999;display:none;border-left:4px solid var(--g);white-space:nowrap}
+#toast.err{border-color:#e07070}
 
-  .btn-nuevo{
-    display:flex;align-items:center;gap:7px;
-    padding:0 18px;height:36px;
-    background:linear-gradient(135deg,var(--t),var(--l));
-    color:#fff;border:none;border-radius:50px;
-    font-family:var(--f);font-size:0.75rem;font-weight:600;
-    cursor:pointer;white-space:nowrap;
-    box-shadow:0 4px 14px rgba(107,197,210,0.32);
-    transition:all 0.18s var(--ease);
-  }
-  .btn-nuevo:hover{transform:translateY(-1px);box-shadow:0 7px 20px rgba(107,197,210,0.40)}
-  .btn-nuevo:active{transform:translateY(0)}
+/* CONFIRM */
+.backdrop{position:fixed;inset:0;background:rgba(56,56,90,.2);z-index:700;display:none;align-items:center;justify-content:center}
+.backdrop.open{display:flex}
+.confirm-box{background:#fff;border-radius:24px;padding:32px;max-width:360px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.confirm-box h3{font-size:1rem;font-weight:700;margin-bottom:10px}
+.confirm-box p{font-size:.82rem;color:var(--tm);margin-bottom:24px;line-height:1.5}
+.cbtns{display:flex;gap:10px}
+.cbtns button{flex:1;padding:11px;border-radius:12px;font-family:'Poppins',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s}
+.c-ok{background:#e07070;border:none;color:#fff}
+.c-ok:hover{background:#d05555}
+.c-no{background:transparent;border:1.5px solid rgba(107,197,210,.25);color:var(--tm)}
+.c-no:hover{border-color:var(--t);color:var(--t)}
 
-  /* ══ CONTENT ══ */
-  .content{flex:1;padding:32px 36px 60px}
-
-  /* Stats row */
-  .stats-row{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
-    margin-bottom:28px;
-  }
-  .stat-card{
-    background:var(--glass);backdrop-filter:blur(14px);
-    border:1px solid var(--bd);border-radius:var(--r4);
-    padding:18px 20px;box-shadow:var(--sh);
-    display:flex;align-items:center;gap:14px;
-    animation:fadeUp 0.36s var(--ease) both;
-  }
-  .stat-card:nth-child(1){animation-delay:.04s}
-  .stat-card:nth-child(2){animation-delay:.08s}
-  .stat-card:nth-child(3){animation-delay:.12s}
-  .stat-card:nth-child(4){animation-delay:.16s}
-  .stat-ico{
-    width:42px;height:42px;border-radius:var(--r2);
-    display:flex;align-items:center;justify-content:center;
-    font-size:1.2rem;flex-shrink:0;
-  }
-  .stat-ico.teal{background:var(--tp)}
-  .stat-ico.lav{background:var(--lp)}
-  .stat-ico.green{background:#E4F8EE}
-  .stat-ico.rose{background:#FFF0F4}
-  .stat-num{font-size:1.50rem;font-weight:700;color:var(--tx);line-height:1}
-  .stat-lbl{font-size:0.62rem;color:var(--tm);margin-top:3px}
-
-  /* Section header */
-  .sec-header{
-    display:flex;align-items:center;justify-content:space-between;
-    margin-bottom:18px;
-  }
-  .sec-title{font-size:0.95rem;font-weight:700;color:var(--tx)}
-  .sec-count{
-    font-size:0.65rem;font-weight:600;
-    background:var(--tp);color:var(--t);
-    padding:3px 10px;border-radius:20px;margin-left:10px;
-  }
-
-  /* Patient grid */
-  .pac-grid{
-    display:grid;grid-template-columns:repeat(2,1fr);gap:16px;
-  }
-
-  /* Patient card */
-  .pac-card{
-    background:var(--glass);backdrop-filter:blur(14px);
-    border:1px solid var(--bd);border-radius:var(--r4);
-    padding:20px;box-shadow:var(--sh);
-    cursor:pointer;
-    transition:all 0.20s var(--ease);
-    animation:fadeUp 0.38s var(--ease) both;
-  }
-  .pac-card:hover{
-    transform:translateY(-2px);
-    box-shadow:var(--shu);
-    border-color:rgba(107,197,210,0.35);
-  }
-
-  .pac-card-head{display:flex;align-items:flex-start;gap:13px;margin-bottom:14px}
-  .pac-av{
-    width:46px;height:46px;border-radius:50%;flex-shrink:0;
-    display:flex;align-items:center;justify-content:center;
-    font-size:1.1rem;font-weight:700;color:#fff;
-    background:linear-gradient(135deg,var(--tl),var(--ll));
-    box-shadow:0 2px 10px rgba(107,197,210,0.22);
-  }
-  .pac-info{flex:1;min-width:0}
-  .pac-name{
-    font-size:0.88rem;font-weight:700;color:var(--tx);
-    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  }
-  .pac-age{font-size:0.62rem;color:var(--tm);margin-top:2px}
-  .pac-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
-
-  .badge{
-    font-size:0.54rem;font-weight:700;
-    padding:3px 9px;border-radius:20px;
-  }
-  .badge-activo{background:#E4F8EE;color:#3DAA78}
-  .badge-alta{background:#FFF0E4;color:#D4841E}
-  .badge-dx{background:var(--lp);color:var(--l)}
-
-  .pac-card-body{
-    border-top:1px solid rgba(220,215,240,0.35);
-    padding-top:13px;
-    display:grid;grid-template-columns:1fr 1fr;gap:8px;
-  }
-  .pac-field{display:flex;flex-direction:column;gap:2px}
-  .pac-field-lbl{font-size:0.56rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--tm)}
-  .pac-field-val{font-size:0.68rem;color:var(--tx);font-weight:500}
-
-  .pac-card-foot{
-    display:flex;align-items:center;gap:8px;
-    margin-top:13px;border-top:1px solid rgba(220,215,240,0.25);
-    padding-top:12px;
-  }
-  .btn-sm{
-    display:flex;align-items:center;gap:5px;
-    padding:6px 13px;border-radius:50px;
-    font-family:var(--f);font-size:0.65rem;font-weight:600;
-    cursor:pointer;border:none;transition:all 0.14s var(--ease);
-    text-decoration:none;
-  }
-  .btn-sm-outline{
-    background:transparent;color:var(--tm);
-    border:1px solid rgba(220,215,240,0.65);
-  }
-  .btn-sm-outline:hover{background:var(--lp);color:var(--l);border-color:var(--ll)}
-  .btn-sm-teal{
-    background:var(--tp);color:var(--t);
-    border:1px solid rgba(107,197,210,0.22);
-  }
-  .btn-sm-teal:hover{background:#C8E8F4}
-  .btn-sm-edit{
-    background:var(--lp);color:var(--l);
-    border:1px solid rgba(192,170,220,0.28);
-  }
-  .btn-sm-edit:hover{background:#E0D4F8}
-
-  /* Empty state */
-  .empty{
-    grid-column:1/-1;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    padding:72px 20px;text-align:center;
-    background:var(--glass);backdrop-filter:blur(14px);
-    border:1px dashed rgba(107,197,210,0.35);
-    border-radius:var(--r4);
-  }
-  .empty-ico{font-size:3rem;margin-bottom:14px;opacity:0.55}
-  .empty-title{font-size:1rem;font-weight:600;color:var(--tx);margin-bottom:6px}
-  .empty-sub{font-size:0.72rem;color:var(--tm);max-width:280px;line-height:1.55}
-
-  /* ══════════ OVERLAY FORMULARIO ══════════ */
-  .overlay{
-    position:fixed;inset:0;z-index:600;
-    background:rgba(48,42,80,0.45);
-    backdrop-filter:blur(8px);
-    display:none;align-items:flex-start;justify-content:flex-end;
-    animation:fadeIn 0.20s var(--ease);
-  }
-  .overlay.open{display:flex}
-
-  .form-panel{
-    width:min(640px,100vw);height:100vh;
-    background:#fff;
-    display:flex;flex-direction:column;
-    box-shadow:-8px 0 48px rgba(48,42,80,0.16);
-    animation:slideRight 0.26s var(--ease);
-    overflow:hidden;
-  }
-  @keyframes slideRight{
-    from{transform:translateX(100%);opacity:0}
-    to{transform:translateX(0);opacity:1}
-  }
-
-  .form-header{
-    display:flex;align-items:center;justify-content:space-between;
-    padding:22px 28px;
-    background:linear-gradient(135deg,var(--tp),var(--lp));
-    border-bottom:1px solid var(--bd);
-    flex-shrink:0;
-  }
-  .form-header-left{display:flex;align-items:center;gap:12px}
-  .form-header-ico{
-    width:40px;height:40px;border-radius:var(--r2);
-    background:rgba(255,255,255,0.65);
-    display:flex;align-items:center;justify-content:center;
-    font-size:1.2rem;
-  }
-  .form-title{font-size:1rem;font-weight:700;color:var(--tx)}
-  .form-subtitle{font-size:0.62rem;color:var(--tm);margin-top:2px}
-  .btn-close{
-    width:34px;height:34px;border-radius:50%;
-    background:rgba(255,255,255,0.55);border:none;
-    display:flex;align-items:center;justify-content:center;
-    font-size:1rem;cursor:pointer;color:var(--tm);
-    transition:all 0.14s;flex-shrink:0;
-  }
-  .btn-close:hover{background:#fff;color:var(--tx)}
-
-  .form-body{
-    flex:1;overflow-y:auto;padding:28px;
-    display:flex;flex-direction:column;gap:24px;
-  }
-  .form-body::-webkit-scrollbar{width:5px}
-  .form-body::-webkit-scrollbar-track{background:transparent}
-  .form-body::-webkit-scrollbar-thumb{background:var(--ll);border-radius:10px}
-
-  /* Form sections */
-  .fsec{
-    background:rgba(248,245,255,0.60);
-    border:1px solid rgba(220,215,240,0.55);
-    border-radius:var(--r3);
-    padding:20px;
-  }
-  .fsec-title{
-    display:flex;align-items:center;gap:9px;
-    font-size:0.78rem;font-weight:700;color:var(--tx);
-    margin-bottom:16px;
-    padding-bottom:10px;
-    border-bottom:1px solid rgba(220,215,240,0.45);
-  }
-  .fsec-num{
-    width:22px;height:22px;border-radius:50%;
-    background:linear-gradient(135deg,var(--t),var(--l));
-    color:#fff;font-size:0.60rem;font-weight:700;
-    display:flex;align-items:center;justify-content:center;
-    flex-shrink:0;
-  }
-
-  .frow{display:grid;gap:13px}
-  .frow-2{grid-template-columns:1fr 1fr}
-  .frow-3{grid-template-columns:1fr 1fr 1fr}
-
-  .fgroup{display:flex;flex-direction:column;gap:5px}
-  .flabel{
-    font-size:0.65rem;font-weight:600;
-    text-transform:uppercase;letter-spacing:0.07em;color:var(--tm);
-  }
-  .flabel .req{color:var(--t);margin-left:2px}
-  .finput,
-  .fselect,
-  .ftextarea{
-    font-family:var(--f);font-size:0.78rem;color:var(--tx);
-    background:rgba(255,255,255,0.90);
-    border:1px solid rgba(220,215,240,0.70);
-    border-radius:var(--r2);
-    padding:9px 13px;
-    outline:none;
-    transition:all 0.15s var(--ease);
-    width:100%;
-  }
-  .finput:focus,
-  .fselect:focus,
-  .ftextarea:focus{
-    border-color:var(--t);
-    box-shadow:0 0 0 3px rgba(107,197,210,0.12);
-    background:#fff;
-  }
-  .ftextarea{resize:vertical;min-height:72px;line-height:1.55}
-  .fselect{cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238a89a3' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
-
-  /* Edad calculada */
-  .edad-display{
-    padding:8px 13px;
-    background:linear-gradient(135deg,var(--tp),var(--lp));
-    border:1px solid var(--bd);border-radius:var(--r2);
-    font-size:0.76rem;font-weight:600;color:var(--t);
-    min-height:36px;display:flex;align-items:center;
-  }
-
-  .form-foot{
-    display:flex;align-items:center;justify-content:flex-end;gap:10px;
-    padding:18px 28px;
-    border-top:1px solid rgba(220,215,240,0.45);
-    background:rgba(248,245,255,0.60);
-    flex-shrink:0;
-  }
-  .btn-cancel{
-    padding:9px 22px;border-radius:50px;
-    background:transparent;color:var(--tm);
-    border:1px solid rgba(220,215,240,0.65);
-    font-family:var(--f);font-size:0.76rem;font-weight:600;
-    cursor:pointer;transition:all 0.14s;
-  }
-  .btn-cancel:hover{background:var(--lp);color:var(--l)}
-  .btn-save{
-    padding:9px 26px;border-radius:50px;
-    background:linear-gradient(135deg,var(--t),var(--l));
-    color:#fff;border:none;
-    font-family:var(--f);font-size:0.76rem;font-weight:700;
-    cursor:pointer;
-    box-shadow:0 4px 14px rgba(107,197,210,0.30);
-    transition:all 0.18s var(--ease);
-  }
-  .btn-save:hover{transform:translateY(-1px);box-shadow:0 7px 20px rgba(107,197,210,0.40)}
-
-  /* ══════════ PANEL DETALLE ══════════ */
-  .detail-overlay{
-    position:fixed;inset:0;z-index:500;
-    background:rgba(48,42,80,0.35);
-    backdrop-filter:blur(6px);
-    display:none;align-items:flex-start;justify-content:flex-end;
-    animation:fadeIn 0.20s var(--ease);
-  }
-  .detail-overlay.open{display:flex}
-
-  .detail-panel{
-    width:min(560px,100vw);height:100vh;
-    background:#fff;
-    display:flex;flex-direction:column;
-    box-shadow:-8px 0 48px rgba(48,42,80,0.14);
-    animation:slideRight 0.26s var(--ease);
-    overflow:hidden;
-  }
-
-  .detail-header{
-    padding:24px 26px 20px;
-    background:linear-gradient(135deg,var(--tp),var(--lp));
-    flex-shrink:0;
-  }
-  .detail-header-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
-  .detail-av{
-    width:56px;height:56px;border-radius:50%;
-    background:linear-gradient(135deg,var(--tl),var(--ll));
-    display:flex;align-items:center;justify-content:center;
-    font-size:1.4rem;font-weight:700;color:#fff;
-    box-shadow:0 3px 14px rgba(107,197,210,0.28);
-    flex-shrink:0;
-  }
-  .detail-name{font-size:1.05rem;font-weight:700;color:var(--tx);margin-top:3px}
-  .detail-meta{font-size:0.64rem;color:var(--tm);margin-top:3px}
-  .detail-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-
-  .detail-actions{
-    display:flex;gap:8px;padding:14px 26px;
-    border-bottom:1px solid rgba(220,215,240,0.40);
-    flex-shrink:0;background:#fff;
-  }
-
-  .detail-body{
-    flex:1;overflow-y:auto;padding:20px 26px 36px;
-  }
-  .detail-body::-webkit-scrollbar{width:5px}
-  .detail-body::-webkit-scrollbar-track{background:transparent}
-  .detail-body::-webkit-scrollbar-thumb{background:var(--ll);border-radius:10px}
-
-  .dsec{margin-bottom:20px}
-  .dsec-title{
-    font-size:0.68rem;font-weight:700;
-    text-transform:uppercase;letter-spacing:0.10em;
-    color:var(--t);
-    display:flex;align-items:center;gap:7px;
-    margin-bottom:12px;
-    padding-bottom:8px;
-    border-bottom:2px solid var(--tp);
-  }
-  .drow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .dfield{display:flex;flex-direction:column;gap:3px}
-  .dfield.full{grid-column:1/-1}
-  .dfield-lbl{font-size:0.57rem;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--tm)}
-  .dfield-val{font-size:0.74rem;color:var(--tx);line-height:1.50}
-  .dfield-empty{color:var(--ts);font-style:italic}
-
-  /* ══════════ TOAST ══════════ */
-  #toast{
-    position:fixed;bottom:28px;left:50%;transform:translateX(-50%);
-    z-index:900;pointer-events:none;
-  }
-  .toast-msg{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:10px 20px;border-radius:50px;
-    font-size:0.76rem;font-weight:600;
-    box-shadow:0 6px 24px rgba(0,0,0,0.12);
-    animation:toastIn 0.22s var(--ease);
-    white-space:nowrap;
-  }
-  .toast-ok{background:linear-gradient(135deg,#3DAA78,#5DC898);color:#fff}
-  .toast-err{background:linear-gradient(135deg,#E55A6A,#F08080);color:#fff}
-
-  /* ══════════ MODAL CONFIRMACIÓN ══════════ */
-  .confirm-overlay{
-    position:fixed;inset:0;z-index:700;
-    background:rgba(48,42,80,0.50);
-    backdrop-filter:blur(8px);
-    display:none;align-items:center;justify-content:center;
-  }
-  .confirm-overlay.open{display:flex}
-  .confirm-box{
-    background:#fff;border-radius:var(--r4);
-    padding:28px 32px;
-    max-width:380px;width:90%;
-    box-shadow:0 20px 60px rgba(48,42,80,0.18);
-    animation:popIn 0.22s var(--ease);
-    text-align:center;
-  }
-  .confirm-ico{font-size:2.4rem;margin-bottom:12px}
-  .confirm-title{font-size:0.96rem;font-weight:700;color:var(--tx);margin-bottom:8px}
-  .confirm-msg{font-size:0.75rem;color:var(--tm);line-height:1.55;margin-bottom:22px}
-  .confirm-btns{display:flex;gap:10px;justify-content:center}
-  .btn-confirm-cancel{
-    padding:9px 22px;border-radius:50px;
-    background:transparent;color:var(--tm);
-    border:1px solid rgba(220,215,240,0.65);
-    font-family:var(--f);font-size:0.75rem;font-weight:600;cursor:pointer;
-    transition:all 0.14s;
-  }
-  .btn-confirm-cancel:hover{background:var(--lp)}
-  .btn-confirm-ok{
-    padding:9px 22px;border-radius:50px;
-    background:linear-gradient(135deg,#E55A6A,#F08080);
-    color:#fff;border:none;
-    font-family:var(--f);font-size:0.75rem;font-weight:700;cursor:pointer;
-    box-shadow:0 4px 14px rgba(229,90,106,0.30);
-    transition:all 0.14s;
-  }
-  .btn-confirm-ok:hover{transform:translateY(-1px)}
-
-  /* ══════════ ANIMATIONS ══════════ */
-  @keyframes fadeUp{
-    from{opacity:0;transform:translateY(12px)}
-    to{opacity:1;transform:translateY(0)}
-  }
-  @keyframes fadeIn{
-    from{opacity:0}to{opacity:1}
-  }
-  @keyframes toastIn{
-    from{opacity:0;transform:translateX(-50%) translateY(10px)}
-    to{opacity:1;transform:translateX(-50%) translateY(0)}
-  }
-  @keyframes popIn{
-    from{opacity:0;transform:scale(0.88)}
-    to{opacity:1;transform:scale(1)}
-  }
-
-  /* ══════════ RESPONSIVE ══════════ */
-  @media(max-width:900px){
-    .stats-row{grid-template-columns:repeat(2,1fr)}
-    .pac-grid{grid-template-columns:1fr}
-  }
-  @media(max-width:680px){
-    :root{--sb:0px}
-    .sb{transform:translateX(-100%)}
-    .main{margin-left:0}
-    .topbar{padding:0 18px}
-    .content{padding:18px 16px 60px}
-    .stats-row{grid-template-columns:1fr 1fr;gap:10px}
-    .frow-2,.frow-3{grid-template-columns:1fr}
-    .drow{grid-template-columns:1fr}
-  }
-  </style>
+@media(max-width:768px){
+  body{flex-direction:column}
+  .sb{position:relative;width:100%;height:auto}
+  .main{margin-left:0}
+  .stats{grid-template-columns:1fr 1fr}
+  .frow,.frow.x3{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
 
-<div id="app">
+<aside class="sb">
+  <div class="sb-brand">
+    <span style="font-size:1.5rem">🎙️</span>
+    <div><b>FonoAprende</b><small>Sesión en un Click</small></div>
+  </div>
+  <nav>
+    <div class="nav-sec">Principal</div>
+    <a class="ni" href="index.html">
+      <svg viewBox="0 0 256 256" fill="currentColor"><path d="M218.83,103.77l-80-75.48a1.14,1.14,0,0,1-.11-.11,16,16,0,0,0-21.53,0l-.11.11L37.17,103.77A16,16,0,0,0,32,115.55V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V160h32v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V115.55A16,16,0,0,0,218.83,103.77Z"/></svg>
+      Inicio
+    </a>
+    <a class="ni on" href="pacientes.html">
+      <svg viewBox="0 0 256 256" fill="currentColor"><path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.43a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,16.34,116.6,95.83,95.83,0,0,1,47.22,37.51A8,8,0,0,1,250.14,206.7Z"/></svg>
+      Pacientes
+    </a>
+    <a class="ni" href="sesion.html">
+      <svg viewBox="0 0 256 256" fill="currentColor"><path d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Zm-32-80a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,136Zm0,32a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,168Z"/></svg>
+      Sesión
+    </a>
+    <a class="ni" href="historial.html">
+      <svg viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"/></svg>
+      Historial
+    </a>
+    <div class="nav-sec">Recursos</div>
+    <a class="ni" href="biblioteca.html">
+      <svg viewBox="0 0 256 256" fill="currentColor"><path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM80,208H48V48H80Zm128,0H96V48H208Z"/></svg>
+      Biblioteca
+    </a>
+  </nav>
+</aside>
 
-  <!-- ══ SIDEBAR ══ -->
-  <aside class="sb">
-    <div class="sb-logo">
-      <div class="sb-logo-row">
-        <span class="sb-icon">🎙️</span>
-        <div>
-          <div class="sb-brand">FonoAprende</div>
-          <div class="sb-sub">Sesión en un Click</div>
-        </div>
-      </div>
+<div class="main">
+  <div class="topbar">
+    <h1>Mis Pacientes</h1>
+    <div class="topbar-r">
+      <input class="search" type="search" id="buscador" placeholder="Buscar…" oninput="renderGrid(this.value)">
+      <button class="btn-p" onclick="abrirNuevo()">+ Nuevo paciente</button>
     </div>
-    <div class="sb-divider"></div>
-    <nav class="sb-nav">
-      <a class="ni" href="index.html">
-        <span class="ni-em">🏠</span>
-        <span class="ni-txt">Inicio</span>
-      </a>
-      <a class="ni on" href="pacientes.html">
-        <span class="ni-em">👥</span>
-        <span class="ni-txt">Pacientes</span>
-      </a>
-      <a class="ni" href="sesion.html">
-        <span class="ni-em">📝</span>
-        <span class="ni-txt">Sesión</span>
-      </a>
-      <a class="ni" href="historial.html">
-        <span class="ni-em">📅</span>
-        <span class="ni-txt">Historial</span>
-      </a>
-      <a class="ni" href="biblioteca.html">
-        <span class="ni-em">📚</span>
-        <span class="ni-txt">Biblioteca</span>
-      </a>
-      <a class="ni" href="#">
-        <span class="ni-em">⚙️</span>
-        <span class="ni-txt">Configuración</span>
-      </a>
-    </nav>
-    <div class="sb-foot">
-      <div class="sb-user">
-        <div class="sb-av">👩‍⚕️</div>
-        <div>
-          <div class="sb-uname">Fonoaudióloga</div>
-          <div class="sb-urole">FonoAprende</div>
-        </div>
-      </div>
-    </div>
-  </aside>
+  </div>
 
-  <!-- ══ MAIN ══ -->
-  <main class="main">
+  <div class="stats">
+    <div class="sc"><div class="sc-n" id="s-total">—</div><div class="sc-l">Total pacientes</div></div>
+    <div class="sc"><div class="sc-n" id="s-activos">—</div><div class="sc-l">Activos</div></div>
+    <div class="sc"><div class="sc-n" id="s-alta">—</div><div class="sc-l">Con alta</div></div>
+    <div class="sc"><div class="sc-n" id="s-sesiones">—</div><div class="sc-l">Sesiones totales</div></div>
+  </div>
 
-    <!-- Topbar -->
-    <header class="topbar">
-      <div class="tb-left">
-        <div class="tb-title">Mis Pacientes</div>
-        <div class="tb-sub">Gestión de ficha clínica y anamnesis</div>
-      </div>
-      <div class="tb-right">
-        <div class="srch">
-          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <circle cx="9" cy="9" r="6"/><line x1="14" y1="14" x2="18" y2="18"/>
-          </svg>
-          <input id="inp-buscar" type="search" placeholder="Buscar por nombre o diagnóstico…" oninput="renderPacientes(this.value)"/>
-        </div>
-        <button class="btn-nuevo" onclick="abrirFormulario()">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-            <line x1="7" y1="1" x2="7" y2="13"/><line x1="1" y1="7" x2="13" y2="7"/>
-          </svg>
-          Nuevo paciente
-        </button>
-      </div>
-    </header>
+  <div class="grid" id="grid"></div>
+</div>
 
-    <!-- Content -->
-    <div class="content">
-
-      <!-- Stats -->
-      <div class="stats-row">
-        <div class="stat-card">
-          <div class="stat-ico teal">👥</div>
-          <div>
-            <div class="stat-num" id="stat-total">0</div>
-            <div class="stat-lbl">Total pacientes</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-ico green">✅</div>
-          <div>
-            <div class="stat-num" id="stat-activos">0</div>
-            <div class="stat-lbl">Activos</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-ico lav">🎓</div>
-          <div>
-            <div class="stat-num" id="stat-alta">0</div>
-            <div class="stat-lbl">Con alta</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-ico rose">📅</div>
-          <div>
-            <div class="stat-num" id="stat-sesiones">0</div>
-            <div class="stat-lbl">Sesiones totales</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Lista pacientes -->
-      <div>
-        <div class="sec-header">
-          <div style="display:flex;align-items:center;gap:4px">
-            <span class="sec-title">Fichas clínicas</span>
-            <span class="sec-count" id="count-label">0</span>
-          </div>
-        </div>
-        <div class="pac-grid" id="pac-grid">
-          <!-- Cards rendered here -->
-        </div>
-      </div>
-
-    </div><!-- /content -->
-  </main><!-- /main -->
-</div><!-- /app -->
-
-<!-- ══════════ OVERLAY FORMULARIO ══════════ -->
-<div class="overlay" id="overlay-form" onclick="cerrarFormulario(event)">
-  <div class="form-panel" onclick="event.stopPropagation()">
-    <div class="form-header">
-      <div class="form-header-left">
-        <div class="form-header-ico">📋</div>
-        <div>
-          <div class="form-title" id="form-panel-title">Nueva Anamnesis</div>
-          <div class="form-subtitle">Complete los datos del paciente</div>
-        </div>
-      </div>
-      <button class="btn-close" onclick="cerrarFormulario()" aria-label="Cerrar">✕</button>
+<!-- OVERLAY FORMULARIO -->
+<div class="ov" id="ov-form">
+  <div class="ov-inner">
+    <div class="ov-hd">
+      <h2 class="ov-title" id="form-tit">Nuevo Paciente</h2>
+      <button class="ov-x" onclick="cerrarForm()">✕</button>
     </div>
 
-    <form class="form-body" id="form-paciente" onsubmit="guardarPaciente(event)" novalidate>
+    <form id="pac-form" onsubmit="guardarPaciente(event)">
 
-      <!-- Sección 1: Datos Personales -->
+      <!-- REGISTRO SIMPLE -->
       <div class="fsec">
-        <div class="fsec-title">
-          <div class="fsec-num">1</div>
-          Datos Personales
-        </div>
-        <div class="frow frow-1" style="margin-bottom:13px">
-          <div class="fgroup">
-            <label class="flabel">Nombre completo <span class="req">*</span></label>
-            <input class="finput" type="text" id="f-nombre" placeholder="Ej. María José González Rojas" required autocomplete="off"/>
+        <div class="ftitle">🧒 Registro del Paciente</div>
+        <div class="frow">
+          <div class="field">
+            <label>Nombre completo <span class="req">*</span></label>
+            <input type="text" id="f-nombre" required placeholder="Ej: Matías González">
           </div>
-        </div>
-        <div class="frow frow-2" style="margin-bottom:13px">
-          <div class="fgroup">
-            <label class="flabel">RUT</label>
-            <input class="finput" type="text" id="f-rut" placeholder="12.345.678-9"/>
-          </div>
-          <div class="fgroup">
-            <label class="flabel">Fecha de nacimiento <span class="req">*</span></label>
-            <input class="finput" type="date" id="f-nacimiento" required oninput="actualizarEdad()"/>
-          </div>
-        </div>
-        <div class="frow frow-2" style="margin-bottom:13px">
-          <div class="fgroup">
-            <label class="flabel">Edad cronológica</label>
-            <div class="edad-display" id="edad-display">—</div>
-          </div>
-          <div class="fgroup">
-            <label class="flabel">Teléfono (WhatsApp)</label>
-            <input class="finput" type="tel" id="f-telefono" placeholder="+56 9 1234 5678"/>
-          </div>
-        </div>
-        <div class="frow frow-2">
-          <div class="fgroup">
-            <label class="flabel">Email de familia</label>
-            <input class="finput" type="email" id="f-email" placeholder="familia@email.com"/>
-          </div>
-          <div class="fgroup">
-            <label class="flabel">Colegio / Institución</label>
-            <input class="finput" type="text" id="f-colegio" placeholder="Nombre del establecimiento"/>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sección 2: Motivo de Consulta -->
-      <div class="fsec">
-        <div class="fsec-title">
-          <div class="fsec-num">2</div>
-          Motivo de Consulta
-        </div>
-        <div class="frow" style="margin-bottom:13px">
-          <div class="fgroup">
-            <label class="flabel">Motivo de consulta <span class="req">*</span></label>
-            <textarea class="ftextarea" id="f-motivo" placeholder="Describa el motivo de consulta…" required rows="3"></textarea>
-          </div>
-        </div>
-        <div class="frow frow-2">
-          <div class="fgroup">
-            <label class="flabel">Derivado por</label>
-            <input class="finput" type="text" id="f-derivacion" placeholder="Ej. Pediatra, colegio, familia"/>
-          </div>
-          <div class="fgroup">
-            <label class="flabel">Diagnóstico principal</label>
-            <input class="finput" type="text" id="f-diagnostico" placeholder="Ej. TEL, dislalia, tartamudez"/>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sección 3: Antecedentes -->
-      <div class="fsec">
-        <div class="fsec-title">
-          <div class="fsec-num">3</div>
-          Antecedentes
-        </div>
-        <div class="frow" style="margin-bottom:13px">
-          <div class="fgroup">
-            <label class="flabel">Embarazo</label>
-            <textarea class="ftextarea" id="f-embarazo" placeholder="Normal, complicaciones, tratamientos durante el embarazo…" rows="2"></textarea>
-          </div>
-        </div>
-        <div class="frow frow-2">
-          <div class="fgroup">
-            <label class="flabel">Parto</label>
-            <textarea class="ftextarea" id="f-parto" placeholder="Normal, cesárea, semanas de gestación…" rows="2"></textarea>
-          </div>
-          <div class="fgroup">
-            <label class="flabel">Período neonatal</label>
-            <textarea class="ftextarea" id="f-neonatal" placeholder="UCIN, alimentación neonatal, complicaciones…" rows="2"></textarea>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sección 4: Historia del Desarrollo -->
-      <div class="fsec">
-        <div class="fsec-title">
-          <div class="fsec-num">4</div>
-          Historia del Desarrollo
-        </div>
-        <div class="frow frow-2" style="margin-bottom:13px">
-          <div class="fgroup">
-            <label class="flabel">Edad primeras palabras</label>
-            <input class="finput" type="text" id="f-primeras-palabras" placeholder="Ej. 12 meses, 1 año 3 meses"/>
-          </div>
-          <div class="fgroup">
-            <label class="flabel">Edad primeras frases</label>
-            <input class="finput" type="text" id="f-primeras-frases" placeholder="Ej. 2 años, 2 años 6 meses"/>
-          </div>
-        </div>
-        <div class="frow" style="margin-bottom:13px">
-          <div class="fgroup">
-            <label class="flabel">Desarrollo motor</label>
-            <textarea class="ftextarea" id="f-motor" placeholder="Gateo, marcha, control de tronco, hitos motores…" rows="2"></textarea>
+          <div class="field">
+            <label>Fecha de nacimiento <span class="req">*</span></label>
+            <input type="date" id="f-nacimiento" required oninput="updateEdad()" onchange="updateEdad()">
+            <div class="edad-tag" id="edad-tag"></div>
           </div>
         </div>
         <div class="frow">
-          <div class="fgroup">
-            <label class="flabel">Observaciones del desarrollo</label>
-            <textarea class="ftextarea" id="f-obs-desarrollo" placeholder="Otras observaciones sobre la historia del desarrollo…" rows="2"></textarea>
+          <div class="field">
+            <label>Teléfono / WhatsApp <span class="req">*</span></label>
+            <input type="tel" id="f-telefono" required placeholder="+56 9 1234 5678">
+          </div>
+          <div class="field">
+            <label>Email (familia)</label>
+            <input type="email" id="f-email" placeholder="familia@correo.cl">
+          </div>
+        </div>
+        <div class="frow">
+          <div class="field">
+            <label>Diagnóstico principal <span class="req">*</span></label>
+            <input type="text" id="f-diagnostico" required placeholder="Ej: TDL, Trastorno fonológico, MOF">
+          </div>
+          <div class="field">
+            <label>Derivado por</label>
+            <input type="text" id="f-derivacion" placeholder="Ej: Pediatra, colegio, familia">
+          </div>
+        </div>
+        <div class="frow x1">
+          <div class="field">
+            <label>Motivo de consulta <span class="req">*</span></label>
+            <textarea id="f-motivo" required placeholder="Describe brevemente el motivo de consulta…" rows="3"></textarea>
           </div>
         </div>
       </div>
 
-      <!-- Sección 5: Antecedentes Médicos -->
-      <div class="fsec">
-        <div class="fsec-title">
-          <div class="fsec-num">5</div>
-          Antecedentes Médicos
-        </div>
-        <div class="frow" style="margin-bottom:13px">
-          <div class="fgroup">
-            <label class="flabel">Antecedentes médicos relevantes</label>
-            <textarea class="ftextarea" id="f-antecedentes-medicos" placeholder="Diagnósticos médicos, hospitalizaciones, cirugías, alergias…" rows="2"></textarea>
-          </div>
-        </div>
-        <div class="frow" style="margin-bottom:13px">
-          <div class="fgroup">
-            <label class="flabel">Tratamientos previos</label>
-            <textarea class="ftextarea" id="f-tratamientos" placeholder="Fonoaudiología, psicología, kinesiología, terapia ocupacional…" rows="2"></textarea>
-          </div>
-        </div>
-        <div class="frow frow-2">
-          <div class="fgroup">
-            <label class="flabel">Audición</label>
-            <select class="fselect" id="f-audicion">
-              <option value="">Seleccionar…</option>
-              <option value="normal">Normal</option>
-              <option value="hipoacusia">Hipoacusia</option>
-              <option value="no evaluada">No evaluada</option>
-              <option value="en evaluación">En evaluación</option>
-            </select>
-          </div>
-          <div class="fgroup">
-            <label class="flabel">Notas sobre audición</label>
-            <input class="finput" type="text" id="f-audicion-notas" placeholder="Detalles adicionales…"/>
-          </div>
-        </div>
-      </div>
+      <!-- ANAMNESIS COMPLETA COLAPSABLE -->
+      <button type="button" class="ana-btn" id="ana-btn" onclick="toggleAna()">
+        <span>📋 Anamnesis Completa <span style="font-weight:400;font-size:.75rem;opacity:.7">(opcional — puedes completarla después)</span></span>
+        <span class="arr">▼</span>
+      </button>
+      <p class="ana-note">Preguntas clínicas de fonoaudiología. Puedes llenarlas ahora o editar el paciente luego.</p>
 
-      <!-- Sección 6: Observaciones -->
-      <div class="fsec">
-        <div class="fsec-title">
-          <div class="fsec-num">6</div>
-          Observaciones Generales
-        </div>
-        <div class="fgroup">
-          <label class="flabel">Observaciones de anamnesis</label>
-          <textarea class="ftextarea" id="f-obs-anamnesis" placeholder="Observaciones generales de la sesión de anamnesis, impresión clínica inicial…" rows="3"></textarea>
-        </div>
-      </div>
+      <div class="ana-body" id="ana-body">
 
-      <!-- Estado alta (solo visible en edición) -->
-      <div class="fsec" id="sec-estado" style="display:none">
-        <div class="fsec-title">
-          <div class="fsec-num">7</div>
-          Estado del Paciente
+        <div class="fsec">
+          <div class="ftitle">🤱 Antecedentes Perinatales</div>
+          <div class="frow x3">
+            <div class="field"><label>Semanas de gestación</label><input type="text" id="f-semanas" placeholder="Ej: 38"></div>
+            <div class="field"><label>APGAR</label><input type="text" id="f-apgar" placeholder="Ej: 9/10"></div>
+            <div class="field"><label>Peso al nacer</label><input type="text" id="f-peso" placeholder="Ej: 3.200 kg"></div>
+          </div>
+          <div class="frow">
+            <div class="field">
+              <label>Tipo de parto</label>
+              <select id="f-parto">
+                <option value="">Seleccionar…</option>
+                <option>Parto normal / eutócico</option>
+                <option>Cesárea programada</option>
+                <option>Cesárea de urgencia</option>
+                <option>Parto con fórceps / ventosa</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Hospitalización neonatal</label>
+              <select id="f-hosp">
+                <option value="">Seleccionar…</option>
+                <option>No requirió</option>
+                <option>UCIN menos de 1 semana</option>
+                <option>UCIN 1–4 semanas</option>
+                <option>UCIN más de 1 mes</option>
+              </select>
+            </div>
+          </div>
         </div>
-        <div class="fgroup">
-          <label class="flabel">Estado clínico</label>
-          <select class="fselect" id="f-alta">
-            <option value="false">Activo/a (en tratamiento)</option>
-            <option value="true">Con alta fonoaudiológica</option>
-          </select>
-        </div>
-      </div>
 
-      <input type="hidden" id="f-edit-id" value=""/>
+        <div class="fsec">
+          <div class="ftitle">🏃 Desarrollo Psicomotor</div>
+          <p style="font-size:.72rem;color:var(--tm);margin-bottom:14px">Edad aproximada de cada hito (ej: 6 meses, 1 año)</p>
+          <div class="frow x3">
+            <div class="field"><label>Control cefálico</label><input type="text" id="f-cefalico" placeholder="Ej: 3 meses"></div>
+            <div class="field"><label>Se rolaba</label><input type="text" id="f-rodar" placeholder="Ej: 5 meses"></div>
+            <div class="field"><label>Se sentaba</label><input type="text" id="f-sentar" placeholder="Ej: 7 meses"></div>
+          </div>
+          <div class="frow x3">
+            <div class="field"><label>Gateó</label><input type="text" id="f-gatear" placeholder="Ej: 9 meses"></div>
+            <div class="field"><label>Caminó</label><input type="text" id="f-caminar" placeholder="Ej: 13 meses"></div>
+            <div class="field">
+              <label>Dominancia manual</label>
+              <select id="f-dominancia">
+                <option value="">Seleccionar…</option>
+                <option>Diestro/a</option><option>Zurdo/a</option><option>Ambidiestro/a</option><option>Sin definir</option>
+              </select>
+            </div>
+          </div>
+          <div class="frow x1">
+            <div class="field"><label>Observaciones desarrollo motor</label><textarea id="f-motor" placeholder="Hipotonicidad, retrasos, fisioterapia previa…" rows="2"></textarea></div>
+          </div>
+        </div>
+
+        <div class="fsec">
+          <div class="ftitle">💬 Hitos del Lenguaje y Comunicación</div>
+          <div class="frow x3">
+            <div class="field"><label>Balbuceo (edad)</label><input type="text" id="f-balbuceo" placeholder="Ej: 6 meses"></div>
+            <div class="field"><label>Primeras palabras</label><input type="text" id="f-palabras" placeholder="Ej: 13 meses"></div>
+            <div class="field"><label>Combinación de palabras</label><input type="text" id="f-combinacion" placeholder="Ej: 24 meses"></div>
+          </div>
+          <div class="frow">
+            <div class="field">
+              <label>Comprensión del lenguaje</label>
+              <select id="f-comprension">
+                <option value="">Seleccionar…</option>
+                <option>Adecuada para la edad</option>
+                <option>Levemente descendida</option>
+                <option>Significativamente descendida</option>
+                <option>Sin datos suficientes</option>
+              </select>
+            </div>
+            <div class="field"><label>Vocabulario actual</label><input type="text" id="f-vocabulario" placeholder="Ej: +50 palabras, jerga, telegráfico"></div>
+          </div>
+          <div class="frow">
+            <div class="field"><label>Gestos comunicativos</label><input type="text" id="f-gestos" placeholder="Ej: señala, saluda, pide con gestos"></div>
+            <div class="field"><label>Obs. adicionales lenguaje</label><input type="text" id="f-hitos" placeholder="Observaciones…"></div>
+          </div>
+        </div>
+
+        <div class="fsec">
+          <div class="ftitle">👄 Motricidad Orofacial (MOF)</div>
+          <div class="frow">
+            <div class="field">
+              <label>Evaluación MOF realizada</label>
+              <select id="f-mof">
+                <option value="">Seleccionar…</option>
+                <option>No evaluada</option>
+                <option>Sin hallazgos relevantes</option>
+                <option>Con hallazgos — ver detalle</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Succión (lactancia)</label>
+              <select id="f-succion">
+                <option value="">Seleccionar…</option>
+                <option>Normal</option><option>Dificultosa</option><option>No aplica</option>
+              </select>
+            </div>
+          </div>
+          <div class="frow x3">
+            <div class="field">
+              <label>Respiración</label>
+              <select id="f-respiracion">
+                <option value="">Seleccionar…</option>
+                <option>Nasal</option><option>Oral</option><option>Mixta</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Babeo</label>
+              <select id="f-babeo">
+                <option value="">Seleccionar…</option>
+                <option>No presenta</option><option>Ocasional</option><option>Frecuente</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Masticación</label>
+              <select id="f-masticacion">
+                <option value="">Seleccionar…</option>
+                <option>Normal</option><option>Inmadura</option><option>Disfuncional</option>
+              </select>
+            </div>
+          </div>
+          <div class="frow x3">
+            <div class="field">
+              <label>Deglución</label>
+              <select id="f-deglucion">
+                <option value="">Seleccionar…</option>
+                <option>Normal</option><option>Atípica</option><option>Disfagia</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Frenillo lingual</label>
+              <select id="f-frenillo">
+                <option value="">Seleccionar…</option>
+                <option>Normal</option><option>Frenillo corto</option><option>Frenectomía previa</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Dentición</label>
+              <select id="f-denticion">
+                <option value="">Seleccionar…</option>
+                <option>Normal</option><option>Temporal</option><option>Mixta</option><option>Definitiva</option><option>Alteraciones</option>
+              </select>
+            </div>
+          </div>
+          <div class="frow x1">
+            <div class="field"><label>Hallazgos MOF (detalle)</label><textarea id="f-mof-hall" placeholder="Describe los hallazgos…" rows="2"></textarea></div>
+          </div>
+        </div>
+
+        <div class="fsec">
+          <div class="ftitle">👂 Audición</div>
+          <div class="frow">
+            <div class="field">
+              <label>Evaluación auditiva</label>
+              <select id="f-audicion">
+                <option value="">Seleccionar…</option>
+                <option>Sí — audición normal</option>
+                <option>Sí — hipoacusia leve</option>
+                <option>Sí — hipoacusia moderada</option>
+                <option>Sí — hipoacusia severa/profunda</option>
+                <option>No evaluada</option>
+              </select>
+            </div>
+            <div class="field"><label>Resultado / observaciones</label><input type="text" id="f-audicion-obs" placeholder="Ej: OEA normal, audiometría pendiente"></div>
+          </div>
+        </div>
+
+        <div class="fsec">
+          <div class="ftitle">🏥 Antecedentes Médicos y Familiares</div>
+          <div class="frow">
+            <div class="field"><label>Antecedentes médicos relevantes</label><textarea id="f-medicos" placeholder="Otitis a repetición, rinitis, epilepsia, TEA, TDAH…" rows="2"></textarea></div>
+            <div class="field"><label>Antecedentes familiares de lenguaje</label><textarea id="f-familiares" placeholder="Hermanos, padres con dificultades similares…" rows="2"></textarea></div>
+          </div>
+          <div class="frow">
+            <div class="field"><label>Evaluaciones / tratamientos previos</label><textarea id="f-previos" placeholder="Fonoaudiología, neurología, psicología…" rows="2"></textarea></div>
+            <div class="field"><label>Contexto educativo</label><input type="text" id="f-contexto" placeholder="Ej: Jardín, kínder, 2° básico — nombre colegio"></div>
+          </div>
+        </div>
+
+      </div><!-- /ana-body -->
+
+      <div class="form-btns">
+        <button type="button" class="btn-cancel" onclick="cerrarForm()">Cancelar</button>
+        <button type="submit" class="btn-save" id="btn-save">Guardar Paciente</button>
+      </div>
     </form>
+  </div>
+</div>
 
-    <div class="form-foot">
-      <button type="button" class="btn-cancel" onclick="cerrarFormulario()">Cancelar</button>
-      <button type="submit" class="btn-save" form="form-paciente">💾 Guardar Paciente</button>
+<!-- OVERLAY DETALLE -->
+<div class="ov" id="ov-detail">
+  <div class="ov-inner">
+    <div class="ov-hd">
+      <h2 class="ov-title" id="det-nombre">Detalle</h2>
+      <button class="ov-x" onclick="cerrarDetalle()">✕</button>
+    </div>
+    <div id="det-content"></div>
+    <div class="form-btns" style="margin-top:20px">
+      <button class="btn-cancel" onclick="cerrarDetalle()">Cerrar</button>
+      <button class="btn-p" id="btn-historial">📅 Ver historial</button>
+      <button class="btn-save" id="btn-editar">✏️ Editar</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════ OVERLAY DETALLE ══════════ -->
-<div class="detail-overlay" id="overlay-detalle" onclick="cerrarDetalle(event)">
-  <div class="detail-panel" id="detail-panel" onclick="event.stopPropagation()">
-    <!-- Rendered dynamically -->
-  </div>
-</div>
-
-<!-- ══════════ CONFIRM MODAL ══════════ -->
-<div class="confirm-overlay" id="overlay-confirm">
+<!-- CONFIRM -->
+<div class="backdrop" id="confirm">
   <div class="confirm-box">
-    <div class="confirm-ico">🗑️</div>
-    <div class="confirm-title">¿Eliminar paciente?</div>
-    <div class="confirm-msg" id="confirm-msg">Esta acción eliminará la ficha clínica y todos los datos del paciente. No se puede deshacer.</div>
-    <div class="confirm-btns">
-      <button class="btn-confirm-cancel" onclick="cerrarConfirm()">Cancelar</button>
-      <button class="btn-confirm-ok" id="btn-confirm-ok">Eliminar</button>
+    <h3>¿Eliminar paciente?</h3>
+    <p id="confirm-msg"></p>
+    <div class="cbtns">
+      <button class="c-no" onclick="cerrarConfirm()">Cancelar</button>
+      <button class="c-ok" id="c-ok">Eliminar</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════ TOAST ══════════ -->
 <div id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-'use strict';
+const sb = window.supabase.createClient(
+  'https://yexxzzoeleeyafawakfj.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlleHh6em9lbGVleWFmYXdha2ZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MTQ4NTEsImV4cCI6MjA5MjI5MDg1MX0.J8zkTJErSeitGnDhowg68nZKsdfu00QjA62N8W_7KP4'
+);
 
-// ──────────────────────────────────────────────
-// SEGURIDAD: escape para usar en innerHTML
-// ──────────────────────────────────────────────
-function esc(s){
-  return String(s||'')
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;');
+let user = null;
+let pacientes = [];
+let editId = null;
+let delId = null;
+
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function toast(msg, tipo='ok'){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = tipo==='err'?'err':'';
+  t.style.display = 'block';
+  clearTimeout(t._t);
+  t._t = setTimeout(()=>t.style.display='none', 3200);
 }
 
-// ──────────────────────────────────────────────
-// INDEXEDDB
-// ──────────────────────────────────────────────
-const DB_NAME = 'SesionesFonoDB';
-const DB_VERSION = 1;
-const STORE = 'datos';
-const KEY = 'app-data';
-
-let db = null;
-
-function initDB(){
-  return new Promise((resolve, reject) => {
-    const req = indexedDB.open(DB_NAME, DB_VERSION);
-    req.onupgradeneeded = e => {
-      const d = e.target.result;
-      if(!d.objectStoreNames.contains(STORE)){
-        d.createObjectStore(STORE, {keyPath:'id'});
-      }
-    };
-    req.onsuccess = e => { db = e.target.result; resolve(db); };
-    req.onerror = e => reject(e.target.error);
-  });
+// ── AUTH ──
+async function init(){
+  const { data:{ session } } = await sb.auth.getSession();
+  if(!session){ window.location.href='index.html'; return; }
+  user = session.user;
+  await cargar();
 }
 
-function loadData(){
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE,'readonly');
-    const req = tx.objectStore(STORE).get(KEY);
-    req.onsuccess = e => {
-      const val = e.target.result;
-      if(val){
-        resolve(val);
-      } else {
-        // Estructura inicial vacía
-        resolve({id:KEY, pacientes:[], sesiones:[], configuracion:{}});
-      }
-    };
-    req.onerror = e => reject(e.target.error);
-  });
+sb.auth.onAuthStateChange((e, s)=>{ if(!s) window.location.href='index.html'; });
+
+// ── DATA ──
+async function cargar(){
+  const { data, error } = await sb
+    .from('pacientes')
+    .select('id,nombre,fecha_nacimiento,telefono,diagnostico,motivo_consulta,created_at')
+    .eq('fono_id', user.id)
+    .order('created_at', { ascending: false });
+  if(error){ toast('Error al cargar pacientes','err'); return; }
+  pacientes = data || [];
+
+  const { count: cSes } = await sb.from('sesiones')
+    .select('id', {count:'exact',head:true})
+    .eq('user_id', user.id);
+
+  document.getElementById('s-total').textContent = pacientes.length;
+  document.getElementById('s-activos').textContent = pacientes.length;
+  document.getElementById('s-alta').textContent = 0;
+  document.getElementById('s-sesiones').textContent = cSes || 0;
+  renderGrid(document.getElementById('buscador').value || '');
 }
 
-function saveData(data){
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE,'readwrite');
-    const req = tx.objectStore(STORE).put(data);
-    req.onsuccess = () => resolve();
-    req.onerror = e => reject(e.target.error);
-  });
+function edad(nac){
+  if(!nac) return '';
+  const h=new Date(), n=new Date(nac);
+  let a=h.getFullYear()-n.getFullYear(), m=h.getMonth()-n.getMonth();
+  if(m<0){a--;m+=12;}
+  if(a===0) return m+' mes'+(m!==1?'es':'');
+  return a+' año'+(a!==1?'s':''+(m?' y '+m+' mes'+(m!==1?'es':''):''));
 }
 
-// ──────────────────────────────────────────────
-// ESTADO DE LA APP
-// ──────────────────────────────────────────────
-let appData = {id:KEY, pacientes:[], sesiones:[], configuracion:{}};
-
-// ──────────────────────────────────────────────
-// UTILIDADES
-// ──────────────────────────────────────────────
-function calcularEdad(nacimiento){
-  if(!nacimiento) return '';
-  const hoy = new Date();
-  const nac = new Date(nacimiento + 'T00:00:00');
-  if(isNaN(nac.getTime())) return '';
-  let años = hoy.getFullYear() - nac.getFullYear();
-  let meses = hoy.getMonth() - nac.getMonth();
-  if(meses < 0){ años--; meses += 12; }
-  if(hoy.getDate() < nac.getDate()) meses--;
-  if(meses < 0){ años--; meses += 12; }
-  if(años < 0) return 'Fecha inválida';
-  const partes = [];
-  if(años > 0) partes.push(años === 1 ? '1 año' : `${años} años`);
-  if(meses > 0) partes.push(meses === 1 ? '1 mes' : `${meses} meses`);
-  if(partes.length === 0) partes.push('Menos de 1 mes');
-  return partes.join(' ');
-}
-
-function hoy(){
-  return new Date().toISOString().split('T')[0];
-}
-
-function formatFecha(f){
-  if(!f) return '—';
-  const [y,m,d] = f.split('-');
-  return `${d}/${m}/${y}`;
-}
-
-function ultimaSesion(pacienteId){
-  const secs = (appData.sesiones || []).filter(s => String(s.paciente_id) === String(pacienteId));
-  if(!secs.length) return null;
-  secs.sort((a,b) => (b.fecha||'').localeCompare(a.fecha||''));
-  return secs[0].fecha || null;
-}
-
-function contarSesionesPaciente(pacienteId){
-  return (appData.sesiones || []).filter(s => String(s.paciente_id) === String(pacienteId)).length;
-}
-
-function iniciales(nombre){
-  return String(nombre||'?').split(' ').slice(0,2).map(p => p[0]||'').join('').toUpperCase();
-}
-
-// ──────────────────────────────────────────────
-// TOAST
-// ──────────────────────────────────────────────
-let toastTimer = null;
-function showToast(msg, tipo='ok'){
-  const el = document.getElementById('toast');
-  if(toastTimer) clearTimeout(toastTimer);
-  const div = document.createElement('div');
-  div.className = 'toast-msg toast-' + tipo;
-  div.textContent = (tipo === 'ok' ? '✓ ' : '⚠ ') + msg;
-  el.innerHTML = '';
-  el.appendChild(div);
-  toastTimer = setTimeout(() => { el.innerHTML = ''; }, 3200);
-}
-
-// ──────────────────────────────────────────────
-// RENDER PACIENTES
-// ──────────────────────────────────────────────
-function renderPacientes(filtro=''){
-  const grid = document.getElementById('pac-grid');
-  const pacientes = appData.pacientes || [];
-  const q = String(filtro).toLowerCase().trim();
-
-  const filtrados = q
-    ? pacientes.filter(p =>
-        String(p.nombre||'').toLowerCase().includes(q) ||
-        String(p.diagnostico||'').toLowerCase().includes(q) ||
-        String(p.rut||'').toLowerCase().includes(q)
-      )
-    : pacientes;
-
-  // Stats
-  document.getElementById('stat-total').textContent = pacientes.length;
-  document.getElementById('stat-activos').textContent = pacientes.filter(p => !p.alta).length;
-  document.getElementById('stat-alta').textContent = pacientes.filter(p => p.alta).length;
-  document.getElementById('stat-sesiones').textContent = (appData.sesiones||[]).length;
-  document.getElementById('count-label').textContent = filtrados.length;
-
-  if(!filtrados.length){
-    const msg = q
-      ? 'No se encontraron pacientes con esa búsqueda.'
-      : 'Aún no hay pacientes registrados. ¡Agrega el primero!';
-    grid.innerHTML = `
-      <div class="empty">
-        <div class="empty-ico">👥</div>
-        <div class="empty-title">${q ? 'Sin resultados' : 'Sin pacientes'}</div>
-        <div class="empty-sub">${esc(msg)}</div>
-      </div>`;
+function renderGrid(f=''){
+  const g=document.getElementById('grid');
+  const fl=f.toLowerCase();
+  const lista=f?pacientes.filter(p=>(p.nombre||'').toLowerCase().includes(fl)||(p.diagnostico||'').toLowerCase().includes(fl)):pacientes;
+  if(!lista.length){
+    g.innerHTML=`<div class="empty"><div style="font-size:3rem;margin-bottom:12px">👥</div><p>${f?'Sin resultados para "'+esc(f)+'"':'Aún no tienes pacientes. ¡Agrega el primero!'}</p></div>`;
     return;
   }
-
-  // Ordenar: activos primero, luego por nombre
-  const ordenados = [...filtrados].sort((a,b) => {
-    if(a.alta !== b.alta) return a.alta ? 1 : -1;
-    return String(a.nombre||'').localeCompare(String(b.nombre||''), 'es');
-  });
-
-  grid.innerHTML = ordenados.map((p, i) => {
-    const edad = calcularEdad(p.nacimiento);
-    const ult = ultimaSesion(p.id);
-    const nSes = contarSesionesPaciente(p.id);
-    const inics = iniciales(p.nombre);
-    const estadoBadge = p.alta
-      ? '<span class="badge badge-alta">Con alta</span>'
-      : '<span class="badge badge-activo">Activo/a</span>';
-    const dxBadge = p.diagnostico
-      ? `<span class="badge badge-dx">${esc(p.diagnostico)}</span>`
-      : '';
-
-    return `<div class="pac-card" style="animation-delay:${i*0.04}s" onclick="verDetalle(${p.id})">
-      <div class="pac-card-head">
-        <div class="pac-av">${esc(inics)}</div>
-        <div class="pac-info">
-          <div class="pac-name">${esc(p.nombre)}</div>
-          <div class="pac-age">${edad ? esc(edad) : '—'}</div>
-          <div class="pac-badges">
-            ${estadoBadge}
-            ${dxBadge}
-          </div>
-        </div>
+  g.innerHTML=lista.map(p=>`
+    <div class="pac-card" onclick="verDetalle('${esc(p.id)}')">
+      <div class="pac-name">${esc(p.nombre)}</div>
+      <div class="pac-diag">${esc(p.diagnostico||'Sin diagnóstico')}</div>
+      <div class="pac-pills">
+        ${edad(p.fecha_nacimiento)?`<span class="pill">${esc(edad(p.fecha_nacimiento))}</span>`:''}
       </div>
-      <div class="pac-card-body">
-        <div class="pac-field">
-          <div class="pac-field-lbl">Última sesión</div>
-          <div class="pac-field-val">${ult ? esc(formatFecha(ult)) : 'Sin sesiones'}</div>
-        </div>
-        <div class="pac-field">
-          <div class="pac-field-lbl">Total sesiones</div>
-          <div class="pac-field-val">${nSes}</div>
-        </div>
-        <div class="pac-field">
-          <div class="pac-field-lbl">Motivo</div>
-          <div class="pac-field-val">${p.motivo_consulta ? esc(p.motivo_consulta).substring(0,60)+(p.motivo_consulta.length>60?'…':'') : '—'}</div>
-        </div>
-        <div class="pac-field">
-          <div class="pac-field-lbl">Ingreso</div>
-          <div class="pac-field-val">${esc(formatFecha(p.fecha_creacion))}</div>
-        </div>
+      <div class="pac-btns" onclick="event.stopPropagation()">
+        <button class="pb" onclick="verDetalle('${esc(p.id)}')">Ver detalle</button>
+        <button class="pb" onclick="abrirEditar('${esc(p.id)}')">✏️ Editar</button>
+        <button class="pb red" onclick="confirmarDel('${esc(p.id)}','${esc(p.nombre)}')">🗑️</button>
       </div>
-      <div class="pac-card-foot" onclick="event.stopPropagation()">
-        <button class="btn-sm btn-sm-edit" onclick="editarPaciente(${p.id})">✏️ Editar</button>
-        <a class="btn-sm btn-sm-teal" href="historial.html?paciente=${p.id}">📅 Sesiones</a>
-        <button class="btn-sm btn-sm-outline" style="margin-left:auto" onclick="confirmarEliminar(${p.id})">🗑️</button>
-      </div>
-    </div>`;
-  }).join('');
+    </div>`).join('');
 }
 
-// ──────────────────────────────────────────────
-// FORMULARIO: NUEVO / EDITAR
-// ──────────────────────────────────────────────
-function abrirFormulario(id=null){
-  const overlay = document.getElementById('overlay-form');
-  const titulo = document.getElementById('form-panel-title');
-  const secEstado = document.getElementById('sec-estado');
-
-  limpiarFormulario();
-
-  if(id !== null){
-    const p = (appData.pacientes||[]).find(x => x.id === id);
-    if(!p) return;
-    titulo.textContent = 'Editar Paciente';
-    secEstado.style.display = 'block';
-    document.getElementById('f-edit-id').value = id;
-    document.getElementById('f-nombre').value = p.nombre || '';
-    document.getElementById('f-rut').value = p.rut || '';
-    document.getElementById('f-nacimiento').value = p.nacimiento || '';
-    document.getElementById('f-telefono').value = p.telefono || '';
-    document.getElementById('f-email').value = p.email || '';
-    document.getElementById('f-colegio').value = p.colegio_institucion || '';
-    document.getElementById('f-motivo').value = p.motivo_consulta || '';
-    document.getElementById('f-derivacion').value = p.derivacion || '';
-    document.getElementById('f-diagnostico').value = p.diagnostico || '';
-    document.getElementById('f-embarazo').value = p.antecedentes_embarazo || '';
-    document.getElementById('f-parto').value = p.antecedentes_parto || '';
-    document.getElementById('f-neonatal').value = p.antecedentes_parto_neonatal || '';
-    document.getElementById('f-primeras-palabras').value = p.primeras_palabras || '';
-    document.getElementById('f-primeras-frases').value = p.primeras_frases || '';
-    document.getElementById('f-motor').value = p.desarrollo_motor || '';
-    document.getElementById('f-obs-desarrollo').value = p.observaciones_desarrollo || '';
-    document.getElementById('f-antecedentes-medicos').value = p.antecedentes_medicos || '';
-    document.getElementById('f-tratamientos').value = p.tratamientos_previos || '';
-    document.getElementById('f-audicion').value = p.audicion || '';
-    document.getElementById('f-audicion-notas').value = p.audicion_notas || '';
-    document.getElementById('f-obs-anamnesis').value = p.observaciones_anamnesis || '';
-    document.getElementById('f-alta').value = p.alta ? 'true' : 'false';
-    actualizarEdad();
-  } else {
-    titulo.textContent = 'Nueva Anamnesis';
-    secEstado.style.display = 'none';
-  }
-
-  overlay.classList.add('open');
-  document.getElementById('f-nombre').focus();
+// ── FORM ──
+function abrirNuevo(){
+  editId=null;
+  document.getElementById('form-tit').textContent='Nuevo Paciente';
+  document.getElementById('pac-form').reset();
+  document.getElementById('edad-tag').textContent='';
+  document.getElementById('ana-body').classList.remove('open');
+  document.getElementById('ana-btn').classList.remove('exp');
+  document.getElementById('ov-form').classList.add('open');
 }
 
-function cerrarFormulario(e){
-  if(e && e.target !== document.getElementById('overlay-form')) return;
-  document.getElementById('overlay-form').classList.remove('open');
+function cerrarForm(){ document.getElementById('ov-form').classList.remove('open'); editId=null; }
+
+function toggleAna(){
+  document.getElementById('ana-body').classList.toggle('open');
+  document.getElementById('ana-btn').classList.toggle('exp');
 }
 
-function limpiarFormulario(){
-  document.getElementById('form-paciente').reset();
-  document.getElementById('f-edit-id').value = '';
-  document.getElementById('edad-display').textContent = '—';
+function updateEdad(){
+  const v=document.getElementById('f-nacimiento').value;
+  document.getElementById('edad-tag').textContent=v?edad(v):'';
 }
 
-function actualizarEdad(){
-  const val = document.getElementById('f-nacimiento').value;
-  const ed = calcularEdad(val);
-  document.getElementById('edad-display').textContent = ed || '—';
+function g(id){ return document.getElementById(id)?.value?.trim()||null; }
+function gs(id){ const v=document.getElementById(id)?.value; return v||null; }
+
+function leerForm(){
+  return {
+    nombre: g('f-nombre'), fecha_nacimiento: g('f-nacimiento'),
+    telefono: g('f-telefono'), email: g('f-email'),
+    diagnostico: g('f-diagnostico'), motivo_consulta: g('f-motivo'),
+    semanas_gest: g('f-semanas'), apgar: g('f-apgar'), peso_nac: g('f-peso'),
+    parto: gs('f-parto'), hospitalizacion: gs('f-hosp'),
+    control_cefalico: g('f-cefalico'), rolarse: g('f-rodar'), sentarse: g('f-sentar'),
+    gatear: g('f-gatear'), caminar: g('f-caminar'),
+    desarrollo_motor: (gs('f-dominancia')||'') + (g('f-motor') ? ' · '+g('f-motor') : '') || null,
+    balbuceo: g('f-balbuceo'), primeras_palabras: g('f-palabras'), combinacion: g('f-combinacion'),
+    comprension: gs('f-comprension'), vocabulario: g('f-vocabulario'),
+    gestos: g('f-gestos'), hitos_lenguaje: g('f-hitos'),
+    mof_evaluacion: gs('f-mof')==='Con hallazgos — ver detalle',
+    succion: gs('f-succion'), respiracion: gs('f-respiracion'), babeo: gs('f-babeo'),
+    masticacion: gs('f-masticacion'), degluccion: gs('f-deglucion'),
+    frenillo: gs('f-frenillo'), denticion: gs('f-denticion'), mof_hallazgos: g('f-mof-hall'),
+    audicion_evaluada: gs('f-audicion'), audicion_resultado: g('f-audicion-obs'),
+    antec_medicos: g('f-medicos'), antec_familiares: g('f-familiares'),
+    evaluaciones_previas: g('f-previos'), contexto_educativo: g('f-contexto'),
+  };
+}
+
+function escribirForm(p){
+  const s=(id,v)=>{ if(document.getElementById(id)) document.getElementById(id).value=v||''; };
+  s('f-nombre',p.nombre); s('f-nacimiento',p.fecha_nacimiento);
+  s('f-telefono',p.telefono); s('f-email',p.email);
+  s('f-diagnostico',p.diagnostico); s('f-motivo',p.motivo_consulta);
+  s('f-semanas',p.semanas_gest); s('f-apgar',p.apgar); s('f-peso',p.peso_nac);
+  s('f-parto',p.parto); s('f-hosp',p.hospitalizacion);
+  s('f-cefalico',p.control_cefalico); s('f-rodar',p.rolarse); s('f-sentar',p.sentarse);
+  s('f-gatear',p.gatear); s('f-caminar',p.caminar); s('f-motor',p.desarrollo_motor||'');
+  s('f-balbuceo',p.balbuceo); s('f-palabras',p.primeras_palabras); s('f-combinacion',p.combinacion);
+  s('f-comprension',p.comprension); s('f-vocabulario',p.vocabulario);
+  s('f-gestos',p.gestos); s('f-hitos',p.hitos_lenguaje);
+  s('f-mof', p.mof_evaluacion?'Con hallazgos — ver detalle':'');
+  s('f-succion',p.succion); s('f-respiracion',p.respiracion); s('f-babeo',p.babeo);
+  s('f-masticacion',p.masticacion); s('f-deglucion',p.degluccion);
+  s('f-frenillo',p.frenillo); s('f-denticion',p.denticion); s('f-mof-hall',p.mof_hallazgos);
+  s('f-audicion',p.audicion_evaluada); s('f-audicion-obs',p.audicion_resultado);
+  s('f-medicos',p.antec_medicos); s('f-familiares',p.antec_familiares);
+  s('f-previos',p.evaluaciones_previas); s('f-contexto',p.contexto_educativo);
+  updateEdad();
+}
+
+async function abrirEditar(id){
+  const { data, error } = await sb.from('pacientes').select('*').eq('id',id).single();
+  if(error||!data){ toast('Error al cargar paciente','err'); return; }
+  editId=id;
+  document.getElementById('form-tit').textContent='Editar Paciente';
+  document.getElementById('pac-form').reset();
+  escribirForm(data);
+  document.getElementById('ana-body').classList.add('open');
+  document.getElementById('ana-btn').classList.add('exp');
+  cerrarDetalle();
+  document.getElementById('ov-form').classList.add('open');
 }
 
 async function guardarPaciente(e){
   e.preventDefault();
-  const nombre = document.getElementById('f-nombre').value.trim();
-  const nacimiento = document.getElementById('f-nacimiento').value;
-  const motivo = document.getElementById('f-motivo').value.trim();
-
-  if(!nombre){ showToast('El nombre es obligatorio.','err'); document.getElementById('f-nombre').focus(); return; }
-  if(!nacimiento){ showToast('La fecha de nacimiento es obligatoria.','err'); document.getElementById('f-nacimiento').focus(); return; }
-  if(!motivo){ showToast('El motivo de consulta es obligatorio.','err'); document.getElementById('f-motivo').focus(); return; }
-
-  const editId = document.getElementById('f-edit-id').value;
-  const esEdicion = editId !== '';
-
-  const datos = {
-    nombre,
-    rut: document.getElementById('f-rut').value.trim(),
-    nacimiento,
-    edad_cronologica: calcularEdad(nacimiento),
-    telefono: document.getElementById('f-telefono').value.trim(),
-    email: document.getElementById('f-email').value.trim(),
-    colegio_institucion: document.getElementById('f-colegio').value.trim(),
-    motivo_consulta: motivo,
-    derivacion: document.getElementById('f-derivacion').value.trim(),
-    diagnostico: document.getElementById('f-diagnostico').value.trim(),
-    antecedentes_embarazo: document.getElementById('f-embarazo').value.trim(),
-    antecedentes_parto: document.getElementById('f-parto').value.trim(),
-    antecedentes_parto_neonatal: document.getElementById('f-neonatal').value.trim(),
-    primeras_palabras: document.getElementById('f-primeras-palabras').value.trim(),
-    primeras_frases: document.getElementById('f-primeras-frases').value.trim(),
-    desarrollo_motor: document.getElementById('f-motor').value.trim(),
-    observaciones_desarrollo: document.getElementById('f-obs-desarrollo').value.trim(),
-    antecedentes_medicos: document.getElementById('f-antecedentes-medicos').value.trim(),
-    tratamientos_previos: document.getElementById('f-tratamientos').value.trim(),
-    audicion: document.getElementById('f-audicion').value,
-    audicion_notas: document.getElementById('f-audicion-notas').value.trim(),
-    observaciones_anamnesis: document.getElementById('f-obs-anamnesis').value.trim(),
-  };
-
-  if(!appData.pacientes) appData.pacientes = [];
-
-  if(esEdicion){
-    const idx = appData.pacientes.findIndex(p => p.id === Number(editId));
-    if(idx !== -1){
-      const altaVal = document.getElementById('f-alta').value === 'true';
-      appData.pacientes[idx] = {
-        ...appData.pacientes[idx],
-        ...datos,
-        alta: altaVal,
-      };
-    }
+  const btn=document.getElementById('btn-save');
+  btn.disabled=true; btn.textContent='Guardando…';
+  const datos=leerForm();
+  let error;
+  if(editId){
+    ({error}=await sb.from('pacientes').update(datos).eq('id',editId));
   } else {
-    appData.pacientes.push({
-      id: Date.now(),
-      ...datos,
-      alta: false,
-      fecha_creacion: hoy(),
-      objetivos: [],
-      recordatorios: [],
-    });
+    datos.fono_id=user.id;
+    ({error}=await sb.from('pacientes').insert([datos]));
   }
-
-  try {
-    await saveData(appData);
-    cerrarFormulario();
-    limpiarFormulario();
-    renderPacientes(document.getElementById('inp-buscar').value);
-    showToast(esEdicion ? 'Paciente actualizado correctamente.' : 'Paciente registrado correctamente.', 'ok');
-  } catch(err) {
-    showToast('Error al guardar. Intenta nuevamente.', 'err');
-  }
+  btn.disabled=false; btn.textContent='Guardar Paciente';
+  if(error){ toast('Error: '+error.message,'err'); return; }
+  toast(editId?'Paciente actualizado ✨':'Paciente registrado ✨');
+  cerrarForm();
+  await cargar();
 }
 
-function editarPaciente(id){
-  abrirFormulario(id);
-}
-
-// ──────────────────────────────────────────────
-// ELIMINAR
-// ──────────────────────────────────────────────
-let pendingDeleteId = null;
-
-function confirmarEliminar(id){
-  const p = (appData.pacientes||[]).find(x => x.id === id);
+// ── DETALLE ──
+async function verDetalle(id){
+  const { data:p } = await sb.from('pacientes').select('*').eq('id',id).single();
   if(!p) return;
-  pendingDeleteId = id;
-  const msg = document.getElementById('confirm-msg');
-  msg.textContent = `Se eliminará la ficha de "${p.nombre}" y todos sus datos. Esta acción no se puede deshacer.`;
-  document.getElementById('overlay-confirm').classList.add('open');
-  document.getElementById('btn-confirm-ok').onclick = ejecutarEliminar;
-}
+  document.getElementById('det-nombre').textContent=p.nombre;
+  document.getElementById('btn-historial').onclick=()=>location.href='historial.html?paciente='+id;
+  document.getElementById('btn-editar').onclick=()=>abrirEditar(id);
 
-function cerrarConfirm(){
-  pendingDeleteId = null;
-  document.getElementById('overlay-confirm').classList.remove('open');
-}
-
-async function ejecutarEliminar(){
-  if(pendingDeleteId === null) return;
-  appData.pacientes = (appData.pacientes||[]).filter(p => p.id !== pendingDeleteId);
-  cerrarConfirm();
-  try {
-    await saveData(appData);
-    renderPacientes(document.getElementById('inp-buscar').value);
-    showToast('Paciente eliminado.', 'ok');
-  } catch(err) {
-    showToast('Error al eliminar. Intenta nuevamente.', 'err');
-  }
-}
-
-// ──────────────────────────────────────────────
-// PANEL DETALLE
-// ──────────────────────────────────────────────
-function verDetalle(id){
-  const p = (appData.pacientes||[]).find(x => x.id === id);
-  if(!p) return;
-
-  const inics = iniciales(p.nombre);
-  const edad = calcularEdad(p.nacimiento);
-  const nSes = contarSesionesPaciente(id);
-  const ult = ultimaSesion(id);
-  const estadoBadge = p.alta
-    ? '<span class="badge badge-alta">Con alta</span>'
-    : '<span class="badge badge-activo">Activo/a</span>';
-
-  function campo(lbl, val, cls=''){
-    const vacio = !val || String(val).trim() === '';
-    return `<div class="dfield ${cls}">
-      <div class="dfield-lbl">${esc(lbl)}</div>
-      <div class="dfield-val ${vacio?'dfield-empty':''}">${vacio ? 'No registrado' : esc(String(val))}</div>
-    </div>`;
-  }
-
-  const html = `
-    <div class="detail-header">
-      <div class="detail-header-top">
-        <div style="display:flex;align-items:center;gap:14px">
-          <div class="detail-av">${esc(inics)}</div>
-          <div>
-            <div class="detail-name">${esc(p.nombre)}</div>
-            <div class="detail-meta">${edad ? esc(edad) : '—'} · ${nSes} sesion${nSes===1?'':'es'}</div>
-          </div>
-        </div>
-        <button class="btn-close" onclick="cerrarDetalle()" aria-label="Cerrar">✕</button>
-      </div>
-      <div class="detail-badges">
-        ${estadoBadge}
-        ${p.diagnostico ? `<span class="badge badge-dx">${esc(p.diagnostico)}</span>` : ''}
-      </div>
+  const f=(l,v)=>v?`<div class="drow"><div class="dlabel">${esc(l)}</div><div class="dval">${esc(v)}</div></div>`:'';
+  document.getElementById('det-content').innerHTML=`
+    <div class="fsec">
+      <div class="ftitle">🧒 Datos</div>
+      ${f('Fecha nacimiento', p.fecha_nacimiento?(p.fecha_nacimiento+' · '+edad(p.fecha_nacimiento)):'')}
+      ${f('Teléfono',p.telefono)} ${f('Email',p.email)}
+      ${f('Diagnóstico',p.diagnostico)} ${f('Motivo de consulta',p.motivo_consulta)}
     </div>
-    <div class="detail-actions">
-      <button class="btn-sm btn-sm-edit" onclick="editarPaciente(${p.id});cerrarDetalle()">✏️ Editar ficha</button>
-      <a class="btn-sm btn-sm-teal" href="historial.html?paciente=${p.id}">📅 Ver historial</a>
-    </div>
-    <div class="detail-body">
-
-      <div class="dsec">
-        <div class="dsec-title">👤 Datos Personales</div>
-        <div class="drow">
-          ${campo('RUT', p.rut)}
-          ${campo('Fecha de nacimiento', formatFecha(p.nacimiento))}
-          ${campo('Edad cronológica', edad)}
-          ${campo('Teléfono', p.telefono)}
-          ${campo('Email', p.email)}
-          ${campo('Colegio / Institución', p.colegio_institucion)}
-          ${campo('Fecha de ingreso', formatFecha(p.fecha_creacion))}
-          ${campo('Última sesión', ult ? formatFecha(ult) : 'Sin sesiones')}
-        </div>
-      </div>
-
-      <div class="dsec">
-        <div class="dsec-title">🔍 Motivo de Consulta</div>
-        <div class="drow">
-          ${campo('Motivo de consulta', p.motivo_consulta, 'full')}
-          ${campo('Derivado por', p.derivacion)}
-          ${campo('Diagnóstico', p.diagnostico)}
-        </div>
-      </div>
-
-      <div class="dsec">
-        <div class="dsec-title">🤰 Antecedentes</div>
-        <div class="drow">
-          ${campo('Embarazo', p.antecedentes_embarazo, 'full')}
-          ${campo('Parto', p.antecedentes_parto)}
-          ${campo('Período neonatal', p.antecedentes_parto_neonatal)}
-        </div>
-      </div>
-
-      <div class="dsec">
-        <div class="dsec-title">🌱 Historia del Desarrollo</div>
-        <div class="drow">
-          ${campo('Primeras palabras', p.primeras_palabras)}
-          ${campo('Primeras frases', p.primeras_frases)}
-          ${campo('Desarrollo motor', p.desarrollo_motor, 'full')}
-          ${campo('Observaciones desarrollo', p.observaciones_desarrollo, 'full')}
-        </div>
-      </div>
-
-      <div class="dsec">
-        <div class="dsec-title">🏥 Antecedentes Médicos</div>
-        <div class="drow">
-          ${campo('Antecedentes médicos', p.antecedentes_medicos, 'full')}
-          ${campo('Tratamientos previos', p.tratamientos_previos, 'full')}
-          ${campo('Audición', p.audicion)}
-          ${campo('Notas audición', p.audicion_notas)}
-        </div>
-      </div>
-
-      ${p.observaciones_anamnesis ? `
-      <div class="dsec">
-        <div class="dsec-title">📝 Observaciones de Anamnesis</div>
-        <div class="drow">
-          ${campo('Observaciones', p.observaciones_anamnesis, 'full')}
-        </div>
-      </div>` : ''}
-
-      ${p.objetivos && p.objetivos.length ? `
-      <div class="dsec">
-        <div class="dsec-title">🎯 Objetivos Terapéuticos</div>
-        <div class="drow">
-          <div class="dfield full">
-            <ul style="padding-left:16px;display:flex;flex-direction:column;gap:5px">
-              ${p.objetivos.map(o => `<li style="font-size:0.74rem;color:var(--tx);line-height:1.50">${esc(String(o))}</li>`).join('')}
-            </ul>
-          </div>
-        </div>
-      </div>` : ''}
-
-    </div>`;
-
-  const panel = document.getElementById('detail-panel');
-  panel.innerHTML = html;
-  document.getElementById('overlay-detalle').classList.add('open');
+    ${p.balbuceo||p.primeras_palabras?`<div class="fsec">
+      <div class="ftitle">💬 Hitos del Lenguaje</div>
+      ${f('Balbuceo',p.balbuceo)} ${f('Primeras palabras',p.primeras_palabras)}
+      ${f('Combinación',p.combinacion)} ${f('Comprensión',p.comprension)}
+    </div>`:''}
+    ${p.antec_medicos||p.antec_familiares?`<div class="fsec">
+      <div class="ftitle">🏥 Antecedentes</div>
+      ${f('Antecedentes médicos',p.antec_medicos)}
+      ${f('Antecedentes familiares',p.antec_familiares)}
+      ${f('Evaluaciones previas',p.evaluaciones_previas)}
+    </div>`:''}
+  `;
+  document.getElementById('ov-detail').classList.add('open');
 }
 
-function cerrarDetalle(e){
-  if(e && e.target !== document.getElementById('overlay-detalle')) return;
-  document.getElementById('overlay-detalle').classList.remove('open');
-}
+function cerrarDetalle(){ document.getElementById('ov-detail').classList.remove('open'); }
 
-// ──────────────────────────────────────────────
-// TECLADO: cerrar overlays con Escape
-// ──────────────────────────────────────────────
-document.addEventListener('keydown', e => {
-  if(e.key !== 'Escape') return;
-  if(document.getElementById('overlay-confirm').classList.contains('open')){
+// ── ELIMINAR ──
+function confirmarDel(id,nombre){
+  delId=id;
+  document.getElementById('confirm-msg').textContent=`¿Eliminar a ${nombre}? Esto no se puede deshacer.`;
+  document.getElementById('confirm').classList.add('open');
+  document.getElementById('c-ok').onclick=async()=>{
+    const {error}=await sb.from('pacientes').delete().eq('id',delId);
     cerrarConfirm();
-  } else if(document.getElementById('overlay-form').classList.contains('open')){
-    document.getElementById('overlay-form').classList.remove('open');
-  } else if(document.getElementById('overlay-detalle').classList.contains('open')){
-    document.getElementById('overlay-detalle').classList.remove('open');
-  }
+    if(error){toast('Error al eliminar','err');return;}
+    toast('Paciente eliminado');
+    await cargar();
+  };
+}
+function cerrarConfirm(){ document.getElementById('confirm').classList.remove('open'); delId=null; }
+
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Escape') return;
+  if(document.getElementById('ov-form').classList.contains('open')) cerrarForm();
+  else if(document.getElementById('ov-detail').classList.contains('open')) cerrarDetalle();
+  else if(document.getElementById('confirm').classList.contains('open')) cerrarConfirm();
 });
 
-// ──────────────────────────────────────────────
-// INICIALIZACIÓN
-// ──────────────────────────────────────────────
-(async function init(){
-  try {
-    await initDB();
-    appData = await loadData();
-    renderPacientes();
-  } catch(err) {
-    showToast('Error al cargar los datos. Recarga la página.', 'err');
-  }
-})();
+init();
 </script>
 </body>
 </html>
